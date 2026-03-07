@@ -180,8 +180,7 @@
 	<div id="General" class="tabcontent">
 
         <!-- Logo -->
-        <!--<div class="logo-container" style="margin-top: 20px; padding-bottom: 0px; margin: 0px;">-->
-        <div class="border-round-eged-logo">
+        <!--<div class="border-round-eged-logo">
         <div class="logo-container">
             <a href="https://erdogant.github.io/skywalk-docs/pages/html/index.html" target="_blank">
                 <img
@@ -200,8 +199,34 @@
             </a>
             <div class="version" style="margin-bottom: 5px; ">version: 1.0.0</div>
         </div>
-        </div>
+        </div>-->
+        <div class="border-round-eged-logo">
+            <div class="logo-container">
 
+                <div id="loading-spinner" class="spinner-overlay" style="display: flex;">
+                    <div class="spinner-container">
+                        <div class="spinner"></div>
+                        <div class="spinner-text">Loading SkyWalk. Please wait..</div>
+                    </div>
+                </div>
+
+                <a href="https://erdogant.github.io/skywalk-docs/pages/html/index.html" target="_blank">
+                    <img
+                        id="SKYWALK_LOGO_image_cache"
+                        alt="SkyWalk"
+                        src="./figs/logo_skywalk.png"
+                    >
+                    <canvas class="rain-canvas" data-prefix="SKYWALK_LOGO"></canvas>
+                    <canvas class="cloud-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
+                    <canvas class="fog-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
+                    <canvas class="flare-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
+                    <canvas class="snow-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
+                    <canvas class="dark-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
+                </a>
+                <div class="version" style="margin-bottom: 5px;">version: 1.0.0</div>
+
+            </div>
+        </div>
 
 
         <div class="flight-card">
@@ -324,7 +349,7 @@
             <div class="flight-card-row">
 
                 <!-- LEFT 15% COLUMN -->
-                <div class="flight-card-icon" onclick="window.save_flightplan()">
+                <div class="flight-card-icon" onclick="window.load_flightplan()">
                     <div class="plane-small">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
@@ -351,6 +376,8 @@
                     <div class="wind-grid" style="display: flex; ">
                         <!-- Delete Button -->
                         <button id="delete_btn" style="display: flex; justify-content: left; align-items: left; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Delete Flight Plan">🗑️</button>
+                        <!-- Clean Button -->
+                        <button id="new_plan_btn" style="display: flex; justify-content: right; align-items: right; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Erase all fields and create new flight plan">🧹</button>
                         <!-- Spinner -->
                         <div class="wind-grid">
                             <!--<span class="tile-label" style="text-align: left;">FLIGHT PLAN</span>-->
@@ -358,11 +385,9 @@
                                 <option value="">Select and Load</option>
                             </select>
                         </div>
-                        <!-- Clean Button -->
-                        <button id="new_plan_btn" style="display: flex; justify-content: right; align-items: right; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Erase all fields and create new flight plan">🧹</button>
+                        <!-- Save button -->
+                        <button id="save_fields_btn" onclick="window.save_flightplan()" style="display: flex; justify-content: right; align-items: right; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save Flight Plan">💾</button>
                     </div>
-                    <!-- Save button -->
-                    <!--<button id="save_fields_btn" onclick="window.save_flightplan()" style="display: flex; justify-content: flex-end; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save Flight Plan">💾</button>-->
                 </div>
 
             </div>
@@ -2407,13 +2432,13 @@
                     <input type="number" id="takeoff_runway_safety_correction" value="" min="0" step="0.1">
                 </div>
                 <div class="info-gray", id="message_safety_corr">
-                    Example: 0.7 describes: Minimum distance for take-off is 70% of the runway length.
+                    Example: 0.95 describes: Minimum distance for take-off is 95% of the runway length.
                 </div>
             </div>
-
+<!--
             <button id="takeoff_load_defaults" onclick="load_performance_defaults('takeoff')" style="border: 2px solid #f5f5f5; color: #333333; padding: 8px 12px; border-radius: 8px; cursor: pointer;">
                 Load Example Takeoff Settings
-            </button>
+            </button>-->
 
         </div>
         </div>
@@ -2476,6 +2501,11 @@
                         <input type="number" id="landing_tailwind_kts" value="", min="0">
                         <input type="number" id="landing_tailwind_cor" value="", min="0">
                     </div>
+
+                    <div class="info-gray", id="message_landing_tailwind_cor">
+                        As an example: Tailwind (kts)=2 and Correction Factor=1.1 describes: Add 10% to the distance for each 2 kt increase in tail wind.
+                    </div>
+
                 </div>
             </div>
 
@@ -2507,6 +2537,10 @@
                     <input type="number" id="landing_runway_custom_dry" value="" min="0" step="0.1">
                     <input type="number" id="landing_runway_custom_wet" value="" min="0" step="0.05">
                 </div>
+
+                <div class="info-gray", id="message_landing_runway">
+                    Example: Dry Surface and Soft with value 1.15 describes: Add 15% for short, dry, grass.
+                </div>
             </div>
 
             <div class="weight-card">
@@ -2524,6 +2558,9 @@
                     <input type="number" id="landing_runway_slope_paved" value="" min="0" step="0.05">
                     <input type="number" id="landing_runway_correction_factor" value="" min="0" step="0.05">
                 </div>
+                <div class="info-gray", id="message_landing_runway_correction">
+                    Example: Runway slope: 2 and correction factor: 1.1 describes: An upward slope of 2% (2 m in 100 m) increases the take-off distance by 10%.
+                </div>
             </div>
 
             <div class="weight-card">
@@ -2533,11 +2570,14 @@
                 <div class="wind-grid">
                     <input type="number" id="landing_runway_safety_correction" value="" min="0" step="0.1">
                 </div>
+                <div class="info-gray", id="message_landing_runway_safety">
+                    Example: 0.7 describes: Minimum distance for take-off is 70% of the runway length.
+                </div>
             </div>
 
-            <button id="landing_load_defaults" onclick="load_performance_defaults('landing')" style="border: 2px solid #f5f5f5; color: #333333; padding: 8px 12px; border-radius: 8px; cursor: pointer;">
+            <!--<button id="landing_load_defaults" onclick="load_performance_defaults('landing')" style="border: 2px solid #f5f5f5; color: #333333; padding: 8px 12px; border-radius: 8px; cursor: pointer;">
                 Load Example Landing Settings
-            </button>
+            </button>-->
 
         </div>
         </div>
@@ -2610,9 +2650,9 @@
                 Fit model
             </button>
 
-            <button id="load_defaults_poh" onclick="window.initPOHTables()" style="border: 2px solid #f5f5f5; color: #333333; padding: 8px 12px; border-radius: 8px; cursor: pointer;">
+            <!--<button id="load_defaults_poh" onclick="window.initPOHTables()" style="border: 2px solid #f5f5f5; color: #333333; padding: 8px 12px; border-radius: 8px; cursor: pointer;">
                 Load example POH table
-            </button>
+            </button>-->
 
         </div>
         </div>
@@ -3875,7 +3915,9 @@
             return zip_bytes
         else:
             print(f"❌ Failed to download {url} - Status: {response.status}")
-            # js.document.getElementById('loading-spinner').style.display = 'none'
+            spinner = js.document.getElementById('loading-spinner')
+            if spinner:
+                spinner.style.display = 'none'
             return None
 
 
@@ -4157,14 +4199,18 @@
             error_msg = f"   >⚠️ No airspace data available for {country}: {str(e)}"
             print(f"{error_msg}")
             js.window.alert(f"⚠️ No airspace data is available for the selected country: {country}.")
-            # js.document.getElementById('loading-spinner').style.display = 'none'
+            spinner = js.document.getElementById('loading-spinner')
+            if spinner:
+                spinner.style.display = 'none'
             return
 
         # Get and then concat airspaces
         concat_airspaces(country)
 
         # Hide loading spinner when done
-        # js.document.getElementById('loading-spinner').style.display = 'none'
+        spinner = js.document.getElementById('loading-spinner')
+        if spinner:
+            spinner.style.display = 'none'
 
 
     def concat_airspaces(country):
@@ -4315,7 +4361,7 @@
         js.window.cleanRunwayFields(fname, 'empty')
         # remove wind envelope plot
         js.window.cleanWindEnvelopeFields(fname, 'empty')
-        # Clean Weigth&Balance
+        # Clean Weigth and Balance
         js.window.cleanWeightBalanceFields(fname, 'empty');
 
         # Update GUI fields for aerodrome but not the aircraft fields
@@ -4651,15 +4697,12 @@
         # Clear aerdrome image
         js.document.getElementById(f'{fname}_image_cache').src = js.window.IMG_DEFAULT_AIRFIELD
         js.document.getElementById(fname + "_SELECT_AERODROME_BORDER_1").style.backgroundColor = js.window.EMPTYCOLOR
-
         # Reset colors of METAR
         js.document.getElementById(fname + "_METARMENU_BACKGROUND").style.backgroundColor = js.window.DEFAULTCOLOR
         js.document.getElementById(fname + '_METARMENU_TOP').textContent = "⚠️ METAR"
-        # js.document.getElementById(fname + "_METARMENU_TOP").style.backgroundColor = js.window.EMPTYCOLOR
-
         # Clear head/crosswind
-        js.window.createWindTextbox(f'{fname.upper()}_WIND_HEADWIND', '-', 'DISABLED')
-        js.window.createWindTextbox(f'{fname.upper()}_WIND_CROSSWIND', '-', 'DISABLED')
+        #js.window.createWindTextbox(f'{fname.upper()}_WIND_HEADWIND', '-', 'DISABLED')
+        #js.window.createWindTextbox(f'{fname.upper()}_WIND_CROSSWIND', '-', 'DISABLED')
 
         # Clear all GUI fields with overlapping names
         for field_id in field_ids:
@@ -5109,6 +5152,8 @@
         # Clean flashcards
         js.window.flashcardClean('DEPARTURE')
         js.window.flashcardClean('ARRIVAL')
+        js.window.cleanWindEnvelopeFields('DEPARTURE', 'empty');
+        js.window.cleanWindEnvelopeFields('ARRIVAL', 'empty');
 
         # A new flightplan gets a new date
         js.window.flight_plan_data['DATETIME_CREATION'] = 'FLIGHT PLAN'
@@ -5390,6 +5435,7 @@
             js.window.UpdateFlightInfoFields(time_dep, True, True)
 
             print(f"   >✅ Flightplan '{plan_name}' loaded successfully")
+            #js.alert(f"✅ Flightplan '{plan_name}' loaded successfully with the latest METAR weather information.")
         except Exception as e:
             print(f"   >❗ Error loading flightplan: {e}")
             js.window.alert(f"❗ Error loading flight plan: {e}")
@@ -7060,7 +7106,8 @@
         moveCountries('available-countries', 'selected-countries', 'initialize', uniqueCountries)
 
         // Hide loading spinner once everything is ready
-        // document.getElementById('loading-spinner').style.display = 'none';
+        const loadingSpinner = document.getElementById('loading-spinner');
+        if (loadingSpinner) loadingSpinner.style.display = 'none';
         // All env. variables are initialized
         console.log("   >Environmental variables are initialized.");
 
@@ -8438,21 +8485,7 @@
             if (metarObject) {
               TopMenuColor = metarObject.color;
             }
-            // if (metarObject) {
-            //   TopMenuColor = metarObject.color;
-            //   const metarTime = metarObject.dateTime.date;
-            //   const maxMinutes = 60;
-            //   // Parse the NOW date parts
-            //   const now = nowtime(false);
-            //   const currenTime = createTimeObject(now);
-            //   const diff = Math.abs(currenTime - metarTime);
-            //   const isOld = diff > maxMinutes * 60 * 1000; // 35 minutes in milliseconds
-            //   const minutesOld = Math.round(diff / 1000 / 60);
-            //   // Create text content
-            //   elementContact.textContent = `⚠️ METAR - ${minutesOld} min.`;
-            // } else {
-            //   elementContact.textContent = allFilled ? "✅ METAR" : "⚠️ METAR";
-            // }
+
             elementContact.style.backgroundColor = allFilled ? TopMenuColor : window.EMPTYCOLOR;
 
         };
