@@ -64,6 +64,7 @@
 
     <!--STYLESHEETS-->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="tutorial_styles.css">
 
     <!--CORE FILES-->
     <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
@@ -92,16 +93,14 @@
     <script src="./scripts/dark.js" defer></script>
     <script src="./scripts/cloudPlot.js" defer></script>
     <script src="./scripts/metar.js" defer></script>
-    <!--MAP-->
     <script src="./scripts/maps.js" defer></script>
     <script src="./scripts/weightbalance.js" defer></script>
     <script src="./scripts/windenvelope.js" defer></script>
     <script src="./scripts/fuel.js" defer></script>
-    <!--RUNWAY-->
     <script src="./scripts/runway.js" defer></script>
     <script src="./scripts/runwayUI.js" defer></script>
-    <!--CHECKLIST-->
     <script src="./scripts/checklist.js" defer></script>
+    <script src="./scripts/tutorial.js" defer></script>
     <!--GENERIC-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
@@ -144,14 +143,17 @@
         <button class="tablinks" data-tab="Aircrafts" style="cursor: pointer;">📐 Aircrafts</button>
         <button class="tablinks" data-tab="Countries" style="cursor: pointer;">🌍 Select Countries</button>
        	<button class="tablinks" data-tab="Config" style="cursor: pointer;">⚙️ Config</button>
-        <div class="button-row">
+        <div class="button-row"> <button id="Tutorial" type="button" onclick="window.SkyWalkTutorial.show()" title="Tutorial"> 📘 Tutorial </button> </div>
+        <!--<button class="tablinks" data-tab="Tutorial" style="cursor: pointer;" onclick="window.SkyWalkTutorial.show()">📘 Tutorial</button>-->
+
+        <!--<div class="button-row">
             <button id="BTN-WEIGHTBALANCE"
                 type="button"
                 onclick="window.open('https://www.vliegclubrotterdam.nl/wb/', '_blank')"
                 title="Weight and Balance calculator vliegclub Rotterdam">
                     ⚖️ Weight & Balance
             </button>
-        </div>
+        </div>-->
         <!--CHECK FOR UPDATES-->
         <button id="updateBtn" onclick="updateApp()">Check for updates</button>
         <!--<script src="app.js"></script>-->
@@ -601,7 +603,7 @@
             <!--<button id="DEPARTURE_USE_CACHED" title="Retrieve most recent METAR weather information from Aviation weather" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 0 8px 4px; flex: 0 0 auto; cursor: pointer;">⛅</button>-->
             <div class="button-row">
                 <button id="DEPARTURE_USE_CACHED" class="button-style" title="Retrieve most recent METAR weather information from Aviation weather">
-                    Refresh METAR Information
+                    Update METAR Information
                 </button>
                 <button id="DEPARTURE_ANIMATION_METARTEXT" title="Update METAR on textfield" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 0 8px 4px; flex: 0 0 auto; cursor: pointer;">🔀</button>
             </div>
@@ -659,7 +661,7 @@
 
             <div class="button-row">
                 <button id="DEPARTURE_LOAD_ICAO" class="button-style" title="Reset to default aerodrome (ICAO) information">
-                    Reset aerodrome information
+                    Retrieve Original Aerodrome Information
                 </button>
                 <button onclick="window.save_aerodrome_to_json('DEPARTURE')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
             </div>
@@ -1112,7 +1114,7 @@
 
             <div class="button-row">
                 <button id="ARRIVAL_USE_CACHED" class="button-style" title="Retrieve most recent METAR weather information from Aviation weather">
-                    Refresh METAR Information
+                    Update METAR Information
                 </button>
                 <button id="ARRIVAL_ANIMATION_METARTEXT" title="Update METAR on textfield" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 0 8px 4px; flex: 0 0 auto; cursor: pointer;">🔀</button>
             </div>
@@ -1181,7 +1183,7 @@
 
             <div class="button-row">
                 <button id="ARRIVAL_LOAD_ICAO" class="button-style" title="Reset to default aerodrome (ICAO) information">
-                    Reset aerodrome information
+                    Retrieve Original Aerodrome Information
                 </button>
                 <button onclick="window.save_aerodrome_to_json('ARRIVAL')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
             </div>
@@ -1708,8 +1710,8 @@
                 <button id="refresh-metar-btn"
                         onclick="window.refreshMetarData()"
                         style="margin-left: 10px; padding: 4px 12px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;"
-                        title="Refresh METAR data">
-                    🔄 Refresh
+                        title="Update METAR data">
+                    🔄 Update
                 </button>
             </div>
         </div>
@@ -5191,6 +5193,8 @@
         await clear_aerodrome_fields('DEPARTURE')
         await clear_aerodrome_fields('ARRIVAL')
         await clear_enroute_fields()
+        js.window.cleanWindEnvelopeFields('DEPARTURE', 'empty');
+        js.window.cleanWindEnvelopeFields('ARRIVAL', 'empty');
 
         # Set defaults checklist and reset GUI fields
         checklist_clean(verbose='silent')
@@ -7037,7 +7041,7 @@
        * - Restores cached display settings
        * - Hides loading spinner once complete
        *
-       * Keywords: Startup, loading, app start, start app, load app, startup app, bootup
+       * Keywords: Startup, loading, app start, start app, load app, startup app, bootup, starting app
        */
       if (typeof window.create_new_flightplan === 'function') {
         pyscriptReady = true;
@@ -7110,6 +7114,11 @@
         if (loadingSpinner) loadingSpinner.style.display = 'none';
         // All env. variables are initialized
         console.log("   >Environmental variables are initialized.");
+
+        // Show tutorial on first launch
+        if (window.SkyWalkTutorial && window.SkyWalkTutorial.shouldShow()) {
+          window.SkyWalkTutorial.show();
+        }
 
       }
     }
@@ -8413,9 +8422,9 @@
 
             let TopMenuColor = window.DEFAULTCOLOR
             if (prefix === "DEPARTURE") {
-              metarObject = window.METAR_DEPARTURE;
+              metarObject = window?.METAR_DEPARTURE ?? null;
             } else {
-              metarObject = window.METAR_ARRIVAL;
+              metarObject = window?.METAR_ARRIVAL ?? null;
             }
             if (metarObject) TopMenuColor = metarObject.color;
 
