@@ -662,7 +662,7 @@
 
             <div class="button-row">
                 <button id="DEPARTURE_LOAD_ICAO" class="button-style" title="Reset to default aerodrome (ICAO) information">
-                    Retrieve Original Aerodrome Information
+                    Retrieve Original Aerodrome Info
                 </button>
                 <button onclick="window.save_aerodrome_to_json('DEPARTURE')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
             </div>
@@ -1184,7 +1184,7 @@
 
             <div class="button-row">
                 <button id="ARRIVAL_LOAD_ICAO" class="button-style" title="Reset to default aerodrome (ICAO) information">
-                    Retrieve Original Aerodrome Information
+                    Retrieve Original Aerodrome Info
                 </button>
                 <button onclick="window.save_aerodrome_to_json('ARRIVAL')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
             </div>
@@ -8404,8 +8404,8 @@
     // Update dropdown menu colors based on required fields
     window.highlightDropdownMenus = (function() {
         const aerodromeFieldIds = [
-            'DEPARTURE_NAME', 'DEPARTURE_POSITION', 'DEPARTURE_RUNWAY_NR', 'DEPARTURE_ROUTE_NAME', 'DEPARTURE_ROUTE_ALTITUDE',
-            'ARRIVAL_NAME', 'ARRIVAL_POSITION', 'ARRIVAL_RUNWAY_NR', 'ARRIVAL_ROUTE_NAME', 'ARRIVAL_ROUTE_ALTITUDE'
+            'DEPARTURE_NAME', 'DEPARTURE_POSITION', 'DEPARTURE_ROUTE_NAME', 'DEPARTURE_ROUTE_ALTITUDE',
+            'ARRIVAL_NAME', 'ARRIVAL_POSITION', 'ARRIVAL_ROUTE_NAME', 'ARRIVAL_ROUTE_ALTITUDE'
         ];
 
         const contactFieldIds = [
