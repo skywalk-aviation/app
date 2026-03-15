@@ -66,6 +66,7 @@
     <!--STYLESHEETS-->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="tutorial_styles.css">
+    <link rel="stylesheet" href="style_wb.css">
 
     <!--CORE FILES-->
     <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
@@ -239,7 +240,7 @@
                 <div class="airport">
                     <div class="airport-code">
                         <input id="DEPARTURE_ICAO" type="text" class="UPPERCASE_input" title="Departure ICAO"
-                            style="font-size: 30px; font-weight: bold; color: #2c2c2c; margin-bottom: 2px; text-align: center;">
+                            style="font-size: 26px; font-weight: bold; color: #2c2c2c; margin-bottom: 2px; text-align: center;">
                     </div>
                     <div id="DEPARTURE_CITY" class="airport-name">DEPARTURE</div>
                     <div><img id="DEPARTURE_FLAG_2" src="" alt="" style="width:30px; height:auto; vertical-align:middle; margin-left:6px;"></div>
@@ -257,7 +258,7 @@
                 <div class="airport">
                     <div class="airport-code">
                         <input id="ARRIVAL_ICAO" type="text" class="UPPERCASE_input" title="Arrival ICAO"
-                            style="font-size: 30px; font-weight: bold; color: #2c2c2c; margin-bottom: 2px; text-align: center;">
+                            style="font-size: 26px; font-weight: bold; color: #2c2c2c; margin-bottom: 2px; text-align: center;">
                     </div>
                     <div id="ARRIVAL_CITY" class="airport-name">ARRIVAL</div>
                     <div><img id="ARRIVAL_FLAG_2" src="" alt="" style="width:30px; height:auto; vertical-align:middle; margin-left:6px;"></div>
@@ -769,45 +770,49 @@
 
             <div class="border-round-eged" style="background-color: #ffffff;">
 
-                <div class="grid-middle-small">
-                    <div class="tile" style="border-color: transparent">
-                        <input type="number" id="DEPARTURE_WEIGHT_FUEL_LITERS" value="">
-                        <span class="tile-label">Fuel (liters)</span>
+                <div class="wb-center">
+                    <div class="tile-wb">
+                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_FUEL_LITERS" value="0">
+                        <span class="label-wb">Fuel (liters)</span>
                     </div>
                 </div>
 
-                <!--ADD FRONT AIRCRAFT IMAGE-->
-                <div class="logo-container">
+                <!-- AIRCRAFT FRONT IMAGE -->
+                <div class="logo-container-wb">
                     <img id="AIRCRAFT_FRONT_IMAGE" src="./figs/aircraft_front.png">
                 </div>
 
-                <div class="wind-grid" style="margin:2; padding:0; gap:0; display:flex; align-items:center;">
-                    <div class="tile" style="border-color: transparent; margin:2; padding:10; gap:2; align-items:center;">
-                        <input type="number" id="DEPARTURE_WEIGHT_PILOT" value="" min="0">
-                        <span class="tile-label">Pilot (kg)</span>
+                <div class="wb-row">
+                    <div class="tile-wb">
+                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_PILOT" min="0">
+                        <span class="label-wb">Pilot (kg)</span>
                     </div>
-                    <div class="tile" style="border-color: transparent; margin:2; padding:10; gap:2; align-items:center;">
-                        <input type="number" id="DEPARTURE_WEIGHT_COPILOT" value="" min="0">
-                        <span class="tile-label">Front Passenger (kg)</span>
-                    </div>
-                </div>
-                <div class="wind-grid" style="margin:2; padding:0; gap:0; display:flex; align-items:center;">
-                    <div class="tile" style="border-color: transparent; margin:2; padding:10; gap:2; align-items:center;">
-                        <input type="number" id="DEPARTURE_WEIGHT_REAR_LEFT" value="" min="0">
-                        <span class="tile-label">Left Passenger (kg)</span>
-                    </div>
-                    <div class="tile" style="border-color: transparent; margin:2; padding:10; gap:2; align-items:center;">
-                        <input type="number" id="DEPARTURE_WEIGHT_REAR_RIGHT" value="" min="0">
-                        <span class="tile-label">Right Passenger (kg)</span>
+
+                    <div class="tile-wb">
+                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_COPILOT" min="0">
+                        <span class="label-wb">Front Passenger (kg)</span>
                     </div>
                 </div>
 
-                <div class="grid-middle-small">
-                    <div class="tile" style="border-color: transparent">
-                        <input type="number" id="DEPARTURE_WEIGHT_BAGAGE" value="" min="0">
-                        <span class="tile-label">Baggage (kg)</span>
+                <div class="wb-row">
+                    <div class="tile-wb">
+                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_REAR_LEFT" min="0">
+                        <span class="label-wb">Left Passenger (kg)</span>
+                    </div>
+
+                    <div class="tile-wb">
+                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_REAR_RIGHT" min="0">
+                        <span class="label-wb">Right Passenger (kg)</span>
                     </div>
                 </div>
+
+                <div class="wb-center">
+                    <div class="tile-wb">
+                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_BAGAGE" min="0">
+                        <span class="label-wb">Baggage (kg)</span>
+                    </div>
+                </div>
+
 
                 <!--ADD BACK AIRCRAFT IMAGE-->
                 <div class="logo-container">
@@ -1287,45 +1292,49 @@
            </div>
 
            <div class="border-round-eged" style="background-color: #ffffff;">
-                <div class="grid-middle-small">
-                    <div class="tile" style="border-color: transparent">
-                        <input type="number" id="ARRIVAL_WEIGHT_FUEL_LITERS" value="">
-                        <span class="tile-label">Fuel (liters)</span>
-                    </div>
-                </div>
 
-                <!--ADD FRONT AIRCRAFT IMAGE-->
-                <div class="logo-container">
-                    <img id="AIRCRAFT_FRONT_IMAGE" src="./figs/aircraft_front.png">
-                </div>
+               <div class="wb-center">
+                   <div class="tile-wb">
+                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_FUEL_LITERS" value="0">
+                       <span class="label-wb">Fuel (liters)</span>
+                   </div>
+               </div>
 
-                <div class="wind-grid" style="margin:2; padding:0; gap:0; display:flex; align-items:center;">
-                    <div class="tile" style="border-color: transparent; margin:2; padding:10; gap:2; align-items:center;">
-                        <input type="number" id="ARRIVAL_WEIGHT_PILOT" value="" min="0">
-                        <span class="tile-label">Pilot (kg)</span>
-                    </div>
-                    <div class="tile" style="border-color: transparent; margin:2; padding:10; gap:2; align-items:center;">
-                        <input type="number" id="ARRIVAL_WEIGHT_COPILOT" value="" min="0">
-                        <span class="tile-label">Front Passenger (kg)</span>
-                    </div>
-                </div>
-                <div class="wind-grid" style="margin:2; padding:0; gap:0; display:flex; align-items:center;">
-                    <div class="tile" style="border-color: transparent; margin:2; padding:10; gap:2; align-items:center;">
-                        <input type="number" id="ARRIVAL_WEIGHT_REAR_LEFT" value="" min="0">
-                        <span class="tile-label">Left Passenger (kg)</span>
-                    </div>
-                    <div class="tile" style="border-color: transparent; margin:2; padding:10; gap:2; align-items:center;">
-                        <input type="number" id="ARRIVAL_WEIGHT_REAR_RIGHT" value="" min="0">
-                        <span class="tile-label">Right Passenger (kg)</span>
-                    </div>
-                </div>
+               <!-- AIRCRAFT FRONT IMAGE -->
+               <div class="logo-container-wb">
+                   <img id="AIRCRAFT_FRONT_IMAGE" src="./figs/aircraft_front.png">
+               </div>
 
-                <div class="grid-middle-small">
-                    <div class="tile" style="border-color: transparent">
-                        <input type="number" id="ARRIVAL_WEIGHT_BAGAGE" value="" min="0">
-                        <span class="tile-label">Baggage (kg)</span>
-                    </div>
-                </div>
+               <div class="wb-row">
+                   <div class="tile-wb">
+                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_PILOT" min="0">
+                       <span class="label-wb">Pilot (kg)</span>
+                   </div>
+
+                   <div class="tile-wb">
+                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_COPILOT" min="0">
+                       <span class="label-wb">Front Passenger (kg)</span>
+                   </div>
+               </div>
+
+               <div class="wb-row">
+                   <div class="tile-wb">
+                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_REAR_LEFT" min="0">
+                       <span class="label-wb">Left Passenger (kg)</span>
+                   </div>
+
+                   <div class="tile-wb">
+                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_REAR_RIGHT" min="0">
+                       <span class="label-wb">Right Passenger (kg)</span>
+                   </div>
+               </div>
+
+               <div class="wb-center">
+                   <div class="tile-wb">
+                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_BAGAGE" min="0">
+                       <span class="label-wb">Baggage (kg)</span>
+                   </div>
+               </div>
 
                 <!--ADD BACK AIRCRAFT IMAGE-->
                 <div class="logo-container">
@@ -3330,8 +3339,14 @@
             cache_key = f'{cacheName}_{listname}'
             # Store Cache key in flightplan
             js.window.flight_plan_data[cacheName]['CACHENAME'] = cache_key
+
+            # Convert before dumping in json
+            raw = js.window.flight_plan_data[cacheName]
+            py_obj = raw.to_py() if hasattr(raw, 'to_py') else raw
+            json_data = json.dumps(py_obj, allow_nan=False)
+
             # Convert to JSON string
-            json_data = json.dumps(js.window.flight_plan_data[cacheName])
+            # json_data = json.dumps(js.window.flight_plan_data[cacheName], allow_nan=False)
             # Save to cache
             js.localStorage.setItem(cache_key, json_data)
 
@@ -5344,11 +5359,13 @@
         keys = get_default_data()
         for key in keys:
             try:
-                value = js.window.flight_plan_data.get(key)
                 # Convert JavaScript objects to Python objects
-                if hasattr(value, 'to_py'):
-                    value = value.to_py()
-                flight_plan_dict[key] = value
+                value = js.window.flight_plan_data.get(key)
+                flight_plan_dict[key] = _safe_py(value)
+                #value = js.window.flight_plan_data.get(key)
+                #if hasattr(value, 'to_py'):
+                #    value = value.to_py()
+                #flight_plan_dict[key] = value
             except Exception as e:
                 print(f"   >⚠️ Failed to save {key}: {e}")
 
@@ -5363,7 +5380,7 @@
             print("   >-------------SAVE FLIGHTPLAN DATA TO CACHE-------------")
 
             # Convert to JSON string
-            json_data = json.dumps(flight_plan_dict)
+            json_data = json.dumps(flight_plan_dict, allow_nan=False)
 
             # Save to localStorage with key "FLIGHTPLAN_"
             storage_key = f"FLIGHTPLAN_{flightplan_name}"
@@ -5532,6 +5549,14 @@
         match = re.search(r'\(([^)]+)\)', icao_string)
         return match.group(1) if match else ''
 
+    def _safe_py(value):
+        """Convert JsProxy → Python, and replace NaN/Inf with None."""
+        if hasattr(value, 'to_py'):
+            value = value.to_py()
+        if isinstance(value, float) and (value != value or value == float('inf') or value == float('-inf')):
+            return None
+        return value
+
     def save_aerodrome_to_json(fname, verbose='info'):
         """Save custom aerodrome data (ICAO) to localStorage
 
@@ -5559,7 +5584,7 @@
         # Store all fname_ except for the weights
         for key, item in flight_data.items():
             if key.startswith(fname) and not key.startswith(f"{fname}_WEIGHT"):
-                dict_fname[key] = item
+                dict_fname[key] = _safe_py(item)
 
         # Collect all information from the GUI-fields and update the dictionary
         for key in dict_fname.keys():
@@ -5568,7 +5593,7 @@
             if element and hasattr(element, 'value'):
                 field_value = element.value
                 if field_value and str(field_value) not in ('nan', 'None', ''):
-                    dict_fname[key] = field_value
+                    dict_fname[key] = _safe_py(field_value)
 
         # Create Cache key
         cache_key = fname + '_' + dict_fname[f"{fname}_ICAO"]
@@ -5581,7 +5606,7 @@
             window.alert(message)
 
         # Convert to JSON string
-        json_data = json.dumps(dict_fname)
+        json_data = json.dumps(dict_fname, allow_nan=False)
         # Save to cache
         js.localStorage.setItem(cache_key, json_data)
 
@@ -5637,7 +5662,7 @@
         # Save to cache
         print(f'   >{prefix} SAVED: {cache_key}')
         # Convert to JSON string
-        json_data = json.dumps(dict_enroute)
+        json_data = json.dumps(dict_enroute, allow_nan=False)
         # Save to cache
         js.localStorage.setItem(cache_key, json_data)
         # Update the enroute list
@@ -6308,7 +6333,7 @@
         #    airspaces = combine_airspace_by_keyword(airspaces, 'schiphol ctr')
 
         # Convert the dictionary to a JSON string
-        # airspaces_json = json.dumps(airspaces, indent=4)
+        # airspaces_json = json.dumps(airspaces, indent=4, allow_nan=False)
         return airspaces
 
 
@@ -7156,7 +7181,6 @@
         const prefix = id.startsWith('DEPARTURE') ? 'DEPARTURE' : 'ARRIVAL';
         // Update the windEnvelope
         windEnvelopeMain(prefix);
-        // predictBestRunwayMain(prefix)
       });
     });
 
@@ -8372,7 +8396,7 @@
               const runwayString = (fpDict['DEPARTURE_RUNWAYS'] || []).filter(r => r).join("/");
               windDirection = document.getElementById('DEPARTURE_WIND_DIRECTION').value
               windStrength = document.getElementById('DEPARTURE_WIND_STRENGTH').value
-              runway_pred = predictBestRunway(runwayString, windDirection, windStrength)
+              runway_pred = predictRunway(runwayString, windDirection, windStrength)
               document.getElementById('DEPARTURE_RUNWAY_NR').value = runway_pred || '';
             }
             if (fpDict['ARRIVAL_RUNWAYS']) {
@@ -8380,7 +8404,7 @@
               const runwayString = (fpDict['ARRIVAL_RUNWAYS'] || []).filter(r => r).join("/");
               windDirection = document.getElementById('ARRIVAL_WIND_DIRECTION').value
               windStrength = document.getElementById('ARRIVAL_WIND_STRENGTH').value
-              runway_pred = predictBestRunway(runwayString, windDirection, windStrength)
+              runway_pred = predictRunway(runwayString, windDirection, windStrength)
               document.getElementById('ARRIVAL_RUNWAY_NR').value = runway_pred || '';
             }
 
