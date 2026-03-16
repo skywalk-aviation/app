@@ -64,9 +64,9 @@
     <link rel="apple-touch-icon" sizes="180x180" href="./icons/airplane_gray.png">
 
     <!--STYLESHEETS-->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="tutorial_styles.css">
-    <link rel="stylesheet" href="style_wb.css">
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/style_tutorial.css">
+    <link rel="stylesheet" href="./styles/style_wb.css">
 
     <!--CORE FILES-->
     <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
@@ -103,6 +103,7 @@
     <script src="./scripts/runwayUI.js" defer></script>
     <script src="./scripts/checklist.js" defer></script>
     <script src="./scripts/tutorial.js" defer></script>
+    <script src="./scripts/aircraft.js" defer></script>
     <!--GENERIC-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
@@ -290,7 +291,7 @@
             <div class="flight-card-row">
 
                 <!-- LEFT 15% COLUMN -->
-                <div class="flight-card-icon" onclick="handleRegistrationClick()">
+                <div class="flight-card-icon" onclick="aircraftRegistrationClick()">
                     <div class="plane-small">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
@@ -434,6 +435,7 @@
 
             <div class="summary-grid">
                 <div id="DEPARTURE_FLASHCARD_WEIGHT"></div>
+                <div id="DEPARTURE_FLASHCARD_POB"></div>
                 <div id="DEPARTURE_FLASHCARD_FUEL"></div>
             </div>
         </div>
@@ -467,6 +469,7 @@
 
             <div class="summary-grid">
                 <div id="ARRIVAL_FLASHCARD_WEIGHT"></div>
+                <div id="ARRIVAL_FLASHCARD_POB"></div>
                 <div id="ARRIVAL_FLASHCARD_FUEL"></div>
             </div>
         </div>
@@ -1876,7 +1879,7 @@
                     <option value="">Select and Load</option>
                 </select>
                 <!-- Save button -->
-                <button id="checklist_save_btn" onclick="save_to_json('checklist_field', 'CHECKLIST')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save Checklist">💾</button>
+                <button id="checklist_save_btn" onclick="saveToJson('checklist_field', 'CHECKLIST')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save Checklist">💾</button>
             </div>
         </div>
 
@@ -2011,7 +2014,7 @@
                 <!-- Delete Button -->
                 <button id="aircraft_delete_btn" onclick="window.delete_item_from_spinner('aircraft_spinner', 'AIRCRAFT', 'aircraft_field')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Delete Aircraft">🗑️</button>
                 <!-- Clean Button -->
-                <!--<button id="aircraft_clear_btn" onclick="aircraft_clean()" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Create New Aircraft">🧹</button>-->
+                <!--<button id="aircraft_clear_btn" onclick="aircraftClean()" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Create New Aircraft">🧹</button>-->
                 <!-- Spinner, loaded from load_spinner_selection() -->
                 <select id="aircraft_spinner" class="tile-value-dropdown" style="flex: 1; font-size: 12px; font-weight: normal;">
                     <option value="">Select and Load</option>
@@ -2023,7 +2026,7 @@
             </div>
 
             <div class="button-row">
-                <button id="aircraft_clear_btn" class="button-style" title="Clean all aircraft fields." onclick="aircraft_clean()">
+                <button id="aircraft_clear_btn" class="button-style" title="Clean all aircraft fields." onclick="aircraftClean()">
                     Clean all aircraft fields
                 </button>
             </div>
@@ -3240,7 +3243,6 @@
         user_selection = select.value
 
         # Set user_selection with the value elementId2 name if user selection is empty
-        # if keepSelection and elementId2 and user_selection == '':
         if keepSelection and elementId2 is not None:
             user_selection = js.document.getElementById(elementId2).value
 
@@ -3320,144 +3322,11 @@
             js.window.alert(f"❗ Error loading spinner {user_selection}: {e}")
 
 
-    def save_to_json(elementId, cacheName):
-        """Save custom data to localStorage. """
-        print(f'> func: save_to_json()')
 
-        try:
-            # Store to localStorage
-            listname = js.document.getElementById(elementId).value.strip()
-            if listname == '':
-                print('Name is required. Nothing saved. <return>')
-                js.window.alert(f"ℹ️ Please provide a {cacheName} name before saving.")
-                return
-
-            # Update the flightplan with the latest version of the GUI fields before dumping to json
-            if cacheName=='AIRCRAFT':
-                aircraft_update_flightplan()
-
-            cache_key = f'{cacheName}_{listname}'
-            # Convert to Python dict first (flight_plan_data[cacheName] may be a JsProxy when the aircraft was loaded from the main menu dropdown)
-            raw = js.window.flight_plan_data[cacheName]
-            if hasattr(raw, 'to_py'):
-                raw = raw.to_py()
-            # Store Cache key in flightplan
-            raw['CACHENAME'] = cache_key
-            # Convert to JSON string
-            json_data = json.dumps(raw, allow_nan=False)
-            # Save to cache
-            js.localStorage.setItem(cache_key, json_data)
-
-            #cache_key = f'{cacheName}_{listname}'
-            ## Store Cache key in flightplan
-            #js.window.flight_plan_data[cacheName]['CACHENAME'] = cache_key
-            ## Convert before dumping in json
-            #raw = js.window.flight_plan_data[cacheName]
-            #py_obj = raw.to_py() if hasattr(raw, 'to_py') else raw
-            #json_data = json.dumps(py_obj, allow_nan=False)
-            ## Save to cache
-            #js.localStorage.setItem(cache_key, json_data)
-
-            # Update the spinner list
-            update_dropdown(f'{cacheName.lower()}_spinner', cacheName=cacheName, keepSelection=True, elementId2=f'{cacheName.lower()}_field');
-            message = f"✅ {cacheName} {listname} is saved with the catagories and items."
-            print(message)
-            js.window.alert(message)
-        except Exception as e:
-            js.window.alert(f"⚠️ Saving was not succesful. Error: {e}")
-
-        # Return
-        return True
 
     # ================================================
     # AIRCRAFT SPECIFICATIONS
     # ================================================
-    def aircraft_matching_pairs():
-        """Matching pairs for GUI elements and dictionary in get_default_aircraft()."""
-        # 'elementId'  : flight_plan_data['AIRCRAFT'][cat][item]
-
-        return {
-          'SETTINGS_WEIGHT_FUEL_LITERS': ['WEIGHT', 'fuel_liters'],
-          'SETTINGS_WEIGHT_PILOT': ['WEIGHT', 'pilot'],
-          'SETTINGS_WEIGHT_COPILOT': ['WEIGHT', 'copilot'],
-          'SETTINGS_WEIGHT_REAR_LEFT': ['WEIGHT', 'passenger_right'],
-          'SETTINGS_WEIGHT_REAR_RIGHT': ['WEIGHT', 'passenger_left'],
-          'SETTINGS_WEIGHT_BAGAGE': ['WEIGHT', 'bagage'],
-
-          'weight_empty': ['', 'EMPTY_WEIGHT'],
-          'arm_fuel': ['ARM', 'fuel'],
-          'arm_empty': ['ARM', 'empty_weight'],
-          'arm_pilot': ['ARM', 'pilot'],
-          'arm_copilot': ['ARM', 'copilot'],
-          'arm_rl': ['ARM', 'passenger_left'],
-          'arm_rr': ['ARM', 'passenger_right'],
-          'arm_bagage': ['ARM', 'bagage'],
-
-          'x1': ['ENVELOPE', 'x1'],
-          'x2': ['ENVELOPE', 'x2'],
-          'x3': ['ENVELOPE', 'x3'],
-          'x4': ['ENVELOPE', 'x4'],
-          'x5': ['ENVELOPE', 'x5'],
-          'y1': ['ENVELOPE', 'y1'],
-          'y2': ['ENVELOPE', 'y2'],
-          'y3': ['ENVELOPE', 'y3'],
-          'y4': ['ENVELOPE', 'y4'],
-          'y5': ['ENVELOPE', 'y5'],
-
-          'aircraft_field': ['', 'CALLSIGN'],
-          'aircraft_spinner': ['', 'CALLSIGN'],
-          'aircraft_callsign': ['', 'CALLSIGN'],
-          'aircraft_type2': ['', 'TYPE'],
-          'aircraft_cruisespeed': ['', 'CRUISESPEED'],
-          'aircraft_mtow': ['', 'MTOW'],
-          'aircraft_costs_per_hour': ['', 'COSTS_PER_HOUR'],
-
-          'aircraft_fuel_name': ['FUEL', 'name'],
-          'aircraft_fuel_density': ['FUEL', 'density'],
-          'aircraft_fuel_consumption': ['FUEL', 'consumption'],
-
-          'takeoff_headwind_kts_0': ['TAKEOFF', 'headwind_kts_0'],
-          'takeoff_headwind_kts_1': ['TAKEOFF', 'headwind_kts_1'],
-          'takeoff_headwind_kts_2': ['TAKEOFF', 'headwind_kts_2'],
-          'takeoff_headwind_kts_3': ['TAKEOFF', 'headwind_kts_3'],
-          'takeoff_headwind_cor_0': ['TAKEOFF', 'headwind_cor_0'],
-          'takeoff_headwind_cor_1': ['TAKEOFF', 'headwind_cor_1'],
-          'takeoff_headwind_cor_2': ['TAKEOFF', 'headwind_cor_2'],
-          'takeoff_headwind_cor_3': ['TAKEOFF', 'headwind_cor_3'],
-          'takeoff_tailwind_kts': ['TAKEOFF', 'tailwind_kts'],
-          'takeoff_tailwind_cor': ['TAKEOFF', 'tailwind_cor'],
-          'takeoff_runway_hard_dry': ['TAKEOFF', 'runway_hard_dry'],
-          'takeoff_runway_hard_wet': ['TAKEOFF', 'runway_hard_wet'],
-          'takeoff_runway_soft_dry': ['TAKEOFF', 'runway_soft_dry'],
-          'takeoff_runway_soft_wet': ['TAKEOFF', 'runway_soft_wet'],
-          'takeoff_runway_custom_dry': ['TAKEOFF', 'runway_custom_dry'],
-          'takeoff_runway_custom_wet': ['TAKEOFF', 'runway_custom_wet'],
-          'takeoff_runway_slope_paved': ['TAKEOFF', 'runway_slope_paved'],
-          'takeoff_runway_correction_factor': ['TAKEOFF', 'runway_correction_factor'],
-          'takeoff_runway_safety_correction': ['TAKEOFF', 'runway_safety_correction'],
-
-          'landing_headwind_kts_0': ['LANDING', 'headwind_kts_0'],
-          'landing_headwind_kts_1': ['LANDING', 'headwind_kts_1'],
-          'landing_headwind_kts_2': ['LANDING', 'headwind_kts_2'],
-          'landing_headwind_kts_3': ['LANDING', 'headwind_kts_3'],
-          'landing_headwind_cor_0': ['LANDING', 'headwind_cor_0'],
-          'landing_headwind_cor_1': ['LANDING', 'headwind_cor_1'],
-          'landing_headwind_cor_2': ['LANDING', 'headwind_cor_2'],
-          'landing_headwind_cor_3': ['LANDING', 'headwind_cor_3'],
-          'landing_tailwind_kts': ['LANDING', 'tailwind_kts'],
-          'landing_tailwind_cor': ['LANDING', 'tailwind_cor'],
-          'landing_runway_hard_dry': ['LANDING', 'runway_hard_dry'],
-          'landing_runway_hard_wet': ['LANDING', 'runway_hard_wet'],
-          'landing_runway_soft_dry': ['LANDING', 'runway_soft_dry'],
-          'landing_runway_soft_wet': ['LANDING', 'runway_soft_wet'],
-          'landing_runway_custom_dry': ['LANDING', 'runway_custom_dry'],
-          'landing_runway_custom_wet': ['LANDING', 'runway_custom_wet'],
-          'landing_runway_slope_paved': ['LANDING', 'runway_slope_paved'],
-          'landing_runway_correction_factor': ['LANDING', 'runway_correction_factor'],
-          'landing_runway_safety_correction': ['LANDING', 'runway_safety_correction'],
-
-        }
-
     def aircraft_clean(verbose='info'):
         print('> func: aircraft_clean()')
         if verbose=='info':
@@ -3471,13 +3340,11 @@
         select = js.document.getElementById('aircraft_spinner')
         select.value = 'Select and Load'
 
-        # Set REGISTRATION on start/main page to default.
-        callsignLabel = js.document.getElementById("CALLSIGN_LABEL")
-        callsignLabel.textContent = "REGISTRATION"
-
-        # Remove passengers
-        popField = js.document.getElementById("POB");
-        popField.value = ""
+        # Clean the fields at the main page
+        js.document.getElementById("CALLSIGN_LABEL").textContent = "REGISTRATION"
+        js.document.getElementById("CALLSIGN").value = ""
+        js.document.getElementById("AIRCRAFT_TYPE").value = ""
+        js.document.getElementById("POB").value = ""
 
         # Load the default checklist
         js.window.flight_plan_data['AIRCRAFT'] = get_default_aircraft()
@@ -3507,77 +3374,6 @@
 
         if verbose=='info':
           print(js.window.flight_plan_data['AIRCRAFT'])
-
-    def aircraft_update_flightplan():
-        """Update the flightplan: js.window.flight_plan_data['AIRCRAFT'] with the values from the GUI."""
-        print(f'>func: aircraft_update_flightplan()')
-        aircraft_data = js.window.flight_plan_data['AIRCRAFT']
-        if hasattr(aircraft_data, 'to_py'):
-            aircraft_data = aircraft_data.to_py()
-        elif isinstance(aircraft_data, str):
-            aircraft_data = json.loads(aircraft_data)
-        print(aircraft_data)
-
-        #js.window.SavePOHData('DEPARTURE')
-        #js.window.flight_plan_data['AIRCRAFT']['POH_TAKEOFF_RECORDS'] = json.loads(js.window.flight_plan_data['AIRCRAFT']['POH_TAKEOFF_RECORDS'])
-        #js.window.SavePOHData('ARRIVAL')
-        #js.window.flight_plan_data['AIRCRAFT']['POH_LANDING_RECORDS'] = json.loads(js.window.flight_plan_data['AIRCRAFT']['POH_LANDING_RECORDS'])
-
-        js.window.SavePOHData('DEPARTURE')
-        poh_takeoff = js.window.flight_plan_data['AIRCRAFT']['POH_TAKEOFF_RECORDS']
-        if hasattr(poh_takeoff, 'to_py'):
-            poh_takeoff = poh_takeoff.to_py()
-        elif isinstance(poh_takeoff, str):
-            poh_takeoff = json.loads(poh_takeoff)
-        js.window.flight_plan_data['AIRCRAFT']['POH_TAKEOFF_RECORDS'] = poh_takeoff
-        js.window.SavePOHData('ARRIVAL')
-        poh_landing = js.window.flight_plan_data['AIRCRAFT']['POH_LANDING_RECORDS']
-        if hasattr(poh_landing, 'to_py'):
-            poh_landing = poh_landing.to_py()
-        elif isinstance(poh_landing, str):
-            poh_landing = json.loads(poh_landing)
-        js.window.flight_plan_data['AIRCRAFT']['POH_LANDING_RECORDS'] = poh_landing
-
-        print('HERE PH')
-        print(js.window.flight_plan_data['AIRCRAFT'])
-
-        # Matching pairs for GUI and dictionary
-        matching_pairs = aircraft_matching_pairs()
-
-        # Go throught all matching keys to store in flight dict
-        try:
-            for key in matching_pairs.keys():
-                cat, item = matching_pairs[key]
-                elementId = js.document.getElementById(key)
-                if not elementId: continue
-
-                print(f"   >Update flightplan GUI [{key}] -> ['AIRCRAFT'][{cat}][{item}]: {elementId.value}")
-                if (cat == '') or (cat is None):
-                    js.window.flight_plan_data['AIRCRAFT'][item] = elementId.value
-                else:
-                    # If the subcategory is a JsProxy (loaded from main menu), convert it to a plain Python dict first so subscript assignment works
-                    sub = js.window.flight_plan_data['AIRCRAFT'][cat]
-                    js.window.flight_plan_data['AIRCRAFT'][cat] = _safe_py(sub)
-                    js.window.flight_plan_data['AIRCRAFT'][cat][item] = elementId.value
-
-            # Directly populate to all fields. This is required because some fields needs to be updated in General tab too.
-            js.window.aircraft_populate_js();
-            js.window.update_aerodrome_weights_js("DEPARTURE");
-            js.window.update_aerodrome_weights_js("ARRIVAL");
-            # Compute Fuel per leg
-            js.window.WeightBalanceMain('SETTINGS');
-            js.window.WeightBalanceMain('DEPARTURE');
-            js.window.WeightBalanceMain('ARRIVAL');
-            # Compute Runway stats
-            js.window.displayRunwayMain("DEPARTURE");
-            js.window.displayRunwayMain("ARRIVAL");
-            # Highlight any missing fields
-            js.window.highlightMissingFields();
-            js.window.highlightDropdownMenus("DEPARTURE");
-            js.window.highlightDropdownMenus("ARRIVAL");
-        except Exception as e:
-            js.window.alert(f"⚠️ Ooops. An unexpected error. Please load and save and try again.")
-            print(f"Error saving aircraft for key '{key}': {e}")
 
     # ================================================
     # CHECKLIST
@@ -5114,16 +4910,7 @@
             'DEPARTURE_COUNTRY': '',
             'ARRIVAL_COUNTRY': '',
         }
-        # Clear fields
-        await clear_general_fields()
-        await clear_aerodrome_fields('DEPARTURE')
-        await clear_aerodrome_fields('ARRIVAL')
-        await clear_enroute_fields()
-
-        # Populate with default items
-        checklist_clean(verbose='silent')
-        aircraft_clean(verbose='silent')
-
+        # Reset variables
         select = js.document.getElementById('DEPARTURE_ICAO_CITY')
         select.innerHTML = '<option value="">Select ICAO</option>'
         select = js.document.getElementById('ARRIVAL_ICAO_CITY')
@@ -5139,6 +4926,16 @@
         js.window.METAR_DEPARTURE = ''
         js.window.METAR_ARRIVAL = ''
 
+        # Clear fields
+        await clear_general_fields()
+        await clear_aerodrome_fields('DEPARTURE')
+        await clear_aerodrome_fields('ARRIVAL')
+        await clear_enroute_fields()
+
+        # Populate with default items
+        checklist_clean(verbose='silent')
+        js.window.aircraftClean('silent')
+
         js.document.getElementById("CALLSIGN_LABEL").textContent = 'REGISTRATION'
         js.document.getElementById('DEPARTURE_clockField').value = '00:00'
         js.document.getElementById('ARRIVAL_clockField').value = '00:00'   # Default is '00:00'
@@ -5150,10 +4947,12 @@
         js.document.getElementById('arrival-time').textContent = ''
 
         # Clean flashcards
-        js.window.flashcardClean('DEPARTURE')
-        js.window.flashcardClean('ARRIVAL')
+        #js.window.WeightBalanceMain("SETTINGS");
         js.window.cleanWindEnvelopeFields('DEPARTURE', 'empty');
         js.window.cleanWindEnvelopeFields('ARRIVAL', 'empty');
+        js.window.flashcardClean('DEPARTURE')
+        js.window.flashcardClean('ARRIVAL')
+
 
         # A new flightplan gets a new date
         js.window.flight_plan_data['DATETIME_CREATION'] = 'FLIGHT PLAN'
@@ -5198,7 +4997,7 @@
         checklist_clean(verbose='silent')
 
         # Set defaults aircraft and reset GUI fields
-        js.window.aircraft_clean(verbose='silent')
+        js.window.aircraftClean('silent')
 
         # Clean flashcards
         js.window.flashcardClean('DEPARTURE')
@@ -5245,7 +5044,7 @@
             js.document.getElementById('OVERHEAD2').value = ''
             js.document.getElementById('SQUAWK2').value = ''
         elif spinner_name == 'aircraft_spinner':
-            aircraft_clean(verbose='silent')
+            js.window.aircraftClean('silent')
 
         if elementId2 is not None:
             js.document.getElementById(elementId2).value = ''
@@ -5478,7 +5277,6 @@
             # Aerodrome ICAO is unknown. Return without clearning all fields.
             message = f"ℹ️ Please select and save the {icaoName} aerodrome in the {fname.lower()} tab or add your custom aerodrome information and save it."
             print(message)
-            # if verbose == 'info': js.window.alert(message)
             # Add icon below ICAO on the GENERAL TAB
             js.document.getElementById(f'{fname}_CITY').textContent = f'⚠️ {fname}'
 
@@ -6672,7 +6470,6 @@
     js.window.create_new_flightplan = create_new_flightplan
     js.window.delete_flightplan = delete_flightplan
     js.window.save_flightplan = save_flightplan
-    js.window.aircraft_update_flightplan = aircraft_update_flightplan
 
     js.window.load_enroute_fic = load_enroute_fic
     js.window.delete_item_from_spinner = delete_item_from_spinner
@@ -6694,10 +6491,8 @@
     js.window.checklist_update_catagories = checklist_update_catagories
 
     # AIRCRAFT
-    js.window.aircraft_clean = aircraft_clean
+    #js.window.aircraft_clean = aircraft_clean
     js.window.get_default_aircraft = get_default_aircraft
-    js.window.save_to_json = save_to_json
-    js.window.aircraft_matching_pairs = aircraft_matching_pairs
 
     # GENERAL
     js.window.load_spinner_selection = load_spinner_selection
@@ -6782,6 +6577,12 @@
             window.save_flightplan(true, false);
         }
 
+        if (targetTab === 'GENERAL') {
+          syncWeightCheckboxesAndFields(`DEPARTURE_WEIGHT_CHECKBOX`);
+          syncWeightCheckboxesAndFields(`ARRIVAL_WEIGHT_CHECKBOX`);
+          WeightBalanceMain('DEPARTURE');
+          WeightBalanceMain('ARRIVAL');
+        }
         // Calculate Weight and Balance and Departure tab
         if (targetTab === 'DEPARTURE') {
           // Sync checkboxes and fields on startup
@@ -7460,10 +7261,8 @@
     function update_aerodrome_weights_js(prefix) {
         console.log('> func: update_aerodrome_weights_js()');
         // Access the flight plan data
-        const matching_pairs = aircraft_matching_pairs().toJs();
-
-        for (const key in matching_pairs) {
-            const [cat, item] = matching_pairs[key];
+        for (const key in window.AIRCRAFT_MATCHING_PAIRS) {
+            const [cat, item] = window.AIRCRAFT_MATCHING_PAIRS[key];
             if (cat === 'WEIGHT') {
                 const keyTarget = `${key.replace('SETTINGS', prefix)}`;
                 const value = window.flight_plan_data['AIRCRAFT'][cat][item];
@@ -7476,123 +7275,7 @@
         window.WeightBalanceMain(prefix);
     }
 
-    async function handleRegistrationClick() {
-        console.log("> func: handleRegistrationClick()");
-        const callsignField = document.getElementById("CALLSIGN");
-        const callsignLabel = document.getElementById("CALLSIGN_LABEL");
-        const aircraftField = document.getElementById("AIRCRAFT_TYPE");
-        const popField = document.getElementById("POB");
-        const aircraftFuel = document.getElementById("DEPARTURE_WEIGHT_FUEL_LITERS");
 
-        if (!callsignField || !callsignLabel || !aircraftField) return;
-        const callsignValue = String(callsignField.value ?? '').trim();
-
-        if (!callsignValue) {
-            callsignLabel.textContent = "REGISTRATION";
-            return;
-        }
-
-        // Check whether stored aircraft with this callsign exists
-        let jsonData = {}
-        const cacheKey = `AIRCRAFT_${callsignValue}`; // e.g. AIRCRAFT_PH-SVU
-        const url = `${window.URL_AIRCRAFTS}${cacheKey}.json`;
-
-        // Load from cache
-        jsonData = localStorage.getItem(cacheKey);
-        // If no json is available, check whether it can be downloaded from url
-        if (!jsonData) {
-          callsignLabel.textContent = "⏳ REGISTRATION";
-          // Download jsondata from url and store in cache
-          jsonData = await importCacheEntryFromUrl(url, cacheKey);
-          // Update the dropdown in aircraft-settings menu
-          await updateDropdown('aircraft_spinner', 'AIRCRAFT', false);
-          // if (jsonData) {
-          //   alert(`✅ ${callsignValue} is set. For more details go here: ☰More → 🛠️Aircrafts.`);
-          // }
-
-        }
-
-        if (jsonData) {
-            callsignLabel.textContent = "✅ REGISTRATION";
-
-            try {
-                const aircraftData = JSON.parse(jsonData);
-                // Store aircraft data globally for PyScript
-                window.flight_plan_data["AIRCRAFT"] = aircraftData;
-                // Set the aircraft type
-                if (aircraftData.TYPE !== '') aircraftField.value = aircraftData.TYPE;
-                // Count POB
-                let positiveCount = 0;
-                ['pilot', 'copilot', 'passenger_left', 'passenger_right'].forEach(key => {
-                    const val = window.flight_plan_data['AIRCRAFT']['WEIGHT']?.[key] ?? '';
-                    const num = Number(String(val).trim());
-                    if (Number.isFinite(num) && num > 0) positiveCount++;
-                });
-                popField.value = String(positiveCount);
-                const time_dep_val = document.getElementById('DEPARTURE_clockField').value;
-
-                // Populate aerodromes and aircraft settings
-                aircraft_populate_js();
-                // Check whether fields are already populated
-                if (Number(aircraftFuel.value) > 0) {
-                  const loadDefaults = confirm("ℹ️ Aircraft fuel and weights are already set. Do you want to load default aerodrome weights?");
-                    if (loadDefaults) {
-                        update_aerodrome_weights_js("DEPARTURE");
-                        update_aerodrome_weights_js("ARRIVAL");
-                    }
-                } else {
-                    update_aerodrome_weights_js("DEPARTURE");
-                    update_aerodrome_weights_js("ARRIVAL");
-                }
-
-                // Update METAR
-                retrieve_metar('DEPARTURE', verbose='silent')
-                retrieve_metar('ARRIVAL', verbose='silent')
-                // Compute Fuel per leg
-                computeArrivalFuelPerLeg();
-                UpdateFlightInfoFields(time_dep_val, false, false);
-                // Compute Weight and Balance
-                WeightBalanceMain('SETTINGS');
-                WeightBalanceMain('DEPARTURE');
-                WeightBalanceMain('ARRIVAL');
-                // Compute Runway stats
-                displayRunwayMain("DEPARTURE");
-                displayRunwayMain("ARRIVAL");
-                // Highlight any missing fields
-                highlightMissingFields();
-
-            } catch (err) {
-                console.error("Invalid aircraft data in localStorage", err);
-            }
-        } else {
-            callsignLabel.textContent = "⚠ REGISTRATION";
-            // aircraftField.value = '';
-        }
-    }
-
-    const aircraftField = document.getElementById('aircraft_field');
-    if (aircraftField) {
-        const handleAircraftField = (e) => {
-            const value = e?.target?.value ?? '';
-            const callsignInput = document.getElementById('aircraft_callsign');
-            if (callsignInput) callsignInput.value = value;
-        };
-
-        // Trigger on blur
-        aircraftField.addEventListener('blur', handleAircraftField);
-        // Trigger on Enter key
-        aircraftField.addEventListener('keydown', e => e.key === 'Enter' && handleAircraftField(e));
-
-    }
-
-    // Add clear cache button handler
-    document.getElementById('aircraft_save_btn')?.addEventListener('click', async () => {
-      // Make sure the callsign matches the aircraft field
-      document.getElementById('aircraft_callsign').value = document.getElementById('aircraft_field').value
-      // Save
-      window.save_to_json('aircraft_field', 'AIRCRAFT')
-      // saveToJson('aircraft_field', 'AIRCRAFT')
-    });
 
     // Add clear cache button handler
     document.getElementById('clear_cache_btn')?.addEventListener('click', async () => {
@@ -8300,7 +7983,7 @@
     });
 
 
-    // ── Flight-plan load progress bar ────────────────────────────────────────
+    // ── Flight-plan load progress bar
     window.loadProgress = (function () {
         let STEPS = 10; // Default number of steps
         let current = 0;
@@ -8335,185 +8018,145 @@
     })();
 
     window.load_flightplan_js = async function () {
-        console.log('> func: load_flightplan_js()');
+            console.log('> func: load_flightplan_js()');
 
-        const planName = document.getElementById('plan_spinner').value;
-        if (!planName) {
-            console.warn('⚠️ No flightplan selected');
-            return;
-        }
-
-        loadProgress.start(steps=12);
-
-        // ── 1. Cleanup
-        window.flashcardClean('DEPARTURE');
-        window.flashcardClean('ARRIVAL');
-        window.remove_metar_widget('DEPARTURE');
-        window.remove_metar_widget('ARRIVAL');
-        window.cleanWindEnvelopeFields('DEPARTURE', 'empty');
-        window.cleanWindEnvelopeFields('ARRIVAL', 'empty');
-        window.cleanWeightBalanceFields('DEPARTURE', 'empty');
-        window.cleanWeightBalanceFields('ARRIVAL', 'empty');
-        document.getElementById('DEPARTURE_ICAO_CITY').innerHTML = '<option value="">Select ICAO</option>';
-        document.getElementById('ARRIVAL_ICAO_CITY').innerHTML  = '<option value="">Select ICAO</option>';
-        loadProgress.step(); // 1
-
-        // ── 2. Load from localStorage
-        const jsonData = localStorage.getItem(`FLIGHTPLAN_${planName}`);
-        if (!jsonData) {
-            alert(`⚠️ Flightplan '${planName}' not found.`);
-            loadProgress.done();
-            return;
-        }
-
-        window.waypoints = [];
-        window.leginfo   = {};
-        window.RUNWAY    = {};
-        window.flight_plan_data = await window.get_default_data()
-
-        try {
-            let fpDict = JSON.parse(jsonData);
-            console.log(`   >✅ Loaded flightplan ${Object.keys(fpDict).length} fields`);
-            // window.flight_plan_data = fpDict
-
-            for (const [key, value] of Object.entries(fpDict)) {
-                window.flight_plan_data[key] = value;
-            }
-            loadProgress.step(); // 2
-
-            // ── 6. Flags / runway / VFR icons
-            window.updateFlag('DEPARTURE', 'remove');
-            window.updateFlag('ARRIVAL',   'remove');
-            window.cleanRunwayFields('DEPARTURE', 'empty');
-            window.cleanRunwayFields('ARRIVAL',   'empty');
-            window.updateFlightCatagoryIcon('DEPARTURE', true);
-            window.updateFlightCatagoryIcon('ARRIVAL',   true);
-            loadProgress.step(); // 6
-
-            // ── 3. GUI fields
-            update_general_gui_fields_js(fpDict);
-            window.update_aerodrome_gui_fields('DEPARTURE');
-            window.update_aerodrome_gui_fields('ARRIVAL');
-            loadProgress.step(); // 3
-
-            // ── 4 & 5. Aerodrome images
-            await window.update_aerodrome_image('DEPARTURE');
-            loadProgress.step(); // 4
-            await window.update_aerodrome_image('ARRIVAL');
-            loadProgress.step(); // 5
-
-            // ── 7 & 8. Country data
-            if (fpDict['DEPARTURE_COUNTRY']) {
-                await window.import_country_selected('DEPARTURE', fpDict['DEPARTURE_COUNTRY'], window.UNZIPK);
-                document.getElementById('DEPARTURE_ICAO_CITY').value = fpDict['DEPARTURE_ICAO_CITY'] || '';
-            }
-            loadProgress.step(); // 7
-
-            if (fpDict['ARRIVAL_COUNTRY']) {
-                await window.import_country_selected('ARRIVAL', fpDict['ARRIVAL_COUNTRY'], window.UNZIPK);
-                document.getElementById('ARRIVAL_ICAO_CITY').value = fpDict['ARRIVAL_ICAO_CITY'] || '';
-            }
-            loadProgress.step(); // 8
-
-            // ── 9. Checklist & aircraft
-            checklist_populate_js();
-            aircraft_populate_js(false);
-            loadProgress.step(); // 9
-
-            // ── 10 & 11. METAR (these calls are genuine JS Promises)
-            await window.retrieve_metar('DEPARTURE', 'silent');
-            loadProgress.step(); // 10
-            await window.retrieve_metar('ARRIVAL', 'silent');
-            loadProgress.step(); // 11
-
-            if (fpDict['DEPARTURE_RUNWAYS']) {
-              const runwayString = (fpDict['DEPARTURE_RUNWAYS'] || []).filter(r => r).join("/");
-              windDirection = document.getElementById('DEPARTURE_WIND_DIRECTION').value
-              windStrength = document.getElementById('DEPARTURE_WIND_STRENGTH').value
-              runway_pred = predictRunway(runwayString, windDirection, windStrength)
-              document.getElementById('DEPARTURE_RUNWAY_NR').value = runway_pred || '';
-            }
-            if (fpDict['ARRIVAL_RUNWAYS']) {
-              const runwayString = (fpDict['ARRIVAL_RUNWAYS'] || []).filter(r => r).join("/");
-              windDirection = document.getElementById('ARRIVAL_WIND_DIRECTION').value
-              windStrength = document.getElementById('ARRIVAL_WIND_STRENGTH').value
-              runway_pred = predictRunway(runwayString, windDirection, windStrength)
-              document.getElementById('ARRIVAL_RUNWAY_NR').value = runway_pred || '';
+            const planName = document.getElementById('plan_spinner').value;
+            if (!planName) {
+                console.warn('⚠️ No flightplan selected');
+                return;
             }
 
-            // ── 12. Weight & balance, runway, flightinfo
-            window.WeightBalanceMain('SETTINGS');
-            window.WeightBalanceMain('DEPARTURE');
-            window.WeightBalanceMain('ARRIVAL');
-            window.displayRunwayMain('DEPARTURE');
-            window.displayRunwayMain('ARRIVAL');
+            loadProgress.start(steps=12);
 
-            // ── Wind envelope fields
-            windEnvelopeMain('DEPARTURE');
-            windEnvelopeMain('ARRIVAL');
+            // ── 1. Cleanup
+            window.flashcardClean('DEPARTURE');
+            window.flashcardClean('ARRIVAL');
+            window.remove_metar_widget('DEPARTURE');
+            window.remove_metar_widget('ARRIVAL');
+            window.cleanWindEnvelopeFields('DEPARTURE', 'empty');
+            window.cleanWindEnvelopeFields('ARRIVAL', 'empty');
+            window.cleanWeightBalanceFields('DEPARTURE', 'empty');
+            window.cleanWeightBalanceFields('ARRIVAL', 'empty');
+            document.getElementById('DEPARTURE_ICAO_CITY').innerHTML = '<option value="">Select ICAO</option>';
+            document.getElementById('ARRIVAL_ICAO_CITY').innerHTML  = '<option value="">Select ICAO</option>';
+            loadProgress.step(); // 1
 
-            // Set time and update info fields
-            const timeDep = document.getElementById('DEPARTURE_clockField').value;
-            window.UpdateFlightInfoFields(timeDep, true, true);
-            loadProgress.step(); // 12
+            // ── 2. Load from localStorage
+            const jsonData = localStorage.getItem(`FLIGHTPLAN_${planName}`);
+            if (!jsonData) {
+                alert(`⚠️ Flightplan '${planName}' not found.`);
+                loadProgress.done();
+                return;
+            }
 
-            console.log(`   >✅ Flightplan '${planName}' loaded successfully`);
-            loadProgress.done();
+            window.waypoints = [];
+            window.leginfo   = {};
+            window.RUNWAY    = {};
+            // window.flight_plan_data = await window.get_default_data()
 
-        } catch (e) {
-            console.error('   >❗ Error loading flightplan:', e);
-            alert(`❗ Error loading flight plan: ${e.message}`);
-            loadProgress.done();
-        }
-    };
+            try {
+                let fpDict = JSON.parse(jsonData);
+                console.log(`   >✅ Loaded flightplan ${Object.keys(fpDict).length} fields`);
 
+                for (const [key, value] of Object.entries(fpDict)) {
+                    window.flight_plan_data[key] = value;
+                }
+                loadProgress.step(); // 2
 
-    // function saveToJson(elementId, cacheName) {
-    //     console.log("> func: saveToJson()");
+                // ── 6. Flags / runway / VFR icons
+                window.updateFlag('DEPARTURE', 'remove');
+                window.updateFlag('ARRIVAL',   'remove');
+                window.cleanRunwayFields('DEPARTURE', 'empty');
+                window.cleanRunwayFields('ARRIVAL',   'empty');
+                window.updateFlightCatagoryIcon('DEPARTURE', true);
+                window.updateFlightCatagoryIcon('ARRIVAL',   true);
+                loadProgress.step(); // 6
 
-    //     try {
-    //         // Get name from input
-    //         const listname = document.getElementById(elementId).value.trim();
+                // ── 3. GUI fields
+                update_general_gui_fields_js(fpDict);
+                window.update_aerodrome_gui_fields('DEPARTURE');
+                window.update_aerodrome_gui_fields('ARRIVAL');
+                loadProgress.step(); // 3
 
-    //         if (listname === "") {
-    //             console.log("Name is required. Nothing saved. <return>");
-    //             window.alert(`ℹ️ Please provide a ${cacheName} name before saving.`);
-    //             return false;
-    //         }
+                // ── 4 & 5. Aerodrome images
+                await window.update_aerodrome_image('DEPARTURE');
+                loadProgress.step(); // 4
+                await window.update_aerodrome_image('ARRIVAL');
+                loadProgress.step(); // 5
 
-    //         // Update aircraft data before saving
-    //         if (cacheName === "AIRCRAFT" && typeof window.aircraft_update_flightplan === "function") {
-    //             window.aircraft_update_flightplan();
-    //         }
+                // ── 7 & 8. Country data
+                if (fpDict['DEPARTURE_COUNTRY']) {
+                    await window.import_country_selected('DEPARTURE', fpDict['DEPARTURE_COUNTRY'], window.UNZIPK);
+                    document.getElementById('DEPARTURE_ICAO_CITY').value = fpDict['DEPARTURE_ICAO_CITY'] || '';
+                }
+                loadProgress.step(); // 7
 
-    //         const cacheKey = `${cacheName}_${listname}`;
-    //         console.log('HERE2')
-    //         console.log(cacheKey)
-    //         // Get data from global flight plan object
-    //         let data = window.flight_plan_data[cacheName];
-    //         data["CACHENAME"] = cacheKey;
-    //         // console.log(data)
-    //         // Save to localStorage
-    //         localStorage.setItem(cacheKey, data);
+                if (fpDict['ARRIVAL_COUNTRY']) {
+                    await window.import_country_selected('ARRIVAL', fpDict['ARRIVAL_COUNTRY'], window.UNZIPK);
+                    document.getElementById('ARRIVAL_ICAO_CITY').value = fpDict['ARRIVAL_ICAO_CITY'] || '';
+                }
+                loadProgress.step(); // 8
 
-    //         // Update dropdown list
-    //         if (typeof window.update_dropdown === "function") {
-    //             window.update_dropdown(`${cacheName.toLowerCase()}_spinner`, cacheName, true, `${cacheName.toLowerCase()}_field`);
-    //         } else if (typeof window.updateDropdown === "function") {
-    //             window.updateDropdown(`${cacheName.toLowerCase()}_spinner`, cacheName, true, `${cacheName.toLowerCase()}_field`);
-    //         }
+                // Load Checklist from flightplan because this contains all checks
+                checklist_populate_js();
 
-    //         const message = `✅ ${cacheName} ${listname} is saved with the categories and items.`;
-    //         console.log(message);
-    //         window.alert(message);
+                // Always load Aircraft from cache when available and overwite in flightplan.
+                // This makes sure the latest aircraft is always used.
+                // Also, the stored one in flightplan can become corrupted somehow.
+                const cacheKey = `AIRCRAFT_${window.flight_plan_data['CALLSIGN']}`;
+                const jsonAircraft = localStorage.getItem(cacheKey);
+                if (jsonAircraft) {
+                  window.flight_plan_data['AIRCRAFT'] = JSON.parse(jsonAircraft);
+                }
+                window.aircraft_populate_js(false);
+                loadProgress.step();
 
-    //     } catch (e) {
-    //         window.alert(`⚠️ Saving was not successful. Error: ${e}`);
-    //     }
+                // Retrieve METAR
+                await window.retrieve_metar('DEPARTURE', 'silent');
+                loadProgress.step(); // 10
+                await window.retrieve_metar('ARRIVAL', 'silent');
+                loadProgress.step(); // 11
 
-    //     return true;
-    // }
+                if (fpDict['DEPARTURE_RUNWAYS']) {
+                  const runwayString = (fpDict['DEPARTURE_RUNWAYS'] || []).filter(r => r).join("/");
+                  windDirection = document.getElementById('DEPARTURE_WIND_DIRECTION').value
+                  windStrength = document.getElementById('DEPARTURE_WIND_STRENGTH').value
+                  runway_pred = predictRunway(runwayString, windDirection, windStrength)
+                  document.getElementById('DEPARTURE_RUNWAY_NR').value = runway_pred || '';
+                }
+                if (fpDict['ARRIVAL_RUNWAYS']) {
+                  const runwayString = (fpDict['ARRIVAL_RUNWAYS'] || []).filter(r => r).join("/");
+                  windDirection = document.getElementById('ARRIVAL_WIND_DIRECTION').value
+                  windStrength = document.getElementById('ARRIVAL_WIND_STRENGTH').value
+                  runway_pred = predictRunway(runwayString, windDirection, windStrength)
+                  document.getElementById('ARRIVAL_RUNWAY_NR').value = runway_pred || '';
+                }
 
+                // ── 12. Weight & balance, runway, flightinfo
+                window.WeightBalanceMain('SETTINGS');
+                window.WeightBalanceMain('DEPARTURE');
+                window.WeightBalanceMain('ARRIVAL');
+                window.displayRunwayMain('DEPARTURE');
+                window.displayRunwayMain('ARRIVAL');
+
+                // ── Wind envelope fields
+                windEnvelopeMain('DEPARTURE');
+                windEnvelopeMain('ARRIVAL');
+
+                // Set time and update info fields
+                const timeDep = document.getElementById('DEPARTURE_clockField').value;
+                window.UpdateFlightInfoFields(timeDep, true, true);
+                loadProgress.step(); // 12
+
+                console.log(`   >✅ Flightplan '${planName}' loaded successfully`);
+                loadProgress.done();
+
+            } catch (e) {
+                console.error('   >❗ Error loading flightplan:', e);
+                alert(`❗ Error loading flight plan: ${e.message}`);
+                loadProgress.done();
+            }
+        };
 
     function update_general_gui_fields_js(flight_plan_dict) {
         console.log("----> update_general_gui_fields_js()");
@@ -8741,25 +8384,6 @@
 </body>
 </html>
 
-
-
-
-<script>
-
-  // Populate during startup: available-countries select from COUNTRIES_DATA
-  // window.addEventListener('DOMContentLoaded', () => {
-  //   // Create lookup tables for countries
-  //   CreateLookupTableCountries();
-  //   // Populate the multipdropbox in the config screen
-  //   populateAvailableCountries()
-  //   // Load from previously stored countries from cache
-  //   const uniqueCountries = LoadCountriesOfInterest();
-  //   // Set the multibox items
-  //   console.log(uniqueCountries)
-  //   moveCountries('available-countries', 'selected-countries', 'initialize', uniqueCountries)
-  // });
-
-</script>
 
 <script>
 const spinner = document.getElementById("import_aircraft_spinner");
