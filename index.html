@@ -355,8 +355,7 @@
             <div class="flight-card-row">
 
                 <!-- LEFT 15% COLUMN -->
-                <div class="flight-card-icon" onclick="load_
-                  js()">
+                <div class="flight-card-icon" onclick="load_flightplan_js()">
                     <div class="plane-small">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
@@ -8028,7 +8027,7 @@
 
             loadProgress.start(steps=12);
 
-            // ── 1. Cleanup
+            // 1. Cleanup
             window.flashcardClean('DEPARTURE');
             window.flashcardClean('ARRIVAL');
             window.remove_metar_widget('DEPARTURE');
@@ -8041,7 +8040,7 @@
             document.getElementById('ARRIVAL_ICAO_CITY').innerHTML  = '<option value="">Select ICAO</option>';
             loadProgress.step(); // 1
 
-            // ── 2. Load from localStorage
+            // 2. Load from localStorage
             const jsonData = localStorage.getItem(`FLIGHTPLAN_${planName}`);
             if (!jsonData) {
                 alert(`⚠️ Flightplan '${planName}' not found.`);
