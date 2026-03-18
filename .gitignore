@@ -11,6 +11,8 @@ __pycache__/
 *.csv
 *.valid
 obfuscation.bat
+capacitor.config.json
+package.json
 
 # ignore dirs
 libraries/
