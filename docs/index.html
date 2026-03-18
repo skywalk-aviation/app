@@ -94,6 +94,7 @@
     <script src="./scripts/cloudPlot.js" defer></script>
     <script src="./scripts/metar.js" defer></script>
     <script src="./scripts/maps.js" defer></script>
+    <script src="./scripts/circuit.js" defer></script>
     <script src="./scripts/weightbalance.js" defer></script>
     <script src="./scripts/windenvelope.js" defer></script>
     <script src="./scripts/fuel.js" defer></script>
@@ -1711,7 +1712,9 @@
                     <label><input type="checkbox" id="prohibited-toggle" unchecked>Prohibited</label>
                 </div>
             </div>
+        </div>
 
+        <div class="border-round-eged">
             <div class="button-row">
                 <label>
                     <input type="checkbox" id="metar-toggle"> Show METAR Stations
@@ -1722,6 +1725,25 @@
                         title="Update METAR data">
                     🔄 Update
                 </button>
+            </div>
+        </div>
+
+        <div class="border-round-eged">
+            <div class="section-title" style="margin-top: 18px;">Circuit pattern (Arrival)</div>
+            <div class="wind-grid">
+                <select id="ARRIVAL_CIRCUIT_DIRECTION" class="tile-value-dropdown" style="flex: 1; font-size: 12px; font-weight: normal;">
+                    <option value="north">North</option>
+                    <option value="south">South</option>
+                </select>
+                <select id="ARRIVAL_CIRCUIT_SIZE" class="tile-value-dropdown" style="flex: 1; font-size: 12px; font-weight: normal;">
+                    <option value="standard" selected>Standard pattern</option>
+                    <option value="circuit">Circuit pattern</option>
+                    <option value="wide">Wide pattern</option>
+                </select>
+            </div>
+            <div class="wind-grid">
+                <button id="add-circuit-pattern-btn" class="button-style" onclick="window.initCircuitPatterns()">Add circuit pattern</button>
+                <button id="reset-circuit-pattern-btn" class="button-style" onclick="window.resetRoute()">Reset Route</button>
             </div>
         </div>
 
