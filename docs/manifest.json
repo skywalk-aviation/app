@@ -1,21 +1,14 @@
-  // {
-  //   "name": "SkyWalk",
-  //   "short_name": "SkyWalk",
-  //   "start_url": "/",
-  //   "display": "standalone"
-  // }
-
 {
   "name": "SkyWalk",
   "short_name": "SkyWalk",
   "start_url": "/index.html",
-  "display": "standalone", // important to make it really an app
+  "display": "standalone",
   // "background_color": "#f1f1f1",
   // "theme_color": "#f1f1f1",
   "icons": [
     {
       "src": "./icons/airplane_gray.png",
-      "sizes": "192x192",
+      "sizes": "100x100",
       "type": "image/png"
     }
   ]
