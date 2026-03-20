@@ -4173,8 +4173,8 @@
         update_aerodrome_gui_fields(fname, updateAircraftFields=False)
 
         # Update time and clock for departure only
-        time_dep = js.document.getElementById('DEPARTURE_clockField').value
-        js.window.UpdateFlightInfoFields(time_dep, True, True)
+        #time_dep = js.document.getElementById('DEPARTURE_clockField').value
+        js.window.UpdateFlightInfoFields(None, True, True)
 
         # Update images for aerodrome
         await update_aerodrome_image(fname)
@@ -5354,7 +5354,7 @@
         # Initialize the waypoints when both Departure and arrival location are set.
         icao_dep = js.document.getElementById('DEPARTURE_ICAO')
         icao_arr = js.document.getElementById('ARRIVAL_ICAO')
-        time_dep = js.document.getElementById('DEPARTURE_clockField')
+        #time_dep = js.document.getElementById('DEPARTURE_clockField')
 
         js.window.waypoints = to_js([])
         js.window.LEGINFO = to_js({})
@@ -5366,7 +5366,7 @@
             js.window.addWaypoints([to_js(js.window.flight_plan_data['ARRIVAL_LATLON'])])
         if icao_dep.value != '' and icao_arr.value != '':
             js.window.addWaypoints(to_js([js.window.flight_plan_data['DEPARTURE_LATLON'], js.window.flight_plan_data['ARRIVAL_LATLON']]))
-            js.window.UpdateFlightInfoFields(time_dep.value, True, True)
+            js.window.UpdateFlightInfoFields(None, True, True)
 
         #js.window.alert('Here after loading or selecting icao from cache')
         # Update weight and balance
@@ -7025,14 +7025,14 @@
         document.getElementById(id)?.addEventListener('change', element => {
             const prefix = id.startsWith('DEPARTURE') ? 'DEPARTURE' : 'ARRIVAL';
             // const timeValue = element.target.value; // "HH:MM" string
-            let timeValue = element ? element.target.value : null;
-            if (timeValue === "--:--") {
-              timeValue = null;
-            }
+            // let timeValue = element ? element.target.value : null;
+            // if (timeValue === "--:--") {
+            //   timeValue = null;
+            // }
             // Update only the flight info when departure time is changed
             if (prefix === 'DEPARTURE') {
                 // Update the flightinfo fields
-                UpdateFlightInfoFields(timeValue, true, true)  // initialize=true, adjustZoom=true
+                UpdateFlightInfoFields(null, true, true)  // initialize=true, adjustZoom=true
             }
         });
     });
@@ -8162,8 +8162,8 @@
                 windEnvelopeMain('ARRIVAL');
 
                 // Set time and update info fields
-                const timeDep = document.getElementById('DEPARTURE_clockField').value;
-                window.UpdateFlightInfoFields(timeDep, true, true);
+                // const timeDep = document.getElementById('DEPARTURE_clockField').value;
+                window.UpdateFlightInfoFields(null, true, true);
                 loadProgress.step();
 
                 // Done
