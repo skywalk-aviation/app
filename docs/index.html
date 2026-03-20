@@ -121,7 +121,7 @@
 
     <!-- Tab links -->
     <div class="tab">
-        <button class="tablinks active" data-tab="General">📋 Start</button>
+        <button class="tablinks" data-tab="General">📋 Start</button>
         <button class="tablinks" data-tab="Departure">🛫 Departure</button>
         <button class="tablinks" data-tab="Arrival">🛬 Arrival</button>
         <button class="tablinks" data-tab="Enroute">✈️ Enroute</button>
@@ -132,14 +132,6 @@
 	<div id="More" class="tabcontent">
 	    <label_h1>More</label_h1>
 
-        <!--<div style="border: 0px solid lightgrey; border-radius: 10px; padding: 10px;">
-            <div id="bottom-container">
-                <div class="info">
-                    More onsider supporting by donating a coffee.
-                </div>
-            </div>
-        </div>-->
-
         <!--<button class="tablinks" data-tab="MAP" style="cursor: pointer;">🗺️ Map</button>-->
         <button class="tablinks" data-tab="Checklist" style="cursor: pointer;">📋 Checklist</button>
         <button class="tablinks" data-tab="Aircrafts" style="cursor: pointer;">🛠️ Aircrafts</button>
@@ -148,35 +140,9 @@
        	<button class="tablinks" data-tab="Config" style="cursor: pointer;">⚙️ Config</button>
         <!--<button class="tablinks" data-tab="Tutorial" style="cursor: pointer;" onclick="window.SkyWalkTutorial.show()">📘 Tutorial</button>-->
 
-        <!--<div class="button-row">
-            <button id="BTN-WEIGHTBALANCE"
-                type="button"
-                onclick="window.open('https://www.vliegclubrotterdam.nl/wb/', '_blank')"
-                title="Weight and Balance calculator vliegclub Rotterdam">
-                    ⚖️ Weight & Balance
-            </button>
-        </div>-->
-
         <!--CHECK FOR UPDATES-->
         <button id="updateBtn" onclick="updateApp()">Check for updates</button>
         <!--<script src="app.js"></script>-->
-
-        <!--<label_h1>Disclaimer</label_h1>
-        <div class="disclaimer" style="margin-bottom: 20px; border: 2px solid red; border-radius: 10px; padding: 10px;">
-            SkyWalk is provided "as is", without warranty of any kind,
-            express or implied, including but not limited to the warranties of
-            merchantability, fitness for a particular purpose, accuracy, or
-            non-infringement.
-
-            The entire risk arising out of the use or performance of this software
-            is assumed by the user. In no event shall the author be liable for any
-            claim, damages, or other liability, whether in an action of contract,
-            tort, or otherwise, arising from, out of, or in connection with the
-            software or the use or other dealings in the software.
-
-            Skywalk is for academic, educational, and personal use only.
-            Commercial use is strictly prohibited without prior written permission from the author.
-        </div>-->
 
 	</div>
 
@@ -237,16 +203,15 @@
         <div class="flight-card">
             <div class="route-header">
 
-                <div class="airport">
+                <div class="airport" style="min-width: 0; overflow: hidden;">
                     <div class="airport-code">
                         <input id="DEPARTURE_ICAO" type="text" class="UPPERCASE_input" title="Departure ICAO"
-                            style="font-size: 26px; font-weight: bold; color: #2c2c2c; margin-bottom: 2px; text-align: center;">
+                            style="font-size: 26px; font-weight: bold; color: #2c2c2c; margin-bottom: 2px; text-align: center; width: 100%; box-sizing: border-box;">
                     </div>
                     <div id="DEPARTURE_CITY" class="airport-name">DEPARTURE</div>
                     <div><img id="DEPARTURE_FLAG_2" src="" alt="" style="width:30px; height:auto; vertical-align:middle; margin-left:6px;"></div>
                     <div class="schedule-label">Scheduled</div>
-                    <input type="time" id="DEPARTURE_clockField" class="clock-input" onclick="this.showPicker?.()" step="300">
-
+                    <input type="time" id="DEPARTURE_clockField" class="clock-input" onclick="this.showPicker?.()" step="300" style="width: 100%; box-sizing: border-box;">
                 </div>
 
                 <div class="plane-icon" onclick="handlePlaneClick()">
@@ -255,16 +220,14 @@
                     </svg>
                 </div>
 
-                <div class="airport">
+                <div class="airport" style="min-width: 0; overflow: hidden;">
                     <div class="airport-code">
                         <input id="ARRIVAL_ICAO" type="text" class="UPPERCASE_input" title="Arrival ICAO"
-                            style="font-size: 26px; font-weight: bold; color: #2c2c2c; margin-bottom: 2px; text-align: center;">
-                    </div>
+                            style="font-size: 26px; font-weight: bold; color: #2c2c2c; margin-bottom: 2px; text-align: center; width: 100%; box-sizing: border-box;">                    </div>
                     <div id="ARRIVAL_CITY" class="airport-name">ARRIVAL</div>
                     <div><img id="ARRIVAL_FLAG_2" src="" alt="" style="width:30px; height:auto; vertical-align:middle; margin-left:6px;"></div>
                     <div class="schedule-label">Scheduled</div>
-                    <input type="time" id="ARRIVAL_clockField" class="clock-input" onclick="this.showPicker?.()" step="300">
-                </div>
+                    <input type="time" id="ARRIVAL_clockField" class="clock-input" onclick="this.showPicker?.()" step="300" style="width: 100%; box-sizing: border-box;">                </div>
 
             </div>
 
