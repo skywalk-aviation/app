@@ -73,6 +73,12 @@
     <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
     <script type="module" src="https://pyscript.net/releases/2025.8.1/core.js"></script>
     <script src="./libs/plotly-2.35.2.min.js"></script>
+
+    <!--LOGIN-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>-->
+    <script src="./libs/chart.min.js"></script>
+    <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="./libs/leaflet.css">
     <script src="./libs/leaflet.js"></script>
@@ -103,8 +109,8 @@
     <script src="./scripts/checklist.js" defer></script>
     <script src="./scripts/tutorial.js" defer></script>
     <script src="./scripts/aircraft.js" defer></script>
-    <!--GENERIC-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="./scripts/login.js" defer></script>
+
 
 </head>
 
@@ -126,7 +132,6 @@
 	<div id="More" class="tabcontent">
 	    <label_h1>More</label_h1>
 
-        <!--<button class="tablinks" data-tab="MAP" style="cursor: pointer;">🗺️ Map</button>-->
         <button class="tablinks" data-tab="Checklist" style="cursor: pointer;">📋 Checklist</button>
         <button class="tablinks" data-tab="Aircrafts" style="cursor: pointer;">🛠️ Aircrafts</button>
         <button class="tablinks" data-tab="Countries" style="cursor: pointer;">🌍 Select Countries</button>
@@ -137,6 +142,13 @@
         <!--CHECK FOR UPDATES-->
         <button id="updateBtn" onclick="updateApp()">Check for updates</button>
         <!--<script src="app.js"></script>-->
+
+        <div class="divider-general-section" style="background: #f0f0f0;"></div>
+
+        <!--<button class="tablinks" data-tab="Login" style="cursor: pointer;">🔑 Login</button>-->
+        <button onclick="SkyWalkLogin.showOverlay()">🔑 Sign in</button>
+
+
 
 	</div>
 
@@ -165,6 +177,7 @@
             <div class="version" style="margin-bottom: 5px; ">version: 1.0.0</div>
         </div>
         </div>-->
+
         <div class="border-round-eged-logo">
             <div class="logo-container">
 
@@ -436,6 +449,18 @@
                 <div id="ARRIVAL_FLASHCARD_FUEL"></div>
             </div>
         </div>
+
+
+
+        <div id="my-login-badge" style="text-align: left; font-size: 8px; color: gray; margin: 1px 0 0 0;"></div>
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            SkyWalkLogin.renderStatusBadge('my-login-badge');
+          });
+        </script>
+
+
+        <div class="divider-general-section" style="background: #f0f0f0;"></div>
 
         <!-- Bottom Buttons Container -->
         <div id="bottom-container">
@@ -1600,9 +1625,9 @@
 
         <label_h1>MAP</label_h1>
 
-        <div class="collapsible" data-title="MAP">
-        <div class="collapsible-header" id="MAP_MENU_TOP"></div>
-        <div class="collapsible-content" id="MAP_MENU_BACKGROUND">
+        <div class="collapsible" data-title="MAP Settings">
+        <div class="collapsible-header" id="MAP_CONFIG_MENU_TOP"></div>
+        <div class="collapsible-content" id="MAP_CONFIG_MENU_BACKGROUND">
 
             <div class="wind-grid">
                 <select id="layer-select" class="tile-value-dropdown">
@@ -1667,8 +1692,14 @@
                 <button id="add-circuit-pattern-btn" class="button-style" onclick="window.initCircuitPatterns()">Add circuit pattern</button>
                 <button id="reset-circuit-pattern-btn" class="button-style" onclick="window.resetRoute()">Remove circuit pattern</button>
             </div>
+        </div>
+        </div>
 
-            <div class="divider-general-section" style="background: #ffffff"></div>
+        <!--<div class="divider-general-section" style="background: #ffffff"></div>-->
+
+        <div class="collapsible" data-title="🗺️ MAP">
+        <div class="collapsible-header" id="MAP_MENU_TOP"></div>
+        <div class="collapsible-content" id="MAP_MENU_BACKGROUND">
 
             <div id="map-container" style="height: 500px;">
                 <div id="route-map" style="height: 100%;"></div>
@@ -1691,27 +1722,24 @@
                     <path fill="#666" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
                 </svg>
             </div>
-
-                <div class="distance-section">
-                    <div class="distance-info">
-                        <span style="white-space: nowrap;"><span id="distance-km">0</span> km</span> |
-                        <span style="white-space: nowrap;"><span id="flying-minutes">0</span> min</span> |
-                        <span id="departure-time">--:--</span> →
-                        <span id="arrival-time">--:--</span>
-                    </div>
+            <div class="distance-section">
+                <div class="distance-info">
+                    <span style="white-space: nowrap;"><span id="distance-km">0</span> km</span> |
+                    <span style="white-space: nowrap;"><span id="flying-minutes">0</span> min</span> |
+                    <span id="departure-time">--:--</span> →
+                    <span id="arrival-time">--:--</span>
                 </div>
-
-                <div class="divider-general-section" style="background: #ffffff"></div>
-
-               <div class="border-round-eged">
-                   <div class="disclaimer">
-                       The airspace projections on the map are based on data that can be outdated or inaccurate. Do not navigate using the map but only use it for educational purposes.
-                   </div>
-               </div>
+            </div>
 
         </div>
         </div>
+
+        <div class="border-round-eged">
+            <div class="disclaimer">
+                The airspace projections on the map are based on data that can be outdated or inaccurate. Do not navigate using the map but only use it for educational purposes.
+            </div>
         </div>
+    </div>
 
 
     <!-- =============== TAB ATC =============== -->
@@ -2688,21 +2716,25 @@
 
     </div>
 
+    <!--<div id="Login" class="tabcontent">
+        <label_h1>Subscription</label_h1>
+        <div class="wind-grid">
+            <button  class="button-style" id="buy_btn_month" title="SkyWalk (monthly)" onclick="window.open('https://buy.stripe.com/5kQdRa8MTgGa8H07BLcEw07', '_blank')" style="background-color: silver; color: #222;">SkyWalk (monthly)</button>
+            <button  class="button-style" id="buy_btn_year" title="SkyWalk (yearly)" onclick="window.open('https://buy.stripe.com/9AQdRH2oDguA0y4eV0', '_blank')" style="background-color: #FFD700; color: #222;">SkyWalk (yearly)</button>
+            <button  class="button-style" id="buy_btn_year" title="SkyWalk (yearly)" onclick="window.open('https://buy.stripe.com/test_7sIdSK0sE6LW8JW3cf', '_blank')" style="background-color: #FFD700; color: #222;">SkyWalk (test)</button>
+        </div>
+    </div>-->
 
 
-
-<!-- Javascript functionality -->
-
+    <!-- Javascript functionality -->
 <script>
-    // MAKE REAL OFFLINE APP WITH SERVICEWORK AND SW.JS
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then(() => console.log('Service Worker registered'))
-        .catch(err => console.error('SW registration failed', err));
-    }
-
+// MAKE REAL OFFLINE APP WITH SERVICEWORKER AND sw.js
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(() => console.log('Service Worker registered'))
+    .catch(err => console.error('SW registration failed', err));
+}
 </script>
-
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
