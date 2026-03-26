@@ -1146,3 +1146,10 @@ body.mobile-fullscreen .output-box {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* DISABLE INPUT FIELD*/
+input:disabled {
+  background-color: #f5f5f5;
+  opacity: 0.7;
+  cursor: not-allowed;
+}

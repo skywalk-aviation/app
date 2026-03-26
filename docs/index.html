@@ -154,29 +154,6 @@
 
     <!-- =============== TAB GENERAL =============== -->
 	<div id="General" class="tabcontent">
-
-        <!-- Logo -->
-        <!--<div class="border-round-eged-logo">
-        <div class="logo-container">
-            <a href="https://erdogant.github.io/skywalk-docs/pages/html/index.html" target="_blank">
-                <img
-                    id="SKYWALK_LOGO_image_cache"
-                    alt="SkyWalk"
-                    src="./figs/logo_skywalk.png"
-                >
-
-                <canvas class="rain-canvas" data-prefix="SKYWALK_LOGO"></canvas>
-                <canvas class="cloud-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
-                <canvas class="fog-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
-                <canvas class="flare-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
-                <canvas class="snow-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
-                <canvas class="dark-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
-
-            </a>
-            <div class="version" style="margin-bottom: 5px; ">version: 1.0.0</div>
-        </div>
-        </div>-->
-
         <div class="border-round-eged-logo">
             <div class="logo-container">
 
@@ -193,12 +170,12 @@
                         alt="SkyWalk"
                         src="./figs/logo_skywalk.png"
                     >
-                    <canvas class="rain-canvas" data-prefix="SKYWALK_LOGO"></canvas>
+                    <!--<canvas class="rain-canvas" data-prefix="SKYWALK_LOGO"></canvas>-->
                     <canvas class="cloud-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
-                    <canvas class="fog-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
-                    <canvas class="flare-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
-                    <canvas class="snow-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
-                    <canvas class="dark-canvas"  data-prefix="SKYWALK_LOGO"></canvas>
+                    <!--<canvas class="fog-canvas"  data-prefix="SKYWALK_LOGO"></canvas>-->
+                    <!--<canvas class="flare-canvas"  data-prefix="SKYWALK_LOGO"></canvas>-->
+                    <!--<canvas class="snow-canvas"  data-prefix="SKYWALK_LOGO"></canvas>-->
+                    <!--<canvas class="dark-canvas"  data-prefix="SKYWALK_LOGO"></canvas>-->
                 </a>
                 <div class="version" style="margin-bottom: 5px;">version: 1.0.0</div>
 
@@ -220,7 +197,7 @@
                     <input type="time" id="DEPARTURE_CLOCK" class="clock-input" onclick="this.showPicker?.()" step="300" style="width: 100%; box-sizing: border-box;">
                 </div>
 
-                <div class="plane-icon" onclick="handlePlaneClick()">
+                <div class="plane-icon" onclick="handlePlaneClick()", title="Load aerodrome field information">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
                     </svg>
@@ -242,7 +219,6 @@
                 <svg class="divider-plane" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path fill="#666" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
                 </svg>
-                <!-- Load progress bar – shown only while ARRIVAL_ICAO is loading -->
                 <div id="ICAO_load_progress_track" style="display:none; height:4px; width:100%; background:#e0e0e0; border-radius:2px; margin-top:3px; overflow:hidden;">
                     <div id="ICAO_load_progress_bar" style="height:100%; width:0%; background:#006280; border-radius:2px; transition:width 0.25s ease;"></div>
                 </div>
@@ -254,6 +230,7 @@
                     <span id="ARRIVAL_FLIGHT_DISTANCE_INFO">- km, - min.</span>
                 </div>
             </div>
+
         </div>
 
 
@@ -264,7 +241,7 @@
             <div class="flight-card-row">
 
                 <!-- LEFT 15% COLUMN -->
-                <div class="flight-card-icon" onclick="aircraftRegistrationClick()">
+                <div class="flight-card-icon" onclick="aircraftRegistrationClick()" title="Load aircraft">
                     <div class="plane-small">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
@@ -328,7 +305,7 @@
             <div class="flight-card-row">
 
                 <!-- LEFT 15% COLUMN -->
-                <div class="flight-card-icon" onclick="load_flightplan_js()">
+                <div class="flight-card-icon" onclick="load_flightplan_js()" title="Load flight plan">
                     <div class="plane-small">
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
@@ -362,8 +339,10 @@
                     <div class="wind-grid" style="display: flex; ">
                         <!-- Delete Button -->
                         <button id="delete_btn" style="display: flex; justify-content: left; align-items: left; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Delete Flight Plan">🗑️</button>
-                        <!-- Clean Button -->
-                        <button id="new_plan_btn" style="display: flex; justify-content: right; align-items: right; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Erase all fields and create new flight plan">🧹</button>
+                        <!--<div style="display: flex; justify-content: flex-end; align-items: center; gap: 0px; margin-top: 0px; padding-bottom: 0px; margin: 0px;">
+                            <button id="new_plan_btn" title="New flight plan" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 0 8px 4px; flex: 0 0 auto; cursor: pointer;">✕</button>
+                        </div>-->
+
                         <!-- Spinner -->
                         <div class="wind-grid">
                             <!--<span class="tile-label" style="text-align: left;">FLIGHT PLAN</span>-->
@@ -373,13 +352,16 @@
                         </div>
                         <!-- Save button -->
                         <button id="save_fields_btn" onclick="window.save_flightplan()" style="display: flex; justify-content: right; align-items: right; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save Flight Plan">💾</button>
+                        <!-- Clean Button -->
+                        <button id="new_plan_btn" style="display: flex; justify-content: right; align-items: right; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Start new flight plan (clears current)">✕</button>
                     </div>
                 </div>
-
             </div>
         </div>
 
         <div class="divider-general-section" style="background: #f5f5f5;"></div>
+
+        <span class="tile-label" style="text-align: left; font-size: 16px; font-weight: bold;">FLIGHT PLAN RESULTS<span style="font-size: 8px;"></span></span>
 
         <!-- DEPARTURE Summary -->
         <div class="flight-card">
@@ -2963,6 +2945,7 @@ if ('serviceWorker' in navigator) {
     def get_default_data():
         """Get default flightplan data structure """
         print('> func: get_default_data()')
+
         return {
             # General Flightplan
             'FLIGHTPLAN': '',           # Name of the flightplan
@@ -2979,7 +2962,7 @@ if ('serviceWorker' in navigator) {
             'DEPARTURE_CITY': '',               # City
             'DEPARTURE_NAME': '',               # Aerodrome name
             'DEPARTURE_POSITION': '',           # Position at apron
-            'DEPARTURE_CLOCK': '',              # clock
+            'DEPARTURE_CLOCK': '--:--',              # clock
 
             'DEPARTURE_RUNWAYS': '',            # All available Runways
             'DEPARTURE_RUNWAY_PROPERTIES': '',  # The runway properties
@@ -3028,7 +3011,7 @@ if ('serviceWorker' in navigator) {
             'ARRIVAL_CITY': '',                   # City
             'ARRIVAL_NAME': '',                   # Aerodrome name
             'ARRIVAL_POSITION': '',               # Position at apron
-            'ARRIVAL_CLOCK': '',                  # clock
+            'ARRIVAL_CLOCK': '--:--',                  # clock
 
             'ARRIVAL_RUNWAYS': '',                # All available Runways
             'ARRIVAL_RUNWAY_PROPERTIES': '',      # The runway properties
@@ -4011,9 +3994,6 @@ if ('serviceWorker' in navigator) {
         js.document.getElementById(f'{fname}_CTR').value = 'CTR' if CTR_BOOL else ''
         js.document.getElementById(f'{fname}_CTR').dispatchEvent(js.Event.new('change'))
 
-        # Update route map if both departure and arrival coordinates are available
-        # if hasattr(js.window, 'updateRouteLine'): js.window.updateRouteLine()
-
         if fname == 'DEPARTURE':
             # Handle FREQ_TOWER_RADIO
             FREQ_TOWER_RADIO = row_dict['freqs.TOWER'] if CTR_BOOL else row_dict['freqs.RADIO']
@@ -4138,8 +4118,8 @@ if ('serviceWorker' in navigator) {
             else:
                 js.window.flight_plan_data[key] = ''
 
-        js.document.getElementById('DEPARTURE_CLOCK').value = '00:00'
-        js.document.getElementById('ARRIVAL_CLOCK').value = '00:00'
+        js.document.getElementById('DEPARTURE_CLOCK').value = '--:--'
+        js.document.getElementById('ARRIVAL_CLOCK').value = '--:--'
         js.document.getElementById('DEPARTURE_FLIGHT_DISTANCE_INFO').textContent = '- km, - min.'
         js.document.getElementById('ARRIVAL_FLIGHT_DISTANCE_INFO').textContent = '- km, - min.'
         js.document.getElementById('distance-km').textContent = '0'
@@ -4773,8 +4753,8 @@ if ('serviceWorker' in navigator) {
         js.window.aircraftClean('silent')
 
         js.document.getElementById("CALLSIGN_LABEL").textContent = 'REGISTRATION'
-        js.document.getElementById('DEPARTURE_CLOCK').value = '00:00'
-        js.document.getElementById('ARRIVAL_CLOCK').value = '00:00'
+        js.document.getElementById('DEPARTURE_CLOCK').value = '--:--'
+        js.document.getElementById('ARRIVAL_CLOCK').value = '--:--'
         js.document.getElementById('DEPARTURE_FLIGHT_DISTANCE_INFO').textContent = 'Departure'
         js.document.getElementById('ARRIVAL_FLIGHT_DISTANCE_INFO').textContent = '- km, - min.'
         js.document.getElementById('distance-km').textContent = '0'
@@ -4789,12 +4769,12 @@ if ('serviceWorker' in navigator) {
         js.window.flashcardClean('DEPARTURE')
         js.window.flashcardClean('ARRIVAL')
 
+        # Enable/Disable the input ICAO fields
+        js.window.enableDisableICAOFields();
 
         # A new flightplan gets a new date
         js.window.flight_plan_data['DATETIME_CREATION'] = 'FLIGHT PLAN'
-
         print("✅ New flightplan initialized - all fields cleared")
-        # return current_time
 
 
     async def delete_flightplan():
@@ -4842,6 +4822,9 @@ if ('serviceWorker' in navigator) {
         # Clean flag
         # updateFlag('DEPARTURE', 'remove')
         # updateFlag('ARRIVAL', 'remove')
+
+        # Enable/Disable the input ICAO fields
+        window.enableDisableICAOFields();
 
 
     async def delete_item_from_spinner(spinner_name, cacheName, elementId2=None):
@@ -5021,6 +5004,9 @@ if ('serviceWorker' in navigator) {
         print("   > -------------SAVE FLIGHTPLAN DATA TO DICT-------------")
         print(f"  > Save: {flightplan_name}")
 
+        # Lock the input ICAO fields
+        window.enableDisableICAOFields();
+
         # Convert flight_plan_data to JSON string
         flight_plan_dict = {}
         keys = get_default_data()
@@ -5073,7 +5059,7 @@ if ('serviceWorker' in navigator) {
             return True
 
 
-    async def load_aerodrome_from_json(fname, elementId=None, icao=None, verbose='info'):
+    async def load_aerodrome_from_json(fname, elementId=None, icao=None, updateWaypoints=True, verbose='info'):
         # Load aerodrome data for departure or arrival from localStorage.
         print(f'> func: load_aerodrome_from_json({fname})')
 
@@ -5083,7 +5069,6 @@ if ('serviceWorker' in navigator) {
         icaoName = element.value.strip().upper() or ''
 
         if icao is not None:
-            #icaoName = extract_icao_from_string(icaoName)
             icaoName = re.search(r'\(([^)]+)\)', icao).group(1)
 
         # Get cached aerodrome data
@@ -5124,7 +5109,8 @@ if ('serviceWorker' in navigator) {
             icaoSelected = js.document.getElementById(f'{fname}_ICAO_CITY')
 
             # Extract the string that is between parentheses in the alert message (e.g. the ICAO) and set it as the spinner value
-            icao_value = extract_icao_from_string(icaoSelected.value)
+            # icao_value = extract_icao_from_string(icaoSelected.value)
+            icao_value = js.window.extractIcaoFromString(icaoSelected.value)
 
             # Store previous value back elements and flight plan
             if icao_value != '':
@@ -5146,7 +5132,6 @@ if ('serviceWorker' in navigator) {
         fname_dict[f'{fname}_RUNWAY_NR'] = ''
 
         print(f"   >✅ Loaded {len(fname_dict)} fields")
-
         # Clear aerodrome fields but not the aircraft fields
         await clear_aerodrome_fields(fname, clearAircraftFields=False)
 
@@ -5157,7 +5142,6 @@ if ('serviceWorker' in navigator) {
 
         # Update GUI fields
         update_aerodrome_gui_fields(fname, updateAircraftFields=False)
-
         # Update aerodrome image
         await update_aerodrome_image(fname)
 
@@ -5187,9 +5171,9 @@ if ('serviceWorker' in navigator) {
         icao_arr = js.document.getElementById('ARRIVAL_ICAO')
         time_dep = js.document.getElementById('DEPARTURE_CLOCK')
 
+        js.window.RUNWAY = to_js({})
         js.window.waypoints = to_js([])
         js.window.LEGINFO = to_js({})
-        js.window.RUNWAY = to_js({})
 
         if icao_dep.value != '':
             js.window.addWaypoints([to_js(js.window.flight_plan_data['DEPARTURE_LATLON'])])
@@ -5211,12 +5195,12 @@ if ('serviceWorker' in navigator) {
         print(f"   >✅ Aerodrome {icaoName} successfully loaded from cache: {fname.lower()}")
         return True
 
-    def extract_icao_from_string(icao_string):
-        if not icao_string:
-            return ''
+    #def extract_icao_from_string(icao_string):
+    #    if not icao_string:
+    #        return ''
 
-        match = re.search(r'\(([^)]+)\)', icao_string)
-        return match.group(1) if match else ''
+    #    match = re.search(r'\(([^)]+)\)', icao_string)
+    #    return match.group(1) if match else ''
 
     def _safe_py(value):
         """Convert JsProxy → Python, and replace NaN/Inf with None."""
@@ -5361,6 +5345,10 @@ if ('serviceWorker' in navigator) {
     async def create_summary_atc(reverse_path=False):
         """Create ATC summary (placeholder function)"""
         print("Creating ATC summary...")
+        if js.window.flight_plan_data['FLIGHTPLAN'] == '':
+            js.window.alert('⚠️ Please save the flightplan before proceeding.');
+            return
+
         # Generate HTML content
         html_content = await generate_summary_html(reverse_path=reverse_path)
         # Open in browser
@@ -5369,6 +5357,10 @@ if ('serviceWorker' in navigator) {
     async def create_departure_atc(reverse_path=False):
         """Create ATC Departure (placeholder function)"""
         print("Creating Departure summary...")
+        if js.window.flight_plan_data['FLIGHTPLAN'] == '':
+            js.window.alert('⚠️ Please save the flightplan before proceeding.');
+            return
+
         # Generate HTML content
         html_content = await generate_departure_html(reverse_path=reverse_path)
         # Open in browser
@@ -5377,6 +5369,10 @@ if ('serviceWorker' in navigator) {
     async def create_arrival_atc(reverse_path=False):
         """Create ATC Arrival (placeholder function)"""
         print("Creating Arrival summary...")
+        if js.window.flight_plan_data['FLIGHTPLAN'] == '':
+            js.window.alert('⚠️ Please save the flightplan before proceeding.');
+            return
+
         # Generate HTML content
         html_content = await generate_arrival_html(reverse_path=reverse_path)
         # Open in browser
@@ -5384,6 +5380,10 @@ if ('serviceWorker' in navigator) {
 
     async def create_enroute_atc(reverse_path=False):
         """Create ATC Enroute (placeholder function)"""
+        if js.window.flight_plan_data['FLIGHTPLAN'] == '':
+            js.window.alert('⚠️ Please save the flightplan before proceeding.');
+            return
+
         print("Creating Enroute summary...")
         # Generate HTML content
         html_content = await generate_enroute_html(reverse_path=reverse_path)
@@ -6324,7 +6324,7 @@ if ('serviceWorker' in navigator) {
 
     # GENERAL
     js.window.load_spinner_selection = load_spinner_selection
-    js.window.extract_icao_from_string = extract_icao_from_string
+    #js.window.extract_icao_from_string = extract_icao_from_string
 
     # ATC
     js.window.create_summary_atc = create_proxy(create_summary_atc)
@@ -6395,9 +6395,12 @@ if ('serviceWorker' in navigator) {
         console.log(`>Tab switch from: ${currentTab}, to ${targetTab}`)
 
         // SAVE ON TAB CHANGE SWITCHING TO ATC. THIS IS NEEDED BECAUSE THE DATA IS GATHERED FROM FLIGHTPLAN DICT.
-        if (pyscriptReady) {
-            window.save_flightplan(true, false);
-        }
+        // if (pyscriptReady) {
+        //   window.save_flightplan(true, false);
+        // }
+        // if (targetTab === 'ATC') {
+        //   window.save_flightplan(true, false);
+        // }
 
         if (targetTab === 'GENERAL') {
           syncWeightCheckboxesAndFields(`DEPARTURE_WEIGHT_CHECKBOX`);
@@ -6430,10 +6433,22 @@ if ('serviceWorker' in navigator) {
 
         // REPLACE INFORMATION with "INFO" in the ENROUTE TAB.
         updateEnrouteFields();
-        // CHECK MISSING FIELDS AFTER TAB SWITCH AND HIGHLIGHT
         highlightMissingFields();
         highlightDropdownMenus();
+        enableDisableICAOFields();
 
+        if (!requireSubscription(null, null, false)) {
+          ['DEPARTURE', 'ARRIVAL'].forEach(prefix => {
+            colorCollapsibleMenu(`${prefix}_WIND_MENU`, "WIND ENVELOPE", "subscription");
+            colorCollapsibleMenu(`${prefix}_WB_MENU`, "WEIGHT AND BALANCE", "subscription");
+            colorCollapsibleMenu(`${prefix}_RUNWAY_MENU`, "RUNWAY", "subscription");
+
+            createTextbox(`${prefix}_FLASHCARD_WINDENV`, "LOCK", "Premium Feature", "Subscribe", 14);
+            createTextbox(`${prefix}_FLASHCARD_FUEL`, "LOCK", "Premium Feature", "Subscribe", 14);
+            createTextbox(`${prefix}_FLASHCARD_RUNWAY_NR`, "LOCK", "Premium Feature", "Subscribe", 14);
+            createTextbox(`${prefix}_FLASHCARD_RUNWAY`, "LOCK", "Premium Feature", "Subscribe", 14);
+          });
+        }
         // // Stop animation when leaving Departure tab
         // if (currentTab !== targetTab && currentTab === 'Departure'){
         //   window.animations('DEPARTURE', 'stop');
@@ -6712,8 +6727,8 @@ if ('serviceWorker' in navigator) {
             // SET SPINNERS TO DEFAULT
             document.getElementById('DEPARTURE_ICAO_CITY').innerHTML = '<option value="">Select ICAO</option>';
             document.getElementById('ARRIVAL_ICAO_CITY').innerHTML  = '<option value="">Select ICAO</option>';
-            document.getElementById('DEPARTURE_CLOCK').value = "00:00"
-            document.getElementById('ARRIVAL_CLOCK').value = "00:00"
+            document.getElementById('DEPARTURE_CLOCK').value = "--:--"
+            document.getElementById('ARRIVAL_CLOCK').value = "--:--"
             loadProgress.step();
 
             // LOAD FROM LOCAL STORAGE
@@ -6824,6 +6839,9 @@ if ('serviceWorker' in navigator) {
                 // Set time and update info fields
                 // const timeDep = document.getElementById('DEPARTURE_CLOCK').value;
                 window.UpdateFlightInfoFields(null, true, true);
+
+                // Enable/disable ICAO fields
+                window.enableDisableICAOFields();
                 loadProgress.step();
 
                 // Done
