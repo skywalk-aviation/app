@@ -221,30 +221,6 @@
 
             <!--CREATE AIRCRAFT LINE WITH BUTTONS -->
             <div class="wind-grid" style="display: flex; ">
-
-                <!-- LEFT: Save button -->
-                <!--<button id="save_fields_btn"
-                    onclick="window.save_flightplan()"
-                    title="Save Flight Plan"
-                    style="
-                        background:transparent;
-                        border: transparent;
-                        border-radius:6px;
-                        color:#333;
-                        width:32px;
-                        height:32px;
-                        padding:0;
-                        margin:0 6px 0 0;
-                        cursor:pointer;
-                        font-size:18px;
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        transition:all .15s ease;
-                    "
-                >
-                    💾
-                </button>-->
                 <!-- LEFT: button -->
                 <button id="new_plan_btn"
                     title="Start new flight plan (clears current)"
@@ -953,6 +929,12 @@
 
                 <textarea id="DEPARTURE_RUNWAY_CONDITION" class="tile-value" title="Runway condition." style="background-color: transparent; font-size: 12px; font-weight: normal; resize: vertical; min-height: 32px; max-height: 80px; width: 100%; box-sizing: border-box; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; margin-top: 10px;"></textarea>
 
+                <button id="DEPARTURE_LOAD_DEFAULTS" onclick="window.setRunwaySurface('DEPARTURE', true); window.displayRunwayMain('DEPARTURE')"
+                    title="Load the default runway information."
+                    style="background-color: transparent; border: none; width: 10px; padding: 1px; cursor: pointer;">🔄
+                </button>
+                <button onclick="window.save_aerodrome_to_json('DEPARTURE')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
+
            </div>
 
            <div class="border-round-eged">
@@ -976,13 +958,6 @@
            <button class="button-style" onclick="window.requireSubscription('Runway Performance', null, true); window.displayRunwayMain('DEPARTURE')">
                Calculate Runway Performance
            </button>
-
-            <button id="DEPARTURE_LOAD_DEFAULTS" onclick="window.setRunwaySurface('DEPARTURE', true); window.displayRunwayMain('DEPARTURE')"
-                title="Load the default runway information."
-                style="background-color: transparent; border: none; width: 10px; padding: 1px; cursor: pointer;">
-                    🔄
-            </button>
-            <button onclick="window.save_aerodrome_to_json('DEPARTURE')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
 
         </div>
         </div>
@@ -1472,8 +1447,15 @@
                    </div>
                </div>
 
-            <textarea id="ARRIVAL_RUNWAY_CONDITION" class="tile-value" title="Runway condition." style="background-color: transparent; font-size: 12px; font-weight: normal; resize: vertical; min-height: 32px; max-height: 80px; width: 100%; box-sizing: border-box; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; margin-top: 10px;"></textarea>
-          </div>
+               <textarea id="ARRIVAL_RUNWAY_CONDITION" class="tile-value" title="Runway condition." style="background-color: transparent; font-size: 12px; font-weight: normal; resize: vertical; min-height: 32px; max-height: 80px; width: 100%; box-sizing: border-box; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; margin-top: 10px;"></textarea>
+
+                <button id="ARRIVAL_LOAD_DEFAULTS" onclick="window.setRunwaySurface('ARRIVAL', true); window.displayRunwayMain('ARRIVAL')"
+                    title="Load the default runway information."
+                    style="background-color: transparent; border: none; width: 10px; padding: 1px; cursor: pointer;">🔄
+                </button>
+                <button onclick="window.save_aerodrome_to_json('ARRIVAL')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
+           </div>
+
 
           <div class="border-round-eged">
                <div class="wind-grid">
@@ -1496,13 +1478,6 @@
           <button class="button-style" onclick="window.requireSubscription('Runway Performance', null, true); window.displayRunwayMain('ARRIVAL')">
               Calculate Runway Performance
           </button>
-
-           <button id="ARRIVAL_LOAD_DEFAULTS" onclick="window.setRunwaySurface('ARRIVAL', true); window.displayRunwayMain('ARRIVAL')"
-               title="Load the default runway information."
-               style="background-color: transparent; border: none; width: 10px; padding: 1px; cursor: pointer;">
-                   🔄
-           </button>
-           <button onclick="window.save_aerodrome_to_json('ARRIVAL')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
 
        </div>
        </div>
@@ -5135,7 +5110,6 @@ if ('serviceWorker' in navigator) {
             icaoSelected = js.document.getElementById(f'{fname}_ICAO_CITY')
 
             # Extract the string that is between parentheses in the alert message (e.g. the ICAO) and set it as the spinner value
-            # icao_value = extract_icao_from_string(icaoSelected.value)
             icao_value = js.window.extractIcaoFromString(icaoSelected.value)
 
             # Store previous value back elements and flight plan
@@ -5278,6 +5252,9 @@ if ('serviceWorker' in navigator) {
 
         # Save to cache
         js.localStorage.setItem(cache_key, json_data)
+
+        # Remove (warning) icon at start-screen
+        js.document.getElementById(f'{fname}_CITY').textContent = f'{fname}'
 
 
     def save_enroute_to_json(prefix):
@@ -7586,7 +7563,7 @@ if ('serviceWorker' in navigator) {
             ? `
             <div style="color:#856404; background:#fff3cd; padding:6px 10px; border-radius:6px;">
                 ⚠ <strong>${missing.length} Missing fields:</strong> ${missing.join(', ')}<br><br>
-                <strong><small>Fill in all required fields to get a proper understanding of your flight plan.</small></strong>
+                <strong><small>Fill in all required fields to improve your understanding of your flight plan.</small></strong>
             </div>
             `
             : `
