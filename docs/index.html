@@ -7561,15 +7561,15 @@ if ('serviceWorker' in navigator) {
         const missing_label = document.getElementById('missing_label');
         missing_label.innerHTML = missing.length
             ? `
-            <div style="color:#856404; background:#fff3cd; padding:6px 10px; border-radius:6px;">
+            <div style="color:#856404; background:#fff3cd; padding:6px 12px; border-radius:6px;">
                 ⚠ <strong>${missing.length} Missing fields:</strong> ${missing.join(', ')}<br><br>
                 <strong><small>Fill in all required fields to improve your understanding of your flight plan.</small></strong>
             </div>
             `
             : `
-            <div style="color:#155724; background:#d4edda; padding:6px 10px; border-radius:6px;">
+            <div style="color:#155724; background:#d4edda; padding:6px 12px; border-radius:6px;">
                 ✅ <strong>All fields completed</strong><br>
-                <small>Your preferences are analyzed and your flight plan is ready.</small>
+                <small>Your flight plan details are processed and ready for your review!</small>
             </div>
             `;
         if (!missing.length) {
