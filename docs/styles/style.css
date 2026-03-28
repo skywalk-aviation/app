@@ -55,7 +55,6 @@ input, textarea, select {
 }
 
 /* =================== MEDIA QUERIES =================== */
-
 @media (min-width: 768px) {
     html,
     body {
@@ -69,11 +68,12 @@ input, textarea, select {
     #app {
         max-width: 100%;
         width: 100%;
-        height: auto;
+        height: 100vh;           /* ✅ full screen */
         margin: 0 auto;
         min-height: 600px;
-        max-height: 90vh;
-        border-radius: 8px;
+        max-height: none;
+        /*border-radius: 8px;*/
+        border-radius: 0;        /* optional: true fullscreen look */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 10px;
     }

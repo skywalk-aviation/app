@@ -832,7 +832,7 @@
 
                 <div class="wb-center">
                     <div class="tile-wb">
-                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_FUEL_LITERS" value="0">
+                        <input class="input-wb" type="numeric" id="DEPARTURE_WEIGHT_FUEL_LITERS" value="0">
                         <span class="label-wb">Fuel (liters)</span>
                     </div>
                 </div>
@@ -844,31 +844,31 @@
 
                 <div class="wb-row">
                     <div class="tile-wb">
-                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_PILOT">
+                        <input class="input-wb" type="numeric" id="DEPARTURE_WEIGHT_PILOT">
                         <span class="label-wb">Pilot (kg)</span>
                     </div>
 
                     <div class="tile-wb">
-                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_COPILOT">
+                        <input class="input-wb" type="numeric" id="DEPARTURE_WEIGHT_COPILOT">
                         <span class="label-wb">Front Passenger (kg)</span>
                     </div>
                 </div>
 
                 <div class="wb-row">
                     <div class="tile-wb">
-                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_REAR_LEFT">
+                        <input class="input-wb" type="numeric" id="DEPARTURE_WEIGHT_REAR_LEFT">
                         <span class="label-wb">Left Passenger (kg)</span>
                     </div>
 
                     <div class="tile-wb">
-                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_REAR_RIGHT">
+                        <input class="input-wb" type="numeric" id="DEPARTURE_WEIGHT_REAR_RIGHT">
                         <span class="label-wb">Right Passenger (kg)</span>
                     </div>
                 </div>
 
                 <div class="wb-center">
                     <div class="tile-wb">
-                        <input class="input-wb" type="number" id="DEPARTURE_WEIGHT_BAGAGE">
+                        <input class="input-wb" type="numeric" id="DEPARTURE_WEIGHT_BAGAGE">
                         <span class="label-wb">Baggage (kg)</span>
                     </div>
                 </div>
@@ -1398,7 +1398,7 @@
 
                <div class="wb-center">
                    <div class="tile-wb">
-                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_FUEL_LITERS" value="0">
+                       <input class="input-wb" type="numeric" id="ARRIVAL_WEIGHT_FUEL_LITERS" value="0">
                        <span class="label-wb">Fuel (liters)</span>
                    </div>
                </div>
@@ -1410,31 +1410,31 @@
 
                <div class="wb-row">
                    <div class="tile-wb">
-                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_PILOT">
+                       <input class="input-wb" type="numeric" id="ARRIVAL_WEIGHT_PILOT">
                        <span class="label-wb">Pilot (kg)</span>
                    </div>
 
                    <div class="tile-wb">
-                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_COPILOT">
+                       <input class="input-wb" type="numeric" id="ARRIVAL_WEIGHT_COPILOT">
                        <span class="label-wb">Front Passenger (kg)</span>
                    </div>
                </div>
 
                <div class="wb-row">
                    <div class="tile-wb">
-                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_REAR_LEFT">
+                       <input class="input-wb" type="numeric" id="ARRIVAL_WEIGHT_REAR_LEFT">
                        <span class="label-wb">Left Passenger (kg)</span>
                    </div>
 
                    <div class="tile-wb">
-                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_REAR_RIGHT">
+                       <input class="input-wb" type="numeric" id="ARRIVAL_WEIGHT_REAR_RIGHT">
                        <span class="label-wb">Right Passenger (kg)</span>
                    </div>
                </div>
 
                <div class="wb-center">
                    <div class="tile-wb">
-                       <input class="input-wb" type="number" id="ARRIVAL_WEIGHT_BAGAGE">
+                       <input class="input-wb" type="numeric" id="ARRIVAL_WEIGHT_BAGAGE">
                        <span class="label-wb">Baggage (kg)</span>
                    </div>
                </div>
@@ -1677,21 +1677,12 @@
 
             <div class="divider-general-section" style="background: #ffffff"></div>
 
-            <div class="button-row">
+            <div class="wind-grid" style="display: flex; align-items: center; gap: 8px;">
                 <label><input type="checkbox" id="metar-toggle">METAR Stations</label>
-                <button id="refresh-metar-btn"
-                        onclick="window.refreshMetarData()"
-                        style="margin-left: 10px; padding: 4px 12px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;"
-                        title="Update METAR data">
-                    🔄 Update
-                </button>
-            </div>
+                <button id="refresh-metar-btn" onclick="window.refreshMetarData()" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Update METAR data">🔄</button>
 
-            <div class="divider-general-section" style="background: #ffffff"></div>
-
-            <div class="button-row">
                 <div style="display: flex; align-items: center; margin-top: 5px;">
-                    <label style="margin-right: 5px;">Airspaces at altitude (ft):</label>
+                    <label style="margin-right: 5px;">Show only the relevant airpsaces at altitude (ft):</label>
                     <input type="number" id="airspace-altitude" value="1500" min="150" max="10000" step="150" style="width: 80px;">
                 </div>
             </div>
@@ -1727,9 +1718,9 @@
         <div class="collapsible-content" id="MAP_MENU_BACKGROUND">-->
         <div class="border-round-eged">
 
-            <div id="map-container" style="height: 500px;">
+            <div id="map-container" style="height: 700px;">
                 <div id="route-map" style="height: 100%;"></div>
-                <div class="map-controls" style="position: absolute; top: 10px; right: 10px; background: none; padding: 0; z-index: 1000;">
+                <div class="map-controls" style="position: absolute; top: 10px; right: 10px; background: none; padding: 0; z-index: 2000;">
                     <button id="fullscreen-btn" onclick="toggleFullscreen()" style="width: 44px; height: 44px; padding: 0; background: white; border: 2px solid rgba(0,0,0,0.2); border-radius: 4px; cursor: pointer; touch-action: manipulation;">
                         <svg class="fullscreen-enter" viewBox="0 0 24 24" style="width: 24px; height: 24px; margin: 8px;">
                             <path d="M7,14H5v5h5v-2H7V14z M5,10h2V7h3V5H5V10z M17,17h-3v2h5v-5h-2V17z M14,5v2h3v3h2V5H14z"/>
@@ -5730,7 +5721,7 @@ if ('serviceWorker' in navigator) {
             return cached
 
         try:
-            # 🌐 URL
+            # URL
             if template_source.startswith(("http://", "https://")):
                 response = await js.fetch(template_source)
                 if not response.ok:
@@ -5738,7 +5729,7 @@ if ('serviceWorker' in navigator) {
                     return None
                 content = await response.text()
 
-            # 💾 Local file
+            # Local file
             else:
                 with open(template_source, "r", encoding="utf-8") as f:
                     content = f.read()
@@ -5761,7 +5752,7 @@ if ('serviceWorker' in navigator) {
         # 1. Try cache
         cached = js.localStorage.getItem(template_key)
         if cached:
-            print("✅ Loaded from cache")
+            print("✅ Loaded HTML template ATC from cache")
             return cached
 
         # 2. Fetch template using JS fetch
@@ -5770,8 +5761,8 @@ if ('serviceWorker' in navigator) {
         try:
             response = await js.fetch(url)
             if response.ok:
-                content = await response.text()  # get the text content
-                js.localStorage.setItem(template_key, content)  # store content
+                content = await response.text()
+                js.localStorage.setItem(template_key, content)
                 print(f"✅ Template cached under key '{template_key}'")
                 return content
             else:
@@ -7524,14 +7515,6 @@ if ('serviceWorker' in navigator) {
             highlightMissingFields();
         });
     });
-    // Object.values(inputs).forEach(item => {
-    //     item.element.addEventListener('input', () => {
-    //         // Update the GUI field
-    //         updateGUIField(item, missing);
-    //         // Add missing label when required for ATC fields
-    //         addTextMissingFields(missing)
-    //     });
-    // });
 
     // Function to check for missing fields and update highlighting
     function highlightMissingFields() {
