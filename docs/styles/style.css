@@ -18,6 +18,8 @@ body {
     height: 100dvh;
 }
 
+/* =================== APP =================== */
+
 #app {
     width: 100%;
     max-width: 100%;
@@ -31,6 +33,13 @@ body {
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: visible;
+}
+
+#app,
+.tabcontent {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* =================== TYPOGRAPHY =================== */
@@ -856,15 +865,17 @@ body.mobile-fullscreen .output-box {
 
 .route-header {
     display: flex;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+        margin-bottom: 20px;
 }
 
 .airport {
     flex: 1;
     text-align: center;
     margin: 1px;
+    min-width: 0;
 }
 
 .airport-code {
