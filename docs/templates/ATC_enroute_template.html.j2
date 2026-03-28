@@ -16,7 +16,13 @@
 
 
     <div class="container">
-        <h1>ENROUTE {{ DEPARTURE_ICAO }} - {{ ARRIVAL_ICAO }}</h1>
+	<div style="display: inline-flex; gap: 10px;">
+	    <button onclick="window.print();">Print this page</button>
+	    <button onclick="window.close()">Close</button>
+	</div>
+	<br>
+
+	<h1>ENROUTE {{ DEPARTURE_ICAO }} - {{ ARRIVAL_ICAO }}</h1>
 
         <div class="grid" style="grid-template-columns: repeat({{ GRID_COLUMNS }}, 1fr);">
 
