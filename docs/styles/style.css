@@ -34,9 +34,9 @@ body {
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: visible;
-    -webkit-tap-highlight-color: transparent; /* removes iOS input tap highlight */
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
 }
-
 #app,
 .tabcontent {
     width: 100%;
