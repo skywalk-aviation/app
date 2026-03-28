@@ -3460,19 +3460,27 @@ if ('serviceWorker' in navigator) {
 
         html += "</body></html>"
 
-        print_button = """
-            <button onclick=\"window.print()\" style=\"
-                margin-bottom: 10px;
+        buttons = """
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <button onclick=\"window.print()\" style="
                 padding: 6px 12px;
                 background-color: #4CAF50;
                 color: white;
                 border: none;
                 border-radius: 4px;
                 cursor: pointer;
-            \">🖨️ Print Checklist</button>
+            ">🖨️ Print Checklist</button>
+
+            <button onclick="window.close()" style="
+                padding: 6px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+            ">Close</button>
+        </div>
         """
 
-        html = f"{print_button}{html}"
+        html = f"{buttons}{html}"
+
         return html
 
 
