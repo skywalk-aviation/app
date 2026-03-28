@@ -48,7 +48,6 @@ body {
 /* =================== INPUT FIXES =================== */
 
 input, textarea, select {
-    -webkit-appearance: none; /* remove default iOS input borders/shadows */
     border: none;
     outline: none;
     box-shadow: none;
