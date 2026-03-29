@@ -56,6 +56,15 @@ input, textarea, select {
 }
 
 /* =================== MEDIA QUERIES =================== */
+
+/* Tab bar: always relative so fullscreen map (z-index 9000) covers it on all devices */
+.tab {
+    position: relative;
+    border-radius: 8px 8px 0 0;
+    top: 0;
+    z-index: 100;
+}
+
 @media (min-width: 768px) {
     html,
     body {
@@ -69,21 +78,13 @@ input, textarea, select {
     #app {
         max-width: 100%;
         width: 100%;
-        height: 100vh;           /* ✅ full screen */
+        height: 100vh;
         margin: 0 auto;
         min-height: 600px;
         max-height: none;
-        /*border-radius: 8px;*/
-        border-radius: 0;        /* optional: true fullscreen look */
+        border-radius: 0;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         padding: 10px;
-    }
-
-    .tab {
-        position: relative;
-        border-radius: 8px 8px 0 0;
-        top: 0;
-        z-index: 100;
     }
 }
 
