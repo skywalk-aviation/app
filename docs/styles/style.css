@@ -24,6 +24,7 @@ body {
 #app {
     width: 100%;
     max-width: 100%;
+    height: 100dvh;           /* Fixed full-screen height on all devices including mobile */
     min-height: 100dvh;
     background-color: white;
     padding-top: env(safe-area-inset-top);
@@ -33,7 +34,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    overflow-y: visible;
+    overflow-y: auto;         /* Allow internal scrolling on mobile like tablet */
     -webkit-tap-highlight-color: transparent;
     box-sizing: border-box;
 }
@@ -488,11 +489,17 @@ input[type="number"]:disabled {
 
 #map-container {
     position: relative;
-    height: 300px;
+    height: clamp(220px, 40dvh, 400px); /* Responsive: scales with viewport on all devices */
     width: 100%;
     margin: 20px auto;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+@media (min-width: 768px) {
+    #map-container {
+        height: clamp(300px, 45dvh, 500px);
+    }
 }
 
 .mobile-fullscreen {
@@ -563,17 +570,21 @@ input[type="number"]:disabled {
 }
 
 #fullscreen-btn {
+    position: absolute !important;
+    top: 10px;
+    right: 10px;
+    z-index: 2000 !important;
+    pointer-events: auto;
+}
+
+/* When in native or mobile fullscreen, pin button to viewport */
+:fullscreen #fullscreen-btn,
+:-webkit-full-screen #fullscreen-btn,
+.mobile-fullscreen #fullscreen-btn {
     position: fixed !important;
     top: env(safe-area-inset-top, 10px);
     right: 10px;
     z-index: 99999 !important;
-    pointer-events: auto;
-}
-
-body:not(.mobile-fullscreen) #fullscreen-btn {
-    position: absolute !important;
-    top: 10px;
-    right: 10px;
 }
 
 #fullscreen-btn:hover {
@@ -597,9 +608,30 @@ body.no-scroll {
     touch-action: none;
 }
 
-body.mobile-fullscreen #bottom-container,
-body.mobile-fullscreen #bottom-buttons,
-body.mobile-fullscreen .output-box {
+/* Hide all app chrome when map is fullscreen */
+body.map-fullscreen .tab,
+body.map-fullscreen #tab-bar,
+body.map-fullscreen .tab-bar,
+body.map-fullscreen .navbar,
+body.map-fullscreen #navbar,
+body.map-fullscreen .top-nav,
+body.map-fullscreen #top-nav,
+body.map-fullscreen .bottom-nav,
+body.map-fullscreen #bottom-nav,
+body.map-fullscreen .menu-bar,
+body.map-fullscreen #menu-bar,
+body.map-fullscreen #bottom-container,
+body.map-fullscreen #bottom-buttons,
+body.map-fullscreen .output-box {
+    display: none !important;
+}
+
+.mobile-fullscreen ~ * #bottom-container,
+.mobile-fullscreen ~ * #bottom-buttons,
+.mobile-fullscreen ~ * .output-box,
+body.no-scroll #bottom-container,
+body.no-scroll #bottom-buttons,
+body.no-scroll .output-box {
     display: none !important;
 }
 
