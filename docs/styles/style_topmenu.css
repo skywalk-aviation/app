@@ -61,13 +61,10 @@
 
 /* Push page content below the fixed tab */
 .app-container {
-    padding-top: calc(56px + env(safe-area-inset-top));
+    /*padding-top: calc(56px + env(safe-area-inset-top));*/
+    padding-top: 56px;
     box-sizing: border-box;
 }
-/*.app-container {
-    padding-bottom: calc(56px + env(safe-area-inset-bottom));
-    box-sizing: border-box;
-}*/
 /* Tab content (your existing style) */
 .tabcontent {
     display: none;
