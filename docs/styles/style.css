@@ -632,6 +632,14 @@ body.no-scroll {
     touch-action: none;
 }
 
+/* While fullscreen: prevent body/app overflow from creating a clipping context */
+body.map-fullscreen {
+    overflow: visible !important;
+}
+body.map-fullscreen #app {
+    overflow: visible !important;
+}
+
 /* Hide all app chrome when map is fullscreen */
 body.map-fullscreen .tab,
 body.map-fullscreen #tab-bar,
