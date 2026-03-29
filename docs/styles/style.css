@@ -432,6 +432,7 @@ input[type="number"]:disabled {
     border-color: transparent;
     border-radius: 8px;
     padding: 8px 6px;
+    /*padding-top: 56px;*/
     border: 2px solid white;
     margin:1px 0 8px 0;
 }

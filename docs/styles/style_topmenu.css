@@ -1,7 +1,28 @@
+/*body {
+    background: yellow !important;
+}
+.tab {
+    background: green !important;
+}
+.tablinks {
+    background: red !important;
+}*/
+
+/* Push page content below the fixed tab */
+.app-container {
+    /*padding-top: 56px;*/
+    padding-top: 50px;
+    box-sizing: border-box;
+    background: transparent;
+    position: relative;
+    z-index: 0;
+    /*background: black !important;*/
+}
 /* Fixed top bar */
 .tab {
     position: fixed;
     top: env(safe-area-inset-top);
+    z-index: 1000;
     left: 50%;
     transform: translateX(-50%);       /* center horizontally */
     width: calc(100% - 25px);          /* screen minus margins left-right spacing */
@@ -18,7 +39,6 @@
     background: linear-gradient(0deg, white 0%, gray 100%);
     border-radius: 8px;
     color: #333;
-    z-index: 1000;
     overflow: hidden;
     box-sizing: border-box;
 }
@@ -59,11 +79,7 @@
     z-index: 1;
 }
 
-/* Push page content below the fixed tab */
-.app-container {
-    padding-top: calc(56px + env(safe-area-inset-top));
-    box-sizing: border-box;
-}
+
 /*.app-container {
     padding-bottom: calc(56px + env(safe-area-inset-bottom));
     box-sizing: border-box;
