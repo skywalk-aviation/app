@@ -578,14 +578,12 @@ input[type="number"]:disabled {
     pointer-events: auto;
 }
 
-/* ── Fullscreen: move button to BOTTOM-RIGHT so nav bar can't block it ── */
+/* ── Fullscreen button: shared base ── */
 body.map-fullscreen #fullscreen-btn,
 :fullscreen #fullscreen-btn,
 :-webkit-full-screen #fullscreen-btn,
 .mobile-fullscreen #fullscreen-btn {
     position: fixed !important;
-    top: auto !important;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px) !important;
     right: 12px !important;
     z-index: 99999 !important;
     background: rgba(255,255,255,0.92) !important;
@@ -593,12 +591,24 @@ body.map-fullscreen #fullscreen-btn,
     box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
 }
 
-/* ── Fullscreen: move Leaflet zoom control to BOTTOM-LEFT ── */
-body.map-fullscreen .leaflet-top.leaflet-left,
-:fullscreen .leaflet-top.leaflet-left,
-:-webkit-full-screen .leaflet-top.leaflet-left {
+/* ── fullscreenButtonBar = 'bottom' (default, safe on mobile) ── */
+body.map-fullscreen-bottom #fullscreen-btn {
     top: auto !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + 12px) !important;
+}
+body.map-fullscreen-bottom .leaflet-top.leaflet-left {
+    top: auto !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px) !important;
+}
+
+/* ── fullscreenButtonBar = 'top' (classic, fine on PC/tablet) ── */
+body.map-fullscreen-top #fullscreen-btn {
+    top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
+    bottom: auto !important;
+}
+body.map-fullscreen-top .leaflet-top.leaflet-left {
+    top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
+    bottom: auto !important;
 }
 
 #fullscreen-btn:hover {
