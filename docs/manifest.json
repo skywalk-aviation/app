@@ -5,7 +5,7 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "./icons/airplane_icon.png",
+      "src": "./icons/icon_dark.png",
       "sizes": "100x100",
       "type": "image/png"
     }
