@@ -221,9 +221,6 @@
             </div>
 
 
-
-
-
             <!--CREATE AIRCRAFT LINE WITH BUTTONS -->
             <div class="wind-grid" style="display: flex; ">
                 <!-- LEFT: button -->
@@ -668,22 +665,22 @@
 
             <div class="grid-two-thirds-one-third">
                 <div class="tile">
-                    <input id="DEPARTURE_POSITION" type="text" class="tile-value UPPERCASE_input" title="Position of the Aircraft (at the apron)">
+                    <input id="DEPARTURE_POSITION" type="text" class="tile-value UPPERCASE_input" title="Position of the Aircraft" placeholder="AT THE APRON">
                     <span class="tile-label">Position of the aircraft</span>
                 </div>
                 <div class="tile">
-                    <input id="DEPARTURE_CIRCUIT_ALTITUDE" type="text" class="tile-value" title="The altitude of the circuit in feet.">
+                    <input id="DEPARTURE_CIRCUIT_ALTITUDE" type="text" class="tile-value" title="The altitude of the circuit (ft)." placeholder="1000">
                     <span class="tile-label">Altitude circuit(ft)</span>
                 </div>
             </div>
 
             <div class="grid-two-thirds-one-third">
                 <div class="tile">
-                    <input id="DEPARTURE_ROUTE_NAME" type="text" class="tile-value UPPERCASE_input" title="The name of the route (e.g., MIKE/ROMEO) for departure.">
+                    <input id="DEPARTURE_ROUTE_NAME" type="text" class="tile-value UPPERCASE_input" title="The name of the route (e.g., MIKE/ROMEO) for departure." placeholder="ROMEO/ MIKE">
                     <span class="tile-label">Name departure</span>
                 </div>
                 <div class="tile">
-                    <input id="DEPARTURE_ROUTE_ALTITUDE" type="text" class="tile-value" title="The altitude of the route in feet.">
+                    <input id="DEPARTURE_ROUTE_ALTITUDE" type="text" class="tile-value" title="The altitude of the route (ft)." placeholder="1500">
                     <span class="tile-label">Altitude departure (ft)</span>
                 </div>
             </div>
@@ -1226,22 +1223,22 @@
 
             <div class="grid-two-thirds-one-third">
                 <div class="tile">
-                    <input id="ARRIVAL_POSITION" type="text" class="tile-value UPPERCASE_input" title="Position of the Aircraft (at the apron)">
+                    <input id="ARRIVAL_POSITION" type="text" class="tile-value UPPERCASE_input" title="Position of the Aircraft" placeholder="AT THE APRON">
                     <span class="tile-label">Position of the aircraft</span>
                 </div>
                 <div class="tile">
-                    <input id="ARRIVAL_CIRCUIT_ALTITUDE" type="text" class="tile-value" title="The altitude of the circuit in feet.">
+                    <input id="ARRIVAL_CIRCUIT_ALTITUDE" type="text" class="tile-value" title="The altitude of the circuit (ft)." placeholder="1000">
                     <span class="tile-label">Altitude circuit(ft)</span>
                 </div>
             </div>
 
             <div class="grid-two-thirds-one-third">
                 <div class="tile">
-                    <input id="ARRIVAL_ROUTE_NAME" type="text" class="tile-value UPPERCASE_input" title="The name of the route (e.g., MIKE/ROMEO) for ARRIVAL.">
+                    <input id="ARRIVAL_ROUTE_NAME" type="text" class="tile-value UPPERCASE_input" title="The name of the route (e.g., MIKE/ROMEO) for ARRIVAL." placeholder="HOTEL">
                     <span class="tile-label">Name arrival</span>
                 </div>
                 <div class="tile">
-                    <input id="ARRIVAL_ROUTE_ALTITUDE" type="text" class="tile-value" title="The altitude of the route in feet.">
+                    <input id="ARRIVAL_ROUTE_ALTITUDE" type="text" class="tile-value" title="The altitude of the route (ft)." placeholder="1500">
                     <span class="tile-label">Altitude arrival (ft)</span>
                 </div>
             </div>
@@ -1338,7 +1335,7 @@
 
             <div class="wind-grid" style="display: flex; align-items: center; gap: 8px;">
                 <!-- Delete Button -->
-                <button id="fic_delete_btn2" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Delete FIC2">🗑️</button>
+                <button id="fic_delete_btn2" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Delete FIC">🗑️</button>
 
                 <!-- Spinner -->
                 <select id="fic_spinner2" class="tile-value-dropdown" style="flex: 1; font-size: 12px; font-weight: normal;">
@@ -1346,7 +1343,7 @@
                 </select>
 
                 <!-- Save button -->
-                <button id="fic_save_btn2" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save FIC2">💾</button>
+                <button id="fic_save_btn2" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save FIC">💾</button>
                 <!-- Clean Button -->
                 <button id="fic_clearn_btn2" onclick="fic_clean('ARRIVAL')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Create new FIC">🧹</button>
             </div>
@@ -3918,7 +3915,7 @@ if ('serviceWorker' in navigator) {
         except Exception as e:
             error_msg = f"   >⚠️ No airspace data available for {country}: {str(e)}"
             print(f"{error_msg}")
-            js.window.alert(f"⚠️ No airspace data is available for the selected country: {country}.")
+            #js.window.alert(f"⚠️ No airspace data is available for the selected country: {country}.")
             spinner = js.document.getElementById('loading-spinner')
             if spinner:
                 spinner.style.display = 'none'
@@ -5012,6 +5009,10 @@ if ('serviceWorker' in navigator) {
         save_aerodrome_to_json('DEPARTURE', 'silent')
         save_aerodrome_to_json('ARRIVAL', 'silent')
 
+        # Save FIC information
+        save_enroute_to_json('DEPARTURE');
+        save_enroute_to_json('ARRIVAL');
+
         # STORE FIELDS FROM GENERAL IN FLIGHTPLAN
         js.window.flight_plan_data["CALLSIGN_SHORT"] = js.window.create_callsign_short(js.document.getElementById('CALLSIGN').value);
         general_fields = ["FLIGHTPLAN", "POB", "FLIGHT_RULES", "AIRCRAFT_TYPE", "CALLSIGN", "DEPARTURE_CLOCK", "ARRIVAL_CLOCK"]
@@ -5253,13 +5254,6 @@ if ('serviceWorker' in navigator) {
         print(f"   >✅ Aerodrome {icaoName} successfully loaded from cache: {fname.lower()}")
         return True
 
-    #def extract_icao_from_string(icao_string):
-    #    if not icao_string:
-    #        return ''
-
-    #    match = re.search(r'\(([^)]+)\)', icao_string)
-    #    return match.group(1) if match else ''
-
     def _safe_py(value):
         """Convert JsProxy → Python, and replace NaN/Inf with None."""
         if hasattr(value, 'to_py'):
@@ -5276,7 +5270,24 @@ if ('serviceWorker' in navigator) {
         # Get flightplan data from dictionary
         flight_data = js.window.flight_plan_data
 
-        # Store all fname_ except for the weights
+        # Check whether ICAO exists
+        icao_val = flight_data.get(f"{fname}_ICAO") or ''
+        if  icao_val == '':
+            icao_val = js.document.getElementById(f'{fname}_ICAO').value
+
+        # Now check again whether ICAO is updated
+        icao_val = '' if icao_val is None else str(icao_val).strip()
+        #js.window.alert(f'{fname}:{icao_val}')
+        if icao_val == '':
+            if verbose == 'info': js.window.alert(f'To save the {fname} aerodrome, please fill in a ICAO name first.')
+            print(f'To save the {fname} aerodrome, please fill in a ICAO name first. <return>')
+            return
+
+        # Create Cache key - guard against missing/None ICAO
+        cache_key = fname + '_' + icao_val
+        print(f'   >CACHE KEY: {cache_key}')
+
+        # Store all fname_ elements (except for the weights)
         for key, item in flight_data.items():
             if key.startswith(fname) and not key.startswith(f"{fname}_WEIGHT"):
                 dict_fname[key] = _safe_py(item)
@@ -5289,28 +5300,33 @@ if ('serviceWorker' in navigator) {
                 if field_value and str(field_value) not in ('nan', 'None', ''):
                     dict_fname[key] = _safe_py(field_value)
 
-        # Add to runways
         # Only keep unique runway numbers in the RUNWAYS list
-        runway = dict_fname[f"{fname}_RUNWAY_NR"]
+        runway = dict_fname.get(f"{fname}_RUNWAY_NR") or ''
         key = f"{fname}_RUNWAYS"
-        dict_fname[key].append(runway) if runway not in dict_fname[key] else None
-
-        # Create Cache key
-        cache_key = fname + '_' + dict_fname[f"{fname}_ICAO"]
-        print(f'   >CACHE KEY: {cache_key}')
+        # Ensure RUNWAYS exists and is a list
+        if key not in dict_fname or not isinstance(dict_fname.get(key), list):
+            dict_fname[key] = []
+        # Normalize runway value (handle JS proxies and None)
+        try:
+            if hasattr(runway, "to_py"):
+                runway = runway.to_py()
+        except Exception:
+            pass
+        runway = '' if runway is None else str(runway).strip()
+        if runway != '' and runway not in dict_fname[key]:
+            dict_fname[key].append(runway)
 
         # Save to cache
-        message = f"✅ Custom {fname.lower()} field information for {flight_data.get(f'{fname}_ICAO', '')} is saved."
+        flight_icao_for_msg = flight_data.get(f'{fname}_ICAO') or ''
+        message = f"✅ Custom {fname.lower()} field information for {flight_icao_for_msg} is saved."
         print(f'   >{message}')
         if verbose=='info':
             window.alert(message)
 
         # Convert to JSON string
         json_data = json.dumps(dict_fname, allow_nan=False)
-
         # Save to cache
         js.localStorage.setItem(cache_key, json_data)
-
         # Remove (warning) icon at start-screen
         js.document.getElementById(f'{fname}_CITY').textContent = f'{fname}'
 
@@ -6385,7 +6401,6 @@ if ('serviceWorker' in navigator) {
 
     # GENERAL
     js.window.load_spinner_selection = load_spinner_selection
-    #js.window.extract_icao_from_string = extract_icao_from_string
 
     # ATC
     js.window.create_summary_atc = create_proxy(create_summary_atc)
@@ -7481,7 +7496,7 @@ if ('serviceWorker' in navigator) {
             //ENROUTE FIELDS
             'ARRIVAL_FIC_NAME': {
                 element: document.getElementById('ARRIVAL_FIC_NAME'),
-                name: 'FIC2 name',
+                name: 'FIC Arrival name',
                 color_empty: '#ffeb3b',
                 color_filled: 'transparent',
                 required_atc_departure: false,
@@ -7490,7 +7505,7 @@ if ('serviceWorker' in navigator) {
             },
             'ARRIVAL_FIC_FREQUENCY': {
                 element: document.getElementById('ARRIVAL_FIC_FREQUENCY'),
-                name: 'FIC2 frequency',
+                name: 'FIC Arrival frequency',
                 color_empty: '#ffeb3b',
                 color_filled: 'transparent',
                 required_atc_departure: false,
