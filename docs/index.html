@@ -706,6 +706,7 @@
         </div>
 
 
+        <!--CONTACT-->
          <div class="collapsible" data-title="CONTACT">
          <div class="collapsible-header" id="DEPARTURE_CONTACT_MENU"></div>
          <div class="collapsible-content" id="DEPARTURE_CONTACT_MENU_BACKGROUND">
@@ -740,8 +741,7 @@
          </div>
          </div>
 
-         <!-- FIC -->
-
+         <!-- FLIGHT INFORMATION -->
          <div class="collapsible" data-title="FLIGHT INFORMATION CENTER (FIC)">
          <div class="collapsible-header" id="DEPARTURE_FIC_MENU"></div>
          <div class="collapsible-content" id="DEPARTURE_FIC_MENU_BACKGROUND">
@@ -778,14 +778,124 @@
                  <!-- Save button -->
                  <button id="fic_save_btn" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save FIC">💾</button>
                  <!-- Clean Button -->
-                 <button id="fic_clearn_btn" onclick="fic_clean('DEPARTURE')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Create new FIC">🧹</button>
+                 <button id="fic_clean_btn" onclick="fic_clean('DEPARTURE')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Create new FIC">🧹</button>
              </div>
 
          </div>
          </div>
 
 
-        <!-- METAR Information -->
+         <!--RUNWAY DEPARTURE-->
+         <div class="collapsible" data-title="RUNWAY">
+         <div class="collapsible-header" id="DEPARTURE_RUNWAY_MENU"></div>
+         <div class="collapsible-content">
+
+             <div class="wind-grid">
+                 <div id="DEPARTURE_RUNWAY_MESSAGE"></div>
+             </div>
+
+             <div class="border-round-eged">
+                 <div class="wind-grid">
+                     <div class="tile">
+                         <input id="DEPARTURE_RUNWAY_LENGTH"
+                                 type="text" class="tile-value" title="Set the runway length (ft)."
+                                 style="font-size: 32px; font-family: 'Aeroport', 'Aviation', 'Consolas', 'Monaco', 'Menlo', 'Liberation Mono', 'Courier New', monospace; letter-spacing: 2px; text-align: center; height: 64px; line-height: 64px;">
+                         <span class="tile-label">
+                             Runway Length (ft)
+                         </span>
+                     </div>
+                     <div class="tile">
+                         <input id="DEPARTURE_RUNWAY_NR"
+                                 type="text" class="tile-value" title="Set the runway number."
+                                 style="font-size: 32px; font-family: 'Aeroport', 'Aviation', 'Consolas', 'Monaco', 'Menlo', 'Liberation Mono', 'Courier New', monospace; letter-spacing: 2px; text-align: center; height: 64px; line-height: 64px;">
+                         <span class="tile-label">
+                             Runway Nr.
+                         </span>
+
+                         <div class="wind-grid" style="display: flex; align-items: center; gap: 8px;">
+                             <!-- Delete Button -->
+                             <button id="runway_delete_btn" onclick="runwayDelete('DEPARTURE')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Delete Runway">🗑️</button>
+                             <!-- Spinner -->
+                             <select id="DEPARTURE_RUNWAY_SPINNER" class="tile-value-dropdown" style="flex: 1; font-size: 12px; font-weight: normal;">
+                                 <option value="">Select and Load</option>
+                             </select>
+                             <!-- Save button -->
+                             <button id="runway_save_btn" onclick="runwaySave('DEPARTURE')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save Runway">💾</button>
+                         </div>
+
+                     </div>
+
+
+                 </div>
+
+                 <div class="wind-grid">
+                     <div class="tile" style="text-align: center;">
+                         <input id="DEPARTURE_RUNWAY_SLOPE" type="text" class="tile-value">
+                         <span class="tile-label" style="text-align: center;">Slope (°)</span>
+                     </div>
+                     <div class="tile">
+                         <input id="DEPARTURE_ELEVATION" type="text" class="tile-value" title="Aerodrome elevation (ft).">
+                         <span class="tile-label">Elevation (ft)</span>
+                     </div>
+                 </div>
+
+                 <div class="wind-grid">
+                     <div class="tile" style="text-align: center;">
+                         <select id="DEPARTURE_RUNWAY_SURFACE" class="tile-value-dropdown" style="text-align: left; background: transparent; ">
+                             <option value="">Select</option>
+                             <option value="hard">Hard</option>
+                             <option value="soft">Soft</option>
+                             <option value="other">Other</option>
+                         </select>
+                         <span class="tile-label" style="text-align: center;">Surface</span>
+                     </div>
+                     <div class="tile" style="text-align: center;">
+                         <select id="DEPARTURE_RUNWAY_SLIPPERY" class="tile-value-dropdown" style="text-align: left; background: transparent; ">
+                             <option value="">Select</option>
+                             <option value="dry">Dry</option>
+                             <option value="wet">Wet</option>
+                         </select>
+                         <span class="tile-label" style="text-align: center;">Condition</span>
+                     </div>
+                 </div>
+
+                 <textarea id="DEPARTURE_RUNWAY_CONDITION" class="tile-value" title="Runway condition." style="background-color: transparent; font-size: 12px; font-weight: normal; resize: vertical; min-height: 32px; max-height: 80px; width: 100%; box-sizing: border-box; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; margin-top: 10px;"></textarea>
+
+                 <button id="DEPARTURE_LOAD_DEFAULTS" onclick="window.setRunwaySurface('DEPARTURE', true); window.displayRunwayMain('DEPARTURE')"
+                     title="Load the default runway information."
+                     style="background-color: transparent; border: none; width: 10px; padding: 1px; cursor: pointer;">🔄
+                 </button>
+                 <button onclick="window.save_aerodrome_to_json('DEPARTURE')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
+
+            </div>
+
+            <div class="border-round-eged">
+                 <div class="wind-grid">
+                     <!--<div id="DEPARTURE_RUNWAY_MINDISTANCE"></div>-->
+                     <div id="DEPARTURE_RUNWAY_THRESHOLD"></div>
+                     <div id="DEPARTURE_RUNWAY_THRESHOLD_50ft"></div>
+                 </div>
+
+                 <div id="DEPARTURE_RUNWAY_PLOT"></div>
+            </div>
+
+            <div class="border-round-eged">
+                 <div class="wind-grid">
+                     <div id="DEPARTURE_RUNWAY_TABLE"></div>
+                 </div>
+
+            </div>
+
+            <!-- Add a button to calculate -->
+            <button class="button-style" onclick="window.requireSubscription('Runway Performance', null, true); window.displayRunwayMain('DEPARTURE')">
+                Calculate Runway Performance
+            </button>
+
+         </div>
+         </div>
+
+
+        <!-- WIND ENVELPE -->
         <div class="collapsible" data-title="WIND ENVELOPE">
         <div class="collapsible-header" id="DEPARTURE_WIND_MENU"></div>
         <div class="collapsible-content">
@@ -914,101 +1024,6 @@
        </div>
        </div>
 
-
-        <!--RUNWAY DEPARTURE-->
-        <div class="collapsible" data-title="RUNWAY">
-        <div class="collapsible-header" id="DEPARTURE_RUNWAY_MENU"></div>
-        <div class="collapsible-content">
-
-            <div class="wind-grid">
-                <div id="DEPARTURE_RUNWAY_MESSAGE"></div>
-            </div>
-
-            <div class="border-round-eged">
-                <div class="wind-grid">
-                    <div class="tile">
-                        <input id="DEPARTURE_RUNWAY_LENGTH"
-                                type="text" class="tile-value" title="Set the runway length (ft)."
-                                style="font-size: 32px; font-family: 'Aeroport', 'Aviation', 'Consolas', 'Monaco', 'Menlo', 'Liberation Mono', 'Courier New', monospace; letter-spacing: 2px; text-align: center; height: 64px; line-height: 64px;">
-                        <span class="tile-label">
-                            Runway Length (ft)
-                        </span>
-                    </div>
-                    <div class="tile">
-                        <input id="DEPARTURE_RUNWAY_NR"
-                                type="text" class="tile-value" title="Set the runway number."
-                                style="font-size: 32px; font-family: 'Aeroport', 'Aviation', 'Consolas', 'Monaco', 'Menlo', 'Liberation Mono', 'Courier New', monospace; letter-spacing: 2px; text-align: center; height: 64px; line-height: 64px;">
-                        <span class="tile-label">
-                            Runway Nr.
-                        </span>
-                    </div>
-                </div>
-
-                <div class="wind-grid">
-                    <div class="tile" style="text-align: center;">
-                        <input id="DEPARTURE_RUNWAY_SLOPE" type="text" class="tile-value">
-                        <span class="tile-label" style="text-align: center;">Slope (°)</span>
-                    </div>
-                    <div class="tile">
-                        <input id="DEPARTURE_ELEVATION" type="text" class="tile-value" title="Aerodrome elevation (ft).">
-                        <span class="tile-label">Elevation (ft)</span>
-                    </div>
-                </div>
-
-                <div class="wind-grid">
-                    <div class="tile" style="text-align: center;">
-                        <select id="DEPARTURE_RUNWAY_SURFACE" class="tile-value-dropdown" style="text-align: left; background: transparent; ">
-                            <option value="">Select</option>
-                            <option value="hard">Hard</option>
-                            <option value="soft">Soft</option>
-                            <option value="other">Other</option>
-                        </select>
-                        <span class="tile-label" style="text-align: center;">Surface</span>
-                    </div>
-                    <div class="tile" style="text-align: center;">
-                        <select id="DEPARTURE_RUNWAY_SLIPPERY" class="tile-value-dropdown" style="text-align: left; background: transparent; ">
-                            <option value="">Select</option>
-                            <option value="dry">Dry</option>
-                            <option value="wet">Wet</option>
-                        </select>
-                        <span class="tile-label" style="text-align: center;">Condition</span>
-                    </div>
-                </div>
-
-                <textarea id="DEPARTURE_RUNWAY_CONDITION" class="tile-value" title="Runway condition." style="background-color: transparent; font-size: 12px; font-weight: normal; resize: vertical; min-height: 32px; max-height: 80px; width: 100%; box-sizing: border-box; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; margin-top: 10px;"></textarea>
-
-                <button id="DEPARTURE_LOAD_DEFAULTS" onclick="window.setRunwaySurface('DEPARTURE', true); window.displayRunwayMain('DEPARTURE')"
-                    title="Load the default runway information."
-                    style="background-color: transparent; border: none; width: 10px; padding: 1px; cursor: pointer;">🔄
-                </button>
-                <button onclick="window.save_aerodrome_to_json('DEPARTURE')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
-
-           </div>
-
-           <div class="border-round-eged">
-                <div class="wind-grid">
-                    <!--<div id="DEPARTURE_RUNWAY_MINDISTANCE"></div>-->
-                    <div id="DEPARTURE_RUNWAY_THRESHOLD"></div>
-                    <div id="DEPARTURE_RUNWAY_THRESHOLD_50ft"></div>
-                </div>
-
-                <div id="DEPARTURE_RUNWAY_PLOT"></div>
-           </div>
-
-           <div class="border-round-eged">
-                <div class="wind-grid">
-                    <div id="DEPARTURE_RUNWAY_TABLE"></div>
-                </div>
-
-           </div>
-
-           <!-- Add a button to calculate -->
-           <button class="button-style" onclick="window.requireSubscription('Runway Performance', null, true); window.displayRunwayMain('DEPARTURE')">
-               Calculate Runway Performance
-           </button>
-
-        </div>
-        </div>
 
         <label_h1>WIDGETS</label_h1>
 
@@ -1345,14 +1360,121 @@
                 <!-- Save button -->
                 <button id="fic_save_btn2" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save FIC">💾</button>
                 <!-- Clean Button -->
-                <button id="fic_clearn_btn2" onclick="fic_clean('ARRIVAL')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Create new FIC">🧹</button>
+                <button id="fic_clean_btn2" onclick="fic_clean('ARRIVAL')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Create new FIC">🧹</button>
             </div>
 
         </div>
         </div>
 
 
-        <!-- METAR Information -->
+        <!--RUNWAY ARRIVAL-->
+        <div class="collapsible" data-title="RUNWAY">
+        <div class="collapsible-header" id="ARRIVAL_RUNWAY_MENU"></div>
+        <div class="collapsible-content">
+
+            <div class="wind-grid">
+                <div id="ARRIVAL_RUNWAY_MESSAGE"></div>
+            </div>
+
+            <div class="border-round-eged">
+                <div class="wind-grid">
+                    <div class="tile">
+                        <input id="ARRIVAL_RUNWAY_LENGTH"
+                                type="text" class="tile-value" title="Set the runway length (ft)."
+                                style="font-size: 32px; font-family: 'Aeroport', 'Aviation', 'Consolas', 'Monaco', 'Menlo', 'Liberation Mono', 'Courier New', monospace; letter-spacing: 2px; text-align: center; height: 64px; line-height: 64px;">
+                        <span class="tile-label">
+                            Runway Length (ft)
+                        </span>
+                    </div>
+                    <div class="tile">
+                        <input id="ARRIVAL_RUNWAY_NR"
+                                type="text" class="tile-value" title="Set the runway number."
+                                style="font-size: 32px; font-family: 'Aeroport', 'Aviation', 'Consolas', 'Monaco', 'Menlo', 'Liberation Mono', 'Courier New', monospace; letter-spacing: 2px; text-align: center; height: 64px; line-height: 64px;">
+                        <span class="tile-label">
+                            Runway Nr.
+                        </span>
+
+                        <div class="wind-grid" style="display: flex; align-items: center; gap: 8px;">
+                            <!-- Delete Button -->
+                            <button id="runway_delete_btn" onclick="runwayDelete('ARRIVAL')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Delete Runway">🗑️</button>
+                            <!-- Spinner -->
+                            <select id="ARRIVAL_RUNWAY_SPINNER" class="tile-value-dropdown" style="flex: 1; font-size: 12px; font-weight: normal;">
+                                <option value="">Select and Load</option>
+                            </select>
+                            <!-- Save button -->
+                            <button id="runway_save_btn" onclick="runwaySave('ARRIVAL')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Save Runway">💾</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="wind-grid">
+                    <div class="tile" style="text-align: center;">
+                        <input id="ARRIVAL_RUNWAY_SLOPE" type="text" class="tile-value">
+                        <span class="tile-label" style="text-align: center;">Slope (°)</span>
+                    </div>
+                    <div class="tile">
+                        <input id="ARRIVAL_ELEVATION" type="text" class="tile-value" title="Aerodrome elevation (ft).">
+                        <span class="tile-label">Elevation (ft)</span>
+                    </div>
+                </div>
+
+                <div class="wind-grid">
+                    <div class="tile" style="text-align: center;">
+                        <select id="ARRIVAL_RUNWAY_SURFACE" class="tile-value-dropdown" style="text-align: left; background: transparent; ">
+                            <option value="">Select</option>
+                            <option value="hard">Hard</option>
+                            <option value="soft">Soft</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <span class="tile-label" style="text-align: center;">Surface</span>
+                    </div>
+                    <div class="tile" style="text-align: center;">
+                        <select id="ARRIVAL_RUNWAY_SLIPPERY" class="tile-value-dropdown" style="text-align: left; background: transparent; ">
+                            <option value="">Select</option>
+                            <option value="dry">Dry</option>
+                            <option value="wet">Wet</option>
+                        </select>
+                        <span class="tile-label" style="text-align: center;">Condition</span>
+                    </div>
+                </div>
+
+                <textarea id="ARRIVAL_RUNWAY_CONDITION" class="tile-value" title="Runway condition." style="background-color: transparent; font-size: 12px; font-weight: normal; resize: vertical; min-height: 32px; max-height: 80px; width: 100%; box-sizing: border-box; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; margin-top: 10px;"></textarea>
+
+                 <button id="ARRIVAL_LOAD_DEFAULTS" onclick="window.setRunwaySurface('ARRIVAL', true); window.displayRunwayMain('ARRIVAL')"
+                     title="Load the default runway information."
+                     style="background-color: transparent; border: none; width: 10px; padding: 1px; cursor: pointer;">🔄
+                 </button>
+                 <button onclick="window.save_aerodrome_to_json('ARRIVAL')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
+            </div>
+
+
+           <div class="border-round-eged">
+                <div class="wind-grid">
+                    <!--<div id="ARRIVAL_RUNWAY_MINDISTANCE"></div>-->
+                    <div id="ARRIVAL_RUNWAY_THRESHOLD"></div>
+                    <div id="ARRIVAL_RUNWAY_THRESHOLD_50ft"></div>
+                </div>
+
+                <div id="ARRIVAL_RUNWAY_PLOT"></div>
+           </div>
+
+           <div class="border-round-eged">
+                <div class="wind-grid">
+                    <div id="ARRIVAL_RUNWAY_TABLE"></div>
+                </div>
+
+           </div>
+
+           <!-- Add a button to calculate -->
+           <button class="button-style" onclick="window.requireSubscription('Runway Performance', null, true); window.displayRunwayMain('ARRIVAL')">
+               Calculate Runway Performance
+           </button>
+
+        </div>
+        </div>
+
+        <!-- WIND ENVELOPE -->
         <div class="collapsible" data-title="WIND ENVELOPE">
         <div class="collapsible-header" id="ARRIVAL_WIND_MENU"></div>
         <div class="collapsible-content">
@@ -1478,101 +1600,6 @@
        </div>
        </div>
 
-
-       <!--RUNWAY ARRIVAL-->
-       <div class="collapsible" data-title="RUNWAY">
-       <div class="collapsible-header" id="ARRIVAL_RUNWAY_MENU"></div>
-       <div class="collapsible-content">
-
-           <div class="wind-grid">
-               <div id="ARRIVAL_RUNWAY_MESSAGE"></div>
-           </div>
-
-           <div class="border-round-eged">
-               <div class="wind-grid">
-                   <div class="tile">
-                       <input id="ARRIVAL_RUNWAY_LENGTH"
-                               type="text" class="tile-value" title="Set the runway length (ft)."
-                               style="font-size: 32px; font-family: 'Aeroport', 'Aviation', 'Consolas', 'Monaco', 'Menlo', 'Liberation Mono', 'Courier New', monospace; letter-spacing: 2px; text-align: center; height: 64px; line-height: 64px;">
-                       <span class="tile-label">
-                           Runway Length (ft)
-                       </span>
-                   </div>
-                   <div class="tile">
-                       <input id="ARRIVAL_RUNWAY_NR"
-                               type="text" class="tile-value" title="Set the runway number."
-                               style="font-size: 32px; font-family: 'Aeroport', 'Aviation', 'Consolas', 'Monaco', 'Menlo', 'Liberation Mono', 'Courier New', monospace; letter-spacing: 2px; text-align: center; height: 64px; line-height: 64px;">
-                       <span class="tile-label">
-                           Runway Nr.
-                       </span>
-                   </div>
-               </div>
-
-               <div class="wind-grid">
-                   <div class="tile" style="text-align: center;">
-                       <input id="ARRIVAL_RUNWAY_SLOPE" type="text" class="tile-value">
-                       <span class="tile-label" style="text-align: center;">Slope (°)</span>
-                   </div>
-                   <div class="tile">
-                       <input id="ARRIVAL_ELEVATION" type="text" class="tile-value" title="Aerodrome elevation (ft).">
-                       <span class="tile-label">Elevation (ft)</span>
-                   </div>
-               </div>
-
-               <div class="wind-grid">
-                   <div class="tile" style="text-align: center;">
-                       <select id="ARRIVAL_RUNWAY_SURFACE" class="tile-value-dropdown" style="text-align: left; background: transparent; ">
-                           <option value="">Select</option>
-                           <option value="hard">Hard</option>
-                           <option value="soft">Soft</option>
-                           <option value="other">Other</option>
-                       </select>
-                       <span class="tile-label" style="text-align: center;">Surface</span>
-                   </div>
-                   <div class="tile" style="text-align: center;">
-                       <select id="ARRIVAL_RUNWAY_SLIPPERY" class="tile-value-dropdown" style="text-align: left; background: transparent; ">
-                           <option value="">Select</option>
-                           <option value="dry">Dry</option>
-                           <option value="wet">Wet</option>
-                       </select>
-                       <span class="tile-label" style="text-align: center;">Condition</span>
-                   </div>
-               </div>
-
-               <textarea id="ARRIVAL_RUNWAY_CONDITION" class="tile-value" title="Runway condition." style="background-color: transparent; font-size: 12px; font-weight: normal; resize: vertical; min-height: 32px; max-height: 80px; width: 100%; box-sizing: border-box; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; margin-top: 10px;"></textarea>
-
-                <button id="ARRIVAL_LOAD_DEFAULTS" onclick="window.setRunwaySurface('ARRIVAL', true); window.displayRunwayMain('ARRIVAL')"
-                    title="Load the default runway information."
-                    style="background-color: transparent; border: none; width: 10px; padding: 1px; cursor: pointer;">🔄
-                </button>
-                <button onclick="window.save_aerodrome_to_json('ARRIVAL')" title="Save custom aerodrome information" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">💾</button>
-           </div>
-
-
-          <div class="border-round-eged">
-               <div class="wind-grid">
-                   <!--<div id="ARRIVAL_RUNWAY_MINDISTANCE"></div>-->
-                   <div id="ARRIVAL_RUNWAY_THRESHOLD"></div>
-                   <div id="ARRIVAL_RUNWAY_THRESHOLD_50ft"></div>
-               </div>
-
-               <div id="ARRIVAL_RUNWAY_PLOT"></div>
-          </div>
-
-          <div class="border-round-eged">
-               <div class="wind-grid">
-                   <div id="ARRIVAL_RUNWAY_TABLE"></div>
-               </div>
-
-          </div>
-
-          <!-- Add a button to calculate -->
-          <button class="button-style" onclick="window.requireSubscription('Runway Performance', null, true); window.displayRunwayMain('ARRIVAL')">
-              Calculate Runway Performance
-          </button>
-
-       </div>
-       </div>
 
 
        <label_h1>WIDGETS</label_h1>
@@ -3066,7 +3093,7 @@ if ('serviceWorker' in navigator) {
 
             'ARRIVAL_RUNWAYS': '',                # All available Runways
             'ARRIVAL_RUNWAY_PROPERTIES': '',      # The runway properties
-            'ARRIVAL_RUNWAY_NR': '',                 # GUI - The user selected Runway
+            'ARRIVAL_RUNWAY_NR': '',              # GUI - The user selected Runway
             'ARRIVAL_RUNWAY_LENGTH': '',          # GUI - The length of the Runway
             'ARRIVAL_RUNWAY_SLOPE': '',           # GUI - The slope of the runway
             'ARRIVAL_RUNWAY_SURFACE': '',         # GUI - The surface of the Runway
@@ -3858,6 +3885,11 @@ if ('serviceWorker' in navigator) {
         print(f'>func: import_country_selected({fname}, {country})')
         zip_bytes = None
 
+        if country.lower() == 'select country':
+            spinner = js.document.getElementById('loading-spinner')
+            if spinner: spinner.style.display = 'none'
+            return
+
         try:
             url = js.window.URL_AERODROMES + country.replace(' ', '_') + ".zip"
             zip_bytes = await load_cached_zip(f"aerodrome_{country}", url)
@@ -3994,7 +4026,7 @@ if ('serviceWorker' in navigator) {
         if load_from_cache:
             isLoaded = await load_aerodrome_from_json(fname.upper(), icao=city_icao, verbose='silent')
             if isLoaded:
-                print(f"   >✅ Aerodrome is loaded from cache! <do not retrieve any other data>")
+                print(f"   >✅ Aerodrome: {fname}-{city_icao} is loaded from cache! <do not retrieve any other data>")
                 return
 
         # Get the stored dataframe
@@ -4017,8 +4049,10 @@ if ('serviceWorker' in navigator) {
 
         # Get runway data
         rwy_ids, rwy_list = retrieve_runways(row_dict)
-        #print('HERE')
+        #print('HERE4')
         #print(row_dict)
+        #print(row_dict['runways'])
+
 
         # Store data
         CTR_BOOL = row_dict['AERODROME_CTR']
@@ -4104,6 +4138,8 @@ if ('serviceWorker' in navigator) {
         js.window.setRunwaySurface(fname)
         # Compute Runway stats
         js.window.displayRunwayMain(fname)
+        # Populate the runway spinner
+        js.window.runwayPopulateSpinner(fname)
         # Update missing fields
         js.window.highlightMissingFields()
         js.window.highlightDropdownMenus(fname)
@@ -4629,7 +4665,7 @@ if ('serviceWorker' in navigator) {
         """Retrieve all available runways based on aerodrome ICAO."""
         runways = []
         if data is not None:
-            runways = [num for rwy in data for num in rwy.get("number", [])]
+            runways = [str(num) for rwy in data for num in rwy.get("number", [])]
             runways = list(filter(lambda x: x != '', runways))
 
         # Return
@@ -4837,7 +4873,7 @@ if ('serviceWorker' in navigator) {
             return
 
         # Confirm deletion
-        if not js.window.confirm(f"Are you sure you want to delete '{plan_name}'?"):
+        if not js.window.confirm(f"⚠️ Are you sure you want to delete '{plan_name}'?"):
             print("❌ Deletion cancelled")
             return
 
@@ -4888,7 +4924,7 @@ if ('serviceWorker' in navigator) {
             return
 
         # Confirm deletion
-        if not js.window.confirm(f"Are you sure you want to delete '{user_selection}'?"):
+        if not js.window.confirm(f"⚠️ Are you sure you want to delete '{user_selection}'?"):
             print("❌ Deletion cancelled")
             return
 
@@ -5122,6 +5158,7 @@ if ('serviceWorker' in navigator) {
     async def load_aerodrome_from_json(fname, elementId=None, icao=None, updateWaypoints=True, verbose='info'):
         # Load aerodrome data for departure or arrival from localStorage.
         print(f'> func: load_aerodrome_from_json({fname})')
+        #return False
 
         # Get element ID for ICAO
         if elementId is None: elementId = f'{fname}_ICAO'
@@ -5144,8 +5181,15 @@ if ('serviceWorker' in navigator) {
                 json_data = json_data.replace(fname_opposite, fname)
 
         if json_data:
-            # Use the user saved aerodrome data
-            pass
+            # Parse JSON
+            fname_dict = json.loads(json_data)
+            # Check whether json is corrupted.
+            if fname_dict[f'{fname}_ICAO_CITY'] == '':
+                print('Json data is corrupted <return>')
+                return False
+            else:
+                # Use the user saved aerodrome data
+                pass
         elif not json_data and js.window.flight_plan_data[f'{fname}_ICAO_CITY'] == '':
             # No saved aerodrome but also nothing selected
             # Clean all GUI fields
@@ -5247,6 +5291,8 @@ if ('serviceWorker' in navigator) {
         js.window.WeightBalanceMain(fname)
         # Compute Runway stats
         js.window.displayRunwayMain(fname);
+        # Populate the runway spinner
+        js.window.runwayPopulateSpinner(fname)
         # Update missing fields colors
         js.window.highlightMissingFields()
         js.window.highlightDropdownMenus()
@@ -5277,7 +5323,6 @@ if ('serviceWorker' in navigator) {
 
         # Now check again whether ICAO is updated
         icao_val = '' if icao_val is None else str(icao_val).strip()
-        #js.window.alert(f'{fname}:{icao_val}')
         if icao_val == '':
             if verbose == 'info': js.window.alert(f'To save the {fname} aerodrome, please fill in a ICAO name first.')
             print(f'To save the {fname} aerodrome, please fill in a ICAO name first. <return>')
@@ -5300,23 +5345,14 @@ if ('serviceWorker' in navigator) {
                 if field_value and str(field_value) not in ('nan', 'None', ''):
                     dict_fname[key] = _safe_py(field_value)
 
-        # Only keep unique runway numbers in the RUNWAYS list
-        runway = dict_fname.get(f"{fname}_RUNWAY_NR") or ''
-        key = f"{fname}_RUNWAYS"
+        #####################################
         # Ensure RUNWAYS exists and is a list
-        if key not in dict_fname or not isinstance(dict_fname.get(key), list):
-            dict_fname[key] = []
-        # Normalize runway value (handle JS proxies and None)
-        try:
-            if hasattr(runway, "to_py"):
-                runway = runway.to_py()
-        except Exception:
-            pass
-        runway = '' if runway is None else str(runway).strip()
-        if runway != '' and runway not in dict_fname[key]:
-            dict_fname[key].append(runway)
+        #####################################
+        window.runwaySave(fname, 'silent')
 
+        #####################################
         # Save to cache
+        #####################################
         flight_icao_for_msg = flight_data.get(f'{fname}_ICAO') or ''
         message = f"✅ Custom {fname.lower()} field information for {flight_icao_for_msg} is saved."
         print(f'   >{message}')
@@ -7878,19 +7914,6 @@ if ('serviceWorker' in navigator) {
             });
         };
     })();
-
-    function fic_clean(prefix) {
-      document.getElementById(`${prefix}_FIC_NAME`).value = '';
-      document.getElementById(`${prefix}_FIC_FREQUENCY`).value = '';
-      document.getElementById(`${prefix}_OVERHEAD`).value = '';
-      document.getElementById(`${prefix}_SQUAWK`).value = '';
-      // Clean spinner
-      const spinnerId = prefix === 'DEPARTURE' ? 'fic_spinner' : 'fic_spinner2';
-      document.getElementById(spinnerId).value = '';
-      // Highlight missing fields
-      highlightMissingFields();
-      updateFICmenuColor(prefix);
-    }
 
   </script>
 
