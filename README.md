@@ -249,8 +249,8 @@ Unauthorized copying, modification, or distribution of this software, via any me
 
 ## 👤 Author
 
-**Erdogan Taskesen**
-Email: erdogant@gmail.com
+**Erdogan**
+Email: support@skywalkflight.com
 Year: 2024-2025
 
 ---
@@ -259,7 +259,7 @@ Year: 2024-2025
 
 For questions, bug reports, or feature requests:
 - **Documentation**: [https://skywalk-platform.github.io/docs/](https://skywalk-platform.github.io/docs/)
-- **Email**: erdogant@gmail.com
+- **Email**: support@skywalkflight.com
 
 ---
 
