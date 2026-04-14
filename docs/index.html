@@ -111,6 +111,7 @@
     <script src="./scripts/tutorial.js" defer></script>
     <script src="./scripts/aircraft.js" defer></script>
     <script src="./scripts/various.js" defer></script>
+    <script src="./scripts/navlog.js" defer></script>
 
     <script src="./scripts/clickevents.js" defer></script>
 
@@ -1791,8 +1792,27 @@
                 </div>
             </div>
 
-        <!--</div>-->
         </div>
+
+        
+        <div class="divider-general-section" style="background: #f5f5f5;"></div>
+        
+        <div class="border-round-eged">
+            <div class="wind-grid">
+                <div class="tile" style="border: none;">
+                    <input id="ATC_LEGINFO_MIN_DISTANCE" type="number" class="tile-value" min="0" step="0.1" value="5">
+                    <span class="tile-label">Min Leg Distance (NM)</span>
+                </div>
+                <div class="tile" style="border: none; display: flex; align-items: end;">
+                    <button id="BTN_ATC_LEGINFO_TABLE" style="width: 100%;">Generate Enroute Leg Table</button>
+                </div>
+                <div class="tile" style="border: none; display: flex; align-items: end;">
+                    <button id="BTN_ATC_LEGINFO_PRINT" style="width: 100%;">Print Leg Table</button>
+                </div>
+            </div>
+            <div id="ATC_LEGINFO_TABLE_CONTAINER" style="margin-top: 10px;"></div>
+        </div>
+
 
         <div class="border-round-eged">
             <div class="disclaimer">
@@ -1859,7 +1879,8 @@
                 <button id="BTN_HTML_ENROUTE">Enroute ATC</button>
                 <button id="BTN_HTML_EN_REV">Reverse</button>
             </div>
-       </div>
+
+        </div>
 
     </div>
 
@@ -4145,8 +4166,11 @@ if ('serviceWorker' in navigator) {
 
         # Update images for aerodrome
         await update_aerodrome_image(fname)
-        # Retrieve METAR
-        await js.window.retrieve_metar(fname)
+        # Retrieve METAR (never block aerodrome loading on METAR fetch errors)
+        try:
+            await js.window.retrieve_metar(fname)
+        except Exception as e:
+            print(f"   >⚠️ METAR retrieval failed during populate: {e}")
 
         # Update weight and balance
         js.window.aircraft_populate_js();
@@ -4596,10 +4620,16 @@ if ('serviceWorker' in navigator) {
             if not response:
                 print(f"  📥 Image not cached, downloading: {url}")
                 response = await js.fetch(url)
+                # Guard against invalid/undefined fetch responses in Pyodide
+                if not response or not hasattr(response, "ok"):
+                    print(f"  ❌ Invalid fetch response for image: {url}")
+                    return False
+
                 if response.ok:
                     await cache.put(url, response.clone())
                 else:
-                    print(f"  ❌ Failed to fetch image: {response.status}")
+                    status = response.status if hasattr(response, "status") else "unknown"
+                    print(f"  ❌ Failed to fetch image: {status}")
                     return False
             else:
                 print(f"  📦 Loaded from cache: {url}")
@@ -4613,7 +4643,6 @@ if ('serviceWorker' in navigator) {
 
         except Exception as e:
             print(f"  ❌ Error caching/displaying image: {e}")
-            raise
             return False
 
 
@@ -5123,8 +5152,12 @@ if ('serviceWorker' in navigator) {
         # Remove runway plot (initialize newly)
         js.window.cleanRunwayFields(fname, 'empty')
 
-        # Retrieve METAR data during loading of the aerodrome
-        await js.window.retrieve_metar(fname, verbose=verbose)
+        # Retrieve METAR data during loading of the aerodrome.
+        # Keep loading resilient if external METAR sources fail.
+        try:
+            await js.window.retrieve_metar(fname, verbose=verbose)
+        except Exception as e:
+            print(f"   >⚠️ METAR retrieval failed during cache load: {e}")
 
         # Initialize the waypoints when both Departure and arrival location are set.
         icao_dep = js.document.getElementById('DEPARTURE_ICAO')
