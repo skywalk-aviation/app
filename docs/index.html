@@ -376,9 +376,6 @@
                     </div>
 
                     <div class="divider-general-section">
-                        <!--<svg class="divider-plane-line" viewBox="0 0 24 2" xmlns="http://www.w3.org/2000/svg">
-                          <line x1="0" y1="1" x2="24" y2="1" stroke="#f0f0f0" stroke-width="2"/>
-                        </svg>-->
                         <!-- Load progress bar – shown only while ARRIVAL_ICAO is loading -->
                         <div id="flightplan_load_progress_track" style="display:none; height:4px; width:100%; background:#e0e0e0; border-radius:2px; margin-top:3px; overflow:hidden;">
                             <div id="flightplan_load_progress_bar" style="height:100%; width:0%; background:#006280; border-radius:2px; transition:width 0.25s ease;"></div>
@@ -570,7 +567,7 @@
 
             <div class="button-row">
                 <img id="DEPARTURE_FLAG_1" src="" alt="" style="width:30px; height:auto; vertical-align:middle; margin-left:6px;">
-                <img id="DEPARTURE_CATAGORY_ICON" src="" alt="" style="width:35px; height:auto; vertical-align:middle; margin-left:6px;">
+                <img id="DEPARTURE_CATEGORY_ICON" src="" alt="" style="width:35px; height:auto; vertical-align:middle; margin-left:6px;">
                 <img id="DEPARTURE_VFR_ICON" src="" alt="" style="width:70px; height:auto; vertical-align:middle; margin-left:6px;">
                 <img id="DEPARTURE_METAR_WARNING" src="" alt="" style="width:70px; height:auto; vertical-align:middle; margin-left:6px;">
             </div>
@@ -1143,7 +1140,7 @@
 
             <div class="button-row">
                 <img id="ARRIVAL_FLAG_1" src="" alt="" style="width:30px; height:auto; vertical-align:middle; margin-left:6px;">
-                <img id="ARRIVAL_CATAGORY_ICON" src="" alt="" style="width:35px; height:auto; vertical-align:middle; margin-left:6px;">
+                <img id="ARRIVAL_CATEGORY_ICON" src="" alt="" style="width:35px; height:auto; vertical-align:middle; margin-left:6px;">
                 <img id="ARRIVAL_VFR_ICON" src="" alt="" style="width:70px; height:auto; vertical-align:middle; margin-left:6px;">
                 <img id="ARRIVAL_METAR_WARNING" src="" alt="" style="width:70px; height:auto; vertical-align:middle; margin-left:6px;">
             </div>
@@ -1676,152 +1673,166 @@
 
     <!-- =============== TAB ENROUTE =============== -->
     <div id="Enroute" class="tabcontent">
-        <!-- =============== TAB MAP =============== -->
-        <!--<div id="map-gui-container"></div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-            fetch('mapGUI.html')
-                .then(response => response.text())
-                .then(html => {
-                document.getElementById('map-gui-container').innerHTML = html;
-                });
-            });
-        </script>-->
-
 
         <!-- =============== TAB MAP =============== -->
 
         <label_h1>MAP</label_h1>
+        <!-- DISCLAIMER -->
         <div class="border-round-eged">
-
-        <!--<div class="collapsible" data-title="MAP Settings">
-        <div class="collapsible-header" id="MAP_CONFIG_MENU_TOP"></div>
-        <div class="collapsible-content" id="MAP_CONFIG_MENU_BACKGROUND">-->
-
-            <div class="wind-grid">
-                <select id="layer-select" class="tile-value-dropdown">
-                    <option value="OpenStreetMap">OpenStreetMap</option>
-                    <option value="EsriWorldStreetMap">EsriWorldStreetMap</option>
-                    <option value="CartoVoyager">CartoVoyager</option>
-                    <!--<option value="MapTiler">MapTiler</option>-->
-                </select>
-            </div>
-
-            <div class="wind-grid">
-                <label><input type="checkbox" id="aviation-toggle" checked>Airports</label>
-                <label><input type="checkbox" id="airspace-toggle" checked>Airspaces</label>
-                <label><input type="checkbox" id="danger-toggle" unchecked>Danger</label>
-            </div>
-            <!--<div class="wind-grid">
-            </div>-->
-            <div class="wind-grid">
-                <label><input type="checkbox" id="prohibited-toggle" unchecked>Prohibited</label>
-                <label><input type="checkbox" id="TMZ-toggle" unchecked>TMZ</label>
-                <label><input type="checkbox" id="CTA_TMA-toggle" unchecked>CTA/TMA</label>
-            </div>
-
-            <div class="divider-general-section" style="background: #ffffff"></div>
-
-            <div class="wind-grid" style="display: flex; align-items: center; gap: 8px;">
-                <label><input type="checkbox" id="metar-toggle">METAR Stations</label>
-                <button id="refresh-metar-btn" onclick="window.refreshMetarData()" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;" title="Update METAR data">🔄</button>
-
-                <div style="display: flex; align-items: center; margin-top: 5px;">
-                    <label style="margin-right: 5px;">Show only the relevant airpsaces at altitude (ft):</label>
-                    <input type="number" id="airspace-altitude" value="1500" min="150" max="10000" step="150" style="width: 80px;">
-                </div>
-            </div>
-
-            <div class="divider-general-section" style="background: #ffffff"></div>
-
-
-            <div class="section-title" style="margin-top: 18px;">Circuit pattern (Arrival)</div>
-            <div class="wind-grid">
-                <select id="ARRIVAL_CIRCUIT_DIRECTION" class="tile-value-dropdown" style="flex: 1; font-size: 12px; font-weight: normal;">
-                    <option value="north">North</option>
-                    <option value="south">South</option>
-                </select>
-                <select id="ARRIVAL_CIRCUIT_SIZE" class="tile-value-dropdown" style="flex: 1; font-size: 12px; font-weight: normal;">
-                    <option value="direct" selected>Direct</option>
-                    <option value="standard" selected>Standard pattern</option>
-                    <option value="circuit">Circuit pattern</option>
-                    <option value="wide">Wide pattern</option>
-                </select>
-            </div>
-            <div class="wind-grid">
-                <button id="add-circuit-pattern-btn" class="button-style" onclick="window.initCircuitPatterns()">Add circuit pattern</button>
-                <button id="reset-circuit-pattern-btn" class="button-style" onclick="window.resetRoute()">Remove circuit pattern</button>
+            <div class="disclaimer">
+                The airspace projections and navigation logs are based on data that can be outdated or inaccurate.
+                Do not navigate using the map but only use it for educational purposes.
             </div>
         </div>
-        <!--</div>
-        </div>-->
 
-        <!--<div class="divider-general-section" style="background: #ffffff"></div>-->
-<!--
-        <div class="collapsible" data-title="🗺️ MAP">
-        <div class="collapsible-header" id="MAP_MENU_TOP"></div>
-        <div class="collapsible-content" id="MAP_MENU_BACKGROUND">-->
+        <div id="MAP_INFOFIELD"
+            style="margin-top:12px;padding:10px;border-radius:8px;font-size:14px;text-align:center;display:none;">
+        </div>
+
+
         <div class="border-round-eged">
+            <div id="map-container" style="height:700px; position:relative;">
+                <div id="route-map" style="height:100%;"></div>
 
-            <div id="map-container" style="height: 700px;">
-                <div id="route-map" style="height: 100%;"></div>
-                <div class="map-controls" style="position: absolute; top: 10px; right: 10px; background: none; padding: 0; z-index: 2000;">
-                    <button id="fullscreen-btn" onclick="toggleFullscreen()" style="width: 44px; height: 44px; padding: 0; background: white; border: 2px solid rgba(0,0,0,0.2); border-radius: 4px; cursor: pointer; touch-action: manipulation;">
-                        <svg class="fullscreen-enter" viewBox="0 0 24 24" style="width: 24px; height: 24px; margin: 8px;">
+                <div class="map-controls" style="position:absolute;top:10px;right:10px;background:none;padding:0;z-index:2000;">
+                    <button id="fullscreen-btn" onclick="toggleFullscreen()"
+                        style="width:44px;height:44px;padding:0;background:white;border:2px solid rgba(0,0,0,0.2);border-radius:4px;cursor:pointer;touch-action:manipulation;">
+                        <svg class="fullscreen-enter" viewBox="0 0 24 24" style="width:24px;height:24px;margin:8px;">
                             <path d="M7,14H5v5h5v-2H7V14z M5,10h2V7h3V5H5V10z M17,17h-3v2h5v-5h-2V17z M14,5v2h3v3h2V5H14z"/>
                         </svg>
-                        <svg class="fullscreen-exit" viewBox="0 0 24 24" style="width: 24px; height: 24px; margin: 8px; display: none;">
+                        <svg class="fullscreen-exit" viewBox="0 0 24 24" style="width:24px;height:24px;margin:8px;display:none;">
                             <path d="M5,16h3v3h2v-5H5V16z M8,8H5v2h5V5H8V8z M14,19h2v-3h3v-2h-5V19z M16,8V5h-2v5h5V8H16z"/>
                         </svg>
                     </button>
                 </div>
             </div>
 
-            <div class="divider-general-section" style="background: #ffffff"></div>
+            <div class="divider-general-section" style="background:#ffffff"></div>
 
             <div class="divider-general-section">
-                <svg class="divider-plane" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg class="divider-plane" viewBox="0 0 24 24">
                     <path fill="#666" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
                 </svg>
             </div>
+
             <div class="distance-section">
                 <div class="distance-info">
-                    <span style="white-space: nowrap;"><span id="distance-km">0</span> km</span> |
-                    <span style="white-space: nowrap;"><span id="flying-minutes">0</span> min</span> |
+                    <span><span id="distance-km">0</span> km</span> |
+                    <span><span id="flying-minutes">0</span> min</span> |
                     <span id="departure-time">00:00</span> →
                     <span id="arrival-time">00:00</span>
                 </div>
             </div>
-
         </div>
 
-        <div class="divider-general-section" style="background: #f5f5f5;"></div>
 
         <div class="border-round-eged">
+            <div id="NAVLOG_TABLE"
+                style="margin-top:12px;padding:10px;border-radius:8px;font-size:14px;text-align:center;display:none;">
+            </div>
+            <div class="wind-grid">
+                <button onclick="buildNavlogTable('silent')" class="button-style">Update navigation table</button>
+                <button onclick="saveLegInfo()" class="button-style">Save table</button>
+            </div>
+        </div>
+
+
+        <!-- NAVLOG CREATION -->
+        <!-- MAP SETTINGS PANEL -->
+        <div class="collapsible" data-title="CIRCUIT">
+        <div class="collapsible-header" id="ENROUTE_CIRCUIT_MENU"></div>
+        <div class="collapsible-content" id="ENROUTE_CIRCUIT_BACKGROUND">
+
+            <div class="button-row">
+                <select id="ARRIVAL_CIRCUIT_DIRECTION" class="tile-value-dropdown" style="flex:1;font-size:12px;font-weight:normal;">
+                    <option value="north">North</option>
+                    <option value="south">South</option>
+                </select>
+
+                <select id="ARRIVAL_CIRCUIT_SIZE" class="tile-value-dropdown" style="flex:1;font-size:12px;font-weight:normal;">
+                    <option value="direct">Direct</option>
+                    <option value="standard" selected>Standard circuit pattern</option>
+                    <option value="circuit">Training circuit pattern</option>
+                    <option value="wide">Wide pattern</option>
+                </select>
+
+                <!--Add circuit pattern-->
+                <button id="add-circuit-pattern-btn" class="button-style" onclick="window.initCircuitPatterns()">Add circuit pattern</button>
+                <!-- Clean Button -->
+                <button id="reset-circuit-pattern-btn" onclick="resetRoute()" title="Remove circuit pattern" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 0 8px 4px; flex: 0 0 auto; cursor: pointer;">🧹</button>
+            </div>
+
+        </div>
+        </div>
+
+
+
+        <!-- MAP SETTINGS PANEL -->
+        <div class="collapsible" data-title="MAP-SETTINGS">
+        <div class="collapsible-header" id="ENROUTE_MAPSETTINGS_MENU"></div>
+        <div class="collapsible-content" id="ENROUTE_MAPSETTINGS_BACKGROUND">
+
+            <div class="wind-grid">
+                <select id="layer-select" class="tile-value-dropdown">
+                    <option value="OpenStreetMap">OpenStreetMap</option>
+                    <option value="EsriWorldStreetMap">EsriWorldStreetMap</option>
+                    <option value="CartoVoyager">CartoVoyager</option>
+                </select>
+            </div>
+
+            <div class="wind-grid">
+                <label><input type="checkbox" id="aviation-toggle" checked> Airports</label>
+                <label><input type="checkbox" id="airspace-toggle" checked> Airspaces</label>
+                <label><input type="checkbox" id="danger-toggle"> Danger</label>
+            </div>
+
+            <div class="wind-grid">
+                <label><input type="checkbox" id="prohibited-toggle"> Prohibited</label>
+                <label><input type="checkbox" id="TMZ-toggle"> TMZ</label>
+                <label><input type="checkbox" id="CTA_TMA-toggle"> CTA/TMA</label>
+            </div>
+
+            <div class="divider-general-section" style="background:#ffffff"></div>
+
+            <div class="wind-grid" style="display:flex;align-items:center;gap:8px;">
+                <label><input type="checkbox" id="metar-toggle"> METAR Stations</label>
+
+                <button id="refresh-metar-btn"
+                    onclick="window.refreshMetarData()"
+                    style="display:flex;justify-content:center;align-items:center;background:transparent;border:none;color:#666;cursor:pointer;width:30px;height:30px;"
+                    title="Update METAR data">🔄
+                </button>
+
+                <div style="display:flex;align-items:center;margin-top:5px;">
+                    <label style="margin-right:5px;">Show only relevant airspaces at altitude (ft):</label>
+                    <input type="number" id="airspace-altitude" value="1500" min="150" max="10000" step="150" style="width:80px;">
+                </div>
+            </div>
+
+        </div>
+        </div>
+
+
+        <div class="border-round-eged">
+
             <div class="wind-grid">
                 <div class="tile">
-                    <input id="NAVLOG_MIN_DISTANCE" type="number" class="tile-value" min="0" step="0.1" value="5">
-                    <span class="tile-label">Min Leg Distance (NM)</span>
+                    <input id="NAVLOG_MIN_DISTANCE" type="number" class="tile-value" min="0" step="1" value="0">
+                    <span class="tile-label">Minimum Leg Distance to show (NM)</span>
                 </div>
-                <button id="BTN_NAVLOG_TABLE" class="button-style">Generate NAVLOG Table</button>
+
+                <label style="display:flex;align-items:center;gap:4px;">
+                    <input type="checkbox" id="COMPAS_CHECKBOX" checked>
+                    <span style="font-size:12px;">Enable GPS compass</span>
+                </label>
             </div>
-        </div>
 
-        <div class="border-round-eged">
-            <div id="NAVLOG_TABLE_CONTAINER" style="margin-top: 10px;"></div>
-            <button id="BTN_NAVLOG_PRINT" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 4px 8px 0; flex: 0 0 auto; cursor: pointer; float: right;">🖨</button>
-        </div>
-
-        <div class="button-row" style="justify-content: center; align-items: center;">
-            <button id="BTN_FLIGHT_PAGES" class="button-style">Start NAVLOG</button>
-            <input type="checkbox" id="COMPAS_CHECKBOX" checked style="font-size: 10px;"> <span style="font-size: 12px;">Enable GPS compass</span>
-        </div>
-
-        <div class="border-round-eged">
-            <div class="disclaimer">
-                The airspace projections on the map are based on data that can be outdated or inaccurate. Do not navigate using the map but only use it for educational purposes.
+            <div class="wind-grid">
+                <button id="BTN_NAVLOG_START" class="button-style">Start NAVLOG</button>
             </div>
+
         </div>
+
     </div>
 
 
@@ -2107,7 +2118,7 @@
                 <!-- Remove Button -->
                 <button id="checklist_item_del_btn" onclick="window.checklist_update_catagories('drop')" style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; color: #666; cursor: pointer; width: 30px; height: 30px; margin-left: 4px;" title="Check the items then click this remove button to remove the items from the checklist.">➖</button>
                 <!-- Catagories -->
-                <select id="checklist_catagory_field" class="tile-value-dropdown">
+                <select id="checklist_category_field" class="tile-value-dropdown">
                     <option value="">Catagories</option>
                 </select>
                 <!-- Inputfield -->
@@ -3337,7 +3348,7 @@ if ('serviceWorker' in navigator) {
 
         # Get item name and category (normalize)
         itemName = js.document.getElementById('checklist_item_field').value.strip()
-        catName = js.document.getElementById('checklist_catagory_field').value.lower()
+        catName = js.document.getElementById('checklist_category_field').value.lower()
 
         # Shortcut to the checklist dict
         checklist = js.window.flight_plan_data['CHECKLIST']
@@ -3346,7 +3357,7 @@ if ('serviceWorker' in navigator) {
         if operation == 'add':
             # Validate category exists and is a dict
             if (catName not in checklist) or not isinstance(checklist[catName], dict):
-                js.window.alert(f"⚠️ Category '{catName}' does not exist or is not a valid category.")
+                js.window.alert(f"⚠️ category '{catName}' does not exist or is not a valid category.")
                 print(f"   > ⚠️ Category '{catName}' missing or invalid in CHECKLIST")
                 return
 
@@ -3359,7 +3370,7 @@ if ('serviceWorker' in navigator) {
                 print(f'    > Item "{itemName}" already exists in category: {catName}')
                 js.window.alert(f'⚠️ Item "{itemName}" already exists in category: {catName}')
             else:
-                # Add item to catagory
+                # Add item to category
                 checklist[catName][itemName] = False
                 print(f'    > Added "{itemName}" to category: {catName}')
                 js.document.getElementById('checklist_item_field').value = ''
@@ -3797,57 +3808,6 @@ if ('serviceWorker' in navigator) {
         js.window.flight_plan_data[f'{fname.upper()}_METAR_ICAO'] = ''
         print(f"🧹 Cleared METAR datetime for {fname}")
 
-
-    def haversine_distances(lat1, lon1, lats, lons):
-        distances = np.array(list(map(lambda x, y: haversine(lat1, lon1, x, y), lats, lons)))
-        return distances
-
-
-    def haversine(lat1, lon1, lat2, lon2):
-        """
-        Calculate the Haversine distance between two sets of latitude and longitude coordinates.
-
-        Parameters
-        ----------
-        lat1 : float
-            Latitude of the first point in degrees.
-        lon1 : float
-            Longitude of the first point in degrees.
-        lat2 : float
-            Latitude of the second point in degrees.
-        lon2 : float
-            Longitude of the second point in degrees.
-
-        Returns
-        -------
-        float
-            The Haversine distance between the two points in kilometers.
-
-        Example
-        -------
-        >>> haversine(37.7749, -122.4194, 34.0522, -118.2437)
-        >>> 616.7752155325443
-
-        """
-        # if (lat1 is None) or (lon1 is None) or (lat2 is None) or (lon2 is None):
-        #     print(lat1)
-        #     return None
-
-        R = 6371  # Radius of the Earth in kilometers
-
-        # Convert latitude and longitude from degrees to radians
-        lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
-
-        # Haversine formula
-        dlat = lat2 - lat1
-        dlon = lon2 - lon1
-        a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
-        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-
-        # Distance in kilometers
-        distance = R * c
-        return distance
-
     # ================================================
     # AIRSPACE HELPERS
     # ================================================
@@ -3856,6 +3816,10 @@ if ('serviceWorker' in navigator) {
     async def import_country_selected(fname, country, UNZIPK):
         print(f'>func: import_country_selected({fname}, {country})')
         zip_bytes = None
+
+        if country is None:
+            print('   >Country not found')
+            return None
 
         if country.lower() == 'select country':
             spinner = js.document.getElementById('loading-spinner')
@@ -4328,29 +4292,39 @@ if ('serviceWorker' in navigator) {
         print(f"   >✅ Updated {updated_count} GUI fields")
 
 
-    async def clear_enroute_fields():
-        """Clear all ENROUTE GUI fields and flight_plan_data"""
-        print('----> clear_enroute_fields()')
-        print("🧹 Clearing all ENROUTE fields...")
+    # async def clear_enroute_fields():
+        #"""Clear all ENROUTE GUI fields and flight_plan_data"""
+        # print('----> clear_enroute_fields()')
+        # print("🧹 Clearing all ENROUTE fields...")
 
         # Clear GUI fields
-        js.document.getElementById('DEPARTURE_FIC_NAME').value = ''
-        js.document.getElementById('DEPARTURE_FIC_FREQUENCY').value = ''
-        js.document.getElementById('DEPARTURE_OVERHEAD').value = ''
-        js.document.getElementById('DEPARTURE_SQUAWK').value = ''
-        js.document.getElementById('ARRIVAL_FIC_NAME').value = ''
-        js.document.getElementById('ARRIVAL_FIC_FREQUENCY').value = ''
-        js.document.getElementById('ARRIVAL_OVERHEAD').value = ''
-        js.document.getElementById('ARRIVAL_SQUAWK').value = ''
+        # Clean the navlog table
+        # el = js.document.getElementById('NAVLOG_TABLE');
+        # el.innerHTML = "";
+        # el.style.display = "none";
+
+        # Clean the navlog circuit information text
+        # el = js.document.getElementById('MAP_INFOFIELD');
+        # el.innerHTML = "";
+        # el.style.display = "none";
+
+        # js.document.getElementById('DEPARTURE_FIC_NAME').value = ''
+        # js.document.getElementById('DEPARTURE_FIC_FREQUENCY').value = ''
+        # js.document.getElementById('DEPARTURE_OVERHEAD').value = ''
+        # js.document.getElementById('DEPARTURE_SQUAWK').value = ''
+        # js.document.getElementById('ARRIVAL_FIC_NAME').value = ''
+        # js.document.getElementById('ARRIVAL_FIC_FREQUENCY').value = ''
+        # js.document.getElementById('ARRIVAL_OVERHEAD').value = ''
+        # js.document.getElementById('ARRIVAL_SQUAWK').value = ''
 
         # Clear enroute fields
-        enroute_keys = [
-            'DEPARTURE_FIC_NAME', 'DEPARTURE_FIC_FREQUENCY', 'DEPARTURE_OVERHEAD', 'DEPARTURE_SQUAWK',
-            'ARRIVAL_FIC_NAME', 'ARRIVAL_FIC_FREQUENCY', 'ARRIVAL_OVERHEAD', 'ARRIVAL_SQUAWK',
-        ]
+        # enroute_keys = [
+        #    'DEPARTURE_FIC_NAME', 'DEPARTURE_FIC_FREQUENCY', 'DEPARTURE_OVERHEAD', 'DEPARTURE_SQUAWK',
+        #    'ARRIVAL_FIC_NAME', 'ARRIVAL_FIC_FREQUENCY', 'ARRIVAL_OVERHEAD', 'ARRIVAL_SQUAWK',
+        #]
 
-        for key in enroute_keys:
-            js.window.flight_plan_data[key] = ''
+        # for key in enroute_keys:
+        #    js.window.flight_plan_data[key] = ''
 
 
     async def clear_aerodrome_fields(fname, clearAircraftFields=True):
@@ -4389,6 +4363,10 @@ if ('serviceWorker' in navigator) {
             f'{fname}_WIND_STRENGTH',
             f'{fname}_WIND_GUST',
             f'{fname}_WIND_VARIATION',
+            f'{fname}_FIC_NAME',
+            f'{fname}_FIC_FREQUENCY',
+            f'{fname}_OVERHEAD',
+            f'{fname}_SQUAWK',
             # f'{fname}_WIND_HEADWIND',
             # f'{fname}_WIND_CROSSWIND',
             f'DATETIME-METAR-{fname}',
@@ -4459,6 +4437,7 @@ if ('serviceWorker' in navigator) {
             f'{fname}_CLOUD', f'{fname}_TIMEZONE', f'{fname}_ATC_TOWER',
             f'{fname}_ATC_ATIS_FREQ', f'{fname}_ATC_GROUND', f'{fname}_ATC_APPROACH',
             f'{fname}_ATC_TELEPHONE',
+            f'{fname}_FIC_NAME', f'{fname}_FIC_FREQUENCY', f'{fname}_OVERHEAD', f'{fname}_SQUAWK',
         ]
 
         if clearAircraftFields:
@@ -4489,7 +4468,7 @@ if ('serviceWorker' in navigator) {
         # Remove flag
         js.window.updateFlag(fname, 'remove')
         # Remove VFR icon
-        js.window.updateFlightCatagoryIcon(fname, remove=True)
+        js.window.updateFlightCategoryIcon(fname, remove=True)
         # Stop animations
         js.window.animations(fname, "stop")
         # Create cloud plot
@@ -4648,12 +4627,14 @@ if ('serviceWorker' in navigator) {
         await clear_general_fields()
         await clear_aerodrome_fields('DEPARTURE')
         await clear_aerodrome_fields('ARRIVAL')
-        await clear_enroute_fields()
+        # Clean the enroute GUI fields
+        js.window.clearEnrouteFields()
 
         # Populate with default items
         checklist_clean(verbose='silent')
         js.window.aircraftClean('silent')
 
+        # Clean various other GUI fields
         js.document.getElementById("CALLSIGN_LABEL").textContent = 'REGISTRATION'
         js.document.getElementById('DEPARTURE_CLOCK').value = '--:--'
         js.document.getElementById('ARRIVAL_CLOCK').value = '--:--'
@@ -4707,7 +4688,7 @@ if ('serviceWorker' in navigator) {
         await clear_general_fields()
         await clear_aerodrome_fields('DEPARTURE')
         await clear_aerodrome_fields('ARRIVAL')
-        await clear_enroute_fields()
+        js.window.clearEnrouteFields()
         js.window.cleanWindEnvelopeFields('DEPARTURE', 'empty');
         js.window.cleanWindEnvelopeFields('ARRIVAL', 'empty');
 
@@ -4897,9 +4878,14 @@ if ('serviceWorker' in navigator) {
         js.window.flight_plan_data['DATETIME_CREATION'] = 'FLIGHT PLAN (' + str(datetime.now().strftime('%d-%m-%Y %H:%M')) + ')'
         js.document.getElementById('DATETIME_CREATION').textContent = js.window.flight_plan_data["DATETIME_CREATION"]
 
+        #print(js.window.LEGINFO)
         # STORE GLOBAL VARIABLES
-        js.window.flight_plan_data['WAYPOINTS'] = js.window.waypoints;
-        js.window.flight_plan_data['LEGINFO'] = js.window.LEGINFO;
+
+        #flightplan_name = js.window.flight_plan_data["FLIGHTPLAN"]
+        #window.LEGINFO = js.localStorage.getItem(f'SKYWALK_NAVLOG_LEGINFO_{flightplan_name}');
+        #window.waypoints = js.localStorage.getItem(f'SKYWALK_NAVLOG_WAYPOINTS_{flightplan_name}');
+        #js.window.flight_plan_data['WAYPOINTS'] = js.window.waypoints;
+        #js.window.flight_plan_data['LEGINFO'] = js.window.LEGINFO;
 
         # ALL OTHER FIELDS SHOULD BE STORED ALREADY IN THE FLIGHTPLAN DATA
 
@@ -6255,7 +6241,7 @@ if ('serviceWorker' in navigator) {
 
     # CLEAR FIELDS
     js.window.clear_aerodrome_fields = clear_aerodrome_fields
-    js.window.clear_enroute_fields = clear_enroute_fields
+    #js.window.clear_enroute_fields = clear_enroute_fields
     js.window.cache_and_display_image = cache_and_display_image
 
     # DATA FUNCTIONS
@@ -6489,8 +6475,8 @@ if ('serviceWorker' in navigator) {
         updateFlag('DEPARTURE', 'remove');
         updateFlag('ARRIVAL', 'remove');
         // Clear the VFR icon
-        updateFlightCatagoryIcon('DEPARTURE', true);
-        updateFlightCatagoryIcon('ARRIVAL', true);
+        updateFlightCategoryIcon('DEPARTURE', true);
+        updateFlightCategoryIcon('ARRIVAL', true);
         // Remove the wind envelope plot
         cleanWindEnvelopeFields('DEPARTURE', 'empty');
         cleanWindEnvelopeFields('ARRIVAL', 'empty');
@@ -6616,6 +6602,8 @@ if ('serviceWorker' in navigator) {
             // CLEANING
             window.updateFlag('DEPARTURE', 'remove');
             window.updateFlag('ARRIVAL',   'remove');
+            // Clean Fields in ENROUTE-GUI page
+            window.clearEnrouteFields();
             // SET SPINNERS TO DEFAULT
             document.getElementById('DEPARTURE_ICAO_CITY').innerHTML = '<option value="">Select ICAO</option>';
             document.getElementById('ARRIVAL_ICAO_CITY').innerHTML  = '<option value="">Select ICAO</option>';
@@ -6630,6 +6618,12 @@ if ('serviceWorker' in navigator) {
                 loadProgress.done();
                 return;
             }
+
+            // const flightplan_name = window.flight_plan_data["FLIGHTPLAN"]
+            // const legInfo = localStorage.getItem(`SKYWALK_NAVLOG_LEGINFO_${flightplan_name}`);
+            // if (legInfo) window.LEGINFO = legInfo;
+            // const waypoints = localStorage.getItem(`SKYWALK_NAVLOG_WAYPOINTS_{flightplan_name}`);
+            // if (waypoints) window.waypoints = waypoints;
 
             try {
                 let fpDict = JSON.parse(jsonData);
@@ -6652,8 +6646,8 @@ if ('serviceWorker' in navigator) {
                 window.cleanRunwayFields('DEPARTURE', 'empty');
                 window.cleanRunwayFields('ARRIVAL',   'empty');
                 // Remove VFR icon
-                window.updateFlightCatagoryIcon('DEPARTURE', true);
-                window.updateFlightCatagoryIcon('ARRIVAL',   true);
+                window.updateFlightCategoryIcon('DEPARTURE', true);
+                window.updateFlightCategoryIcon('ARRIVAL',   true);
                 loadProgress.step();
 
                 // Update GUI FIELDS
@@ -6722,7 +6716,10 @@ if ('serviceWorker' in navigator) {
                 // Enable/disable ICAO fields
                 window.enableDisableICAOFields();
                 // Highlight missing fields
-                window.highlightMissingFields()
+                window.highlightMissingFields();
+                // Update NavlogTable
+                window.buildNavlogTable();
+                // Update step in progressbar
                 loadProgress.step();
 
                 // Done
