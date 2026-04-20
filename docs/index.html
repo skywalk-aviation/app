@@ -1731,7 +1731,7 @@
                 style="margin-top:12px;padding:10px;border-radius:8px;font-size:14px;text-align:center;display:none;">
             </div>
             <div class="wind-grid">
-                <button onclick="buildNavlogTable('silent')" class="button-style">Update navigation table</button>
+                <button id="BTN_NAVLOG_UPDATE" onclick="buildNavlogTable('complete', 'info')" class="button-style">Update/ Reset navigation table</button>
                 <button onclick="saveLegInfo()" class="button-style">Save table</button>
             </div>
         </div>
@@ -1757,7 +1757,7 @@
                 </select>
 
                 <!--Add circuit pattern-->
-                <button id="add-circuit-pattern-btn" class="button-style" onclick="window.initCircuitPatterns()">Add circuit pattern</button>
+                <button id="add-circuit-pattern-btn" class="button-style" onclick="window.initCircuitPatterns()">Update circuit pattern</button>
                 <!-- Clean Button -->
                 <button id="reset-circuit-pattern-btn" onclick="resetRoute()" title="Remove circuit pattern" style="background-color: transparent; border: none; color: #666; width: 30px; min-width: 24px; height: 24px; padding: 0; margin: 8px 0 8px 4px; flex: 0 0 auto; cursor: pointer;">🧹</button>
             </div>
@@ -4269,7 +4269,7 @@ if ('serviceWorker' in navigator) {
                         element.value = str(value)
 
                     updated_count += 1
-                    print(f"  ✓ Updated {field_id}: {str(value)}")
+                    #print(f"  ✓ Updated {field_id}: {str(value)}")
                 else:
                     # Clear the field if no value
                     element.value = ''
@@ -6635,7 +6635,7 @@ if ('serviceWorker' in navigator) {
 
                 // console.log('HERE')
                 // console.log(fpDict)
-                // console.log(window.flight_plan_data['LEGINFO'])
+                // console.log(window.flight_plan_data['WAYPOINTS'])
 
                 // SET GLOBAL VARIABLES
                 window.waypoints = window.flight_plan_data.WAYPOINTS
