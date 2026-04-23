@@ -401,7 +401,7 @@ input[type="number"]:disabled {
 
 .info {
     font-size: 14px;
-    color: grey;
+    color: dimgray;
     margin: 4px 0;
     text-align: center;
 }
