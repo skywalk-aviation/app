@@ -70,6 +70,7 @@
     <link rel="stylesheet" href="./styles/style_wb.css">
     <link rel="stylesheet" href="./styles/style_topmenu.css">
     <link rel="stylesheet" href="./styles/style_navlog.css">
+    <link rel="stylesheet" href="./styles/style_wizard.css">
 
     <!--CORE FILES-->
     <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
@@ -110,6 +111,7 @@
     <script src="./scripts/runwayUI.js" defer></script>
     <script src="./scripts/checklist.js" defer></script>
     <script src="./scripts/tutorial.js" defer></script>
+    <script src="./scripts/wizard.js" defer></script>
     <script src="./scripts/aircraft.js" defer></script>
     <script src="./scripts/various.js" defer></script>
     <script src="./scripts/navlog.js" defer></script>
@@ -141,20 +143,23 @@
     </div>
 
 	<div id="More" class="tabcontent">
-	    <label_h1>More</label_h1>
 
+	    <label_h1>Settings</label_h1>
         <button class="tablinks" data-tab="Checklist" style="cursor: pointer;">📋 Checklist</button>
         <button class="tablinks" data-tab="Aircrafts" style="cursor: pointer;">🛠️ Aircraft Managment</button>
         <button class="tablinks" data-tab="Countries" style="cursor: pointer;">🌍 Select Countries</button>
-       	<button class="tablinks" data-tab="Config" style="cursor: pointer;">⚙️ Config</button>
 
-        <!--CHECK FOR UPDATES-->
-        <div class="divider-general-section" style="background: #f0f0f0;"></div>
-
-        <div class="button-row"> <button id="Tutorial" type="button" onclick="window.SkyWalkTutorial.show()" title="Tutorial"> 📘 Tutorial </button> </div>
+        <label_h1>Documentation</label_h1>
         <button onclick="window.open('https://skywalk-aviation.github.io/docs/pages/html/index.html','_blank')" title="Documentation pages">📗 Documentation pages</button>
-        <button class="tablinks" data-tab="Subscriptions" style="cursor: pointer;">💳 Subscriptions</button>
+
+        <label_h1>Wizards</label_h1>
+        <div class="button-row"> <button id="Wizard" type="button" onclick="window.SkyWalkWizard.show()" title="Setup Wizard"> 🧙 New Flightplan Wizard </button> </div>
+        <div class="button-row"> <button id="Tutorial" type="button" onclick="window.SkyWalkTutorial.show()" title="Tutorial"> 📘 Tutorial </button> </div>
+
+        <label_h1>Configurations/ Updates</label_h1>
+       	<button class="tablinks" data-tab="Config" style="cursor: pointer;">⚙️ Config</button>
         <button id="updateBtn" onclick="updateApp()">🌀 Check for updates</button>
+        <button class="tablinks" data-tab="Subscriptions" style="cursor: pointer;">💳 Subscriptions</button>
 
 
 	</div>
@@ -191,8 +196,11 @@
         </div>
 
 
+        <div class="button-row"> <button id="Wizard" type="button" onclick="window.SkyWalkWizard.show()" title="Setup Wizard"> 🧙 New Flightplan Wizard </button> </div>
+
         <div class="flight-card">
             <div class="route-header">
+
 
                 <div class="airport" style="min-width: 0; overflow: hidden;">
                     <div class="airport-code">
@@ -4992,7 +5000,9 @@ if ('serviceWorker' in navigator) {
         icaoName = element.value.strip().upper() or ''
 
         if icao is not None:
-            icaoName = re.search(r'\(([^)]+)\)', icao).group(1)
+            _match = re.search(r'\(([^)]+)\)', icao)
+            icaoName = _match.group(1) if _match else icao.strip().upper()
+            #icaoName = re.search(r'\(([^)]+)\)', icao).group(1)
 
         # Get cached aerodrome data
         cache_key = fname + '_' + icaoName
