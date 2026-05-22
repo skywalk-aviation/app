@@ -1850,7 +1850,7 @@
 
 
         <!-- MAP SETTINGS PANEL -->
-        <div class="collapsible" data-title="METAR">
+        <!--<div class="collapsible" data-title="METAR">
         <div class="collapsible-header" id="ENROUTE_METAR_MENU"></div>
         <div class="collapsible-content" id="ENROUTE_METAR_BACKGROUND">
 
@@ -1860,7 +1860,80 @@
 
             <div class="info">
                 <label_h1>STEP 4: UPDATE METAR REPORTS</label_h1>
+            </div>-->
+
+            <!--<div class="wind-grid">
+                <div class="tile" style="display:flex;justify-content:center;align-items:center;">
+
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                        <input type="checkbox" id="metar-toggle">
+                        <span class="tile-label">METAR stations</span>
+
+                        <button id="refresh-metar-btn"
+                            type="button"
+                            onclick="event.stopPropagation(); window.refreshMetarData();"
+                            style="
+                                display:flex;
+                                justify-content:center;
+                                align-items:center;
+                                background:transparent;
+                                border:none;
+                                color:#666;
+                                cursor:pointer;
+                                width:20px;
+                                height:20px;
+                                padding:0;
+                                font-size:14px;
+                            "
+                            title="Update METAR data">
+                            🔄
+                        </button>
+
+                    </label>
+
+                </div>
+            </div>-->
+
+        <!--</div>
+        </div>-->
+
+
+        <div class="collapsible" data-title="NAVIGATION TABLE">
+        <div class="collapsible-header" id="NAVIGATION_MENU"></div>
+        <div class="collapsible-content" id="NAVIGATION_BACKGROUND">
+
+            <div class="wind-grid">
+                <div id="NAVIGATION_MESSAGE"></div>
             </div>
+
+            <div class="info">
+                <label_h1>STEP 4: UPDATE NAVIGATION TABLE</label_h1>
+                Update the leg name and altitude for the waypoints.
+            </div>
+
+            <div id="NAVLOG_TABLE"
+                style="margin-top:12px;padding:10px;border-radius:8px;font-size:14px;text-align:center;display:none;">
+            </div>
+            <div class="wind-grid">
+                <button id="BTN_NAVLOG_UPDATE" onclick="buildNavlogTable('complete', 'info')" class="button-style">Update navlog table</button>
+                <button onclick="saveLegInfo()" class="button-style">Save table</button>
+            </div>
+        </div>
+        </div>
+
+        <!-- ── ROUTE CLOUD CROSS-SECTION ── -->
+        <div class="collapsible" data-title="CLOUD PLOT">
+        <div class="collapsible-header" id="ENROUTE_CLOUDPLOT_MENU"></div>
+        <div class="collapsible-content" id="ENROUTE_CLOUDPLOT_BACKGROUND">
+
+            <div class="wind-grid">
+                <div id="ENROUTE_CLOUDPLOT_MESSAGE"></div>
+            </div>
+
+            <div class="info">
+                <label_h1>STEP 5: ROUTE CLOUD CROSS-SECTION</label_h1>
+            </div>
+
 
             <div class="wind-grid">
                 <div class="tile" style="display:flex;justify-content:center;align-items:center;">
@@ -1894,46 +1967,6 @@
                 </div>
             </div>
 
-        </div>
-        </div>
-
-
-        <div class="collapsible" data-title="NAVIGATION TABLE">
-        <div class="collapsible-header" id="NAVIGATION_MENU"></div>
-        <div class="collapsible-content" id="NAVIGATION_BACKGROUND">
-
-            <div class="wind-grid">
-                <div id="NAVIGATION_MESSAGE"></div>
-            </div>
-
-            <div class="info">
-                <label_h1>STEP 5: UPDATE NAVIGATION TABLE</label_h1>
-                Update the leg name and altitude for the waypoints.
-            </div>
-
-            <div id="NAVLOG_TABLE"
-                style="margin-top:12px;padding:10px;border-radius:8px;font-size:14px;text-align:center;display:none;">
-            </div>
-            <div class="wind-grid">
-                <button id="BTN_NAVLOG_UPDATE" onclick="buildNavlogTable('complete', 'info')" class="button-style">Update navlog table</button>
-                <button onclick="saveLegInfo()" class="button-style">Save table</button>
-            </div>
-        </div>
-        </div>
-
-        <!-- ── ROUTE CLOUD CROSS-SECTION ── -->
-        <div class="collapsible" data-title="CLOUD PLOT">
-        <div class="collapsible-header" id="ENROUTE_CLOUDPLOT_MENU"></div>
-        <div class="collapsible-content" id="ENROUTE_CLOUDPLOT_BACKGROUND">
-
-            <div class="wind-grid">
-                <div id="ENROUTE_CLOUDPLOT_MESSAGE"></div>
-            </div>
-
-            <div class="info">
-                <label_h1>STEP 6: ROUTE CLOUD CROSS-SECTION</label_h1>
-            </div>
-
             <!-- Panels are injected here by plotCloudsForRoute() -->
             <div id="ROUTE_CLOUD_CONTAINER" style="display:none;"></div>
 
@@ -1952,7 +1985,7 @@
             </div>
 
             <div class="info">
-                <label_h1>STEP 7: START NAVIGATION</label_h1>
+                <label_h1>STEP 6: START NAVIGATION</label_h1>
                 Set the checkboxes as desired before starting the NAVLOG.
             </div>
 
@@ -2725,7 +2758,7 @@
                 </div>
                 <div class="wind-grid">
                     <input type="number" id="takeoff_runway_slope_paved" value="" min="0" step="0.05">
-                    <input type="number" id="takeoff_runway_correction_factor" value="" min="1" step="0.05">
+                    <input type="number" id="takeoff_runway_slope_correction_factor" value="" min="1" step="0.05">
                 </div>
                 <div class="info-gray", id="message_slope_corr">
                     Example: A slope of 2% and correction factor of 1.1 describes: An upward slope of 2% (2 m in 100 m) increases the take-off distance by 10%.
@@ -2733,19 +2766,32 @@
             </div>
 
             <div class="weight-card">
-                <div class="wind-grid">
-                    <div class="input-label" style="text-align: center;">Minimum Takeoff Distance (% runway)</div>
+                <div class="info-blue">
+                    Takeoff Correction Factor
                 </div>
                 <div class="wind-grid">
-                    <input type="number" id="takeoff_runway_safety_correction" value="" min="0" step="0.1">
+                    <input type="number" id="takeoff_runway_correction_factor" value="" min="1" step="0.1">
+                </div>
+                <div class="info-gray", id="message_takeoff_runway_correction_factor">
+                    Example: A input, such as 1.25 is multiplied after every runway correction to compute the minimum runway length.
+                </div>
+            </div>
+
+            <div class="weight-card">
+                <div class="info-blue">
+                    Personal Minimum Takeoff Distance (percentage of runway)
+                </div>
+                <div class="wind-grid">
+                    <input type="number" id="takeoff_personal_safety_correction" value="" min="0" step="0.1">
                 </div>
                 <div class="info-gray", id="message_safety_corr">
-                    Example: 0.95 describes: Minimum distance for take-off is 95% of the runway length.
+                    Example: 0.95 describes: Minimum distance for take-off is 95% of the runway length. This value is not used in the runway computation but will only draw a red horizontal line on the runway plot.
                 </div>
             </div>
 
         </div>
         </div>
+
 
         <!--LANDING PERFORMANCE POH -->
         <div class="collapsible" data-title="Landing Performance POH">
@@ -2860,7 +2906,7 @@
                 </div>
                 <div class="wind-grid">
                     <input type="number" id="landing_runway_slope_paved" value="" min="0" step="0.05">
-                    <input type="number" id="landing_runway_correction_factor" value="" min="1" step="0.05">
+                    <input type="number" id="landing_runway_slope_correction_factor" value="" min="1" step="0.05">
                 </div>
                 <div class="info-gray", id="message_landing_runway_correction">
                     Example: A slope of 2% and correction factor of 1.1 describes: An upward slope of 2% (2 m in 100 m) increases the take-off distance by 10%.
@@ -2868,14 +2914,26 @@
             </div>
 
             <div class="weight-card">
-                <div class="wind-grid">
-                    <div class="input-label" style="text-align: center;">Minimum Landing Distance (% runway)</div>
+                <div class="info-blue">
+                    Landing Correction Factor
                 </div>
                 <div class="wind-grid">
-                    <input type="number" id="landing_runway_safety_correction" value="" min="0" step="0.1">
+                    <input type="number" id="landing_runway_correction_factor" value="" min="1" step="0.1">
+                </div>
+                <div class="info-gray", id="message_landing_runway_correction_factor">
+                    Example: A input, such as 1.43 is multiplied after every runway correction to compute the minimum runway length.
+                </div>
+            </div>
+
+            <div class="weight-card">
+                <div class="info-blue">
+                    Personal Minimum Landing Distance (percentage of runway)
+                </div>
+                <div class="wind-grid">
+                    <input type="number" id="landing_personal_safety_correction" value="" min="0" step="0.1">
                 </div>
                 <div class="info-gray", id="message_landing_runway_safety">
-                    Example: 0.7 describes: Minimum distance for take-off is 70% of the runway length.
+                    Example: 0.7 describes: Minimum distance for take-off is 70% of the runway length. This value is not used in the runway computation but will only draw a red horizontal line on the runway plot.
                 </div>
             </div>
 
