@@ -71,6 +71,7 @@
     <link rel="stylesheet" href="./styles/style_topmenu.css">
     <link rel="stylesheet" href="./styles/style_navlog.css">
     <link rel="stylesheet" href="./styles/style_wizard.css">
+    <link rel="stylesheet" href="./styles/style_darkmode.css">
 
     <!--CORE FILES-->
     <link rel="stylesheet" href="https://pyscript.net/releases/2025.8.1/core.css">
@@ -124,6 +125,7 @@
     <script src="./scripts/defaults.js"></script>
     <script src="./scripts/aerodromes.js"></script>
     <script src="./scripts/clickevents.js" defer></script>
+    <script src="./scripts/darkmode.js" defer></script>
 
     <!--login.js must be after config.js-->
     <script src="./scripts/login.js" defer></script>
@@ -151,6 +153,11 @@
 
 	<div id="More" class="tabcontent">
 
+        <!-- Dark mode toggle -->
+        <button id="dark-mode-toggle" class="dark-toggle-btn" onclick="toggleDarkMode();  newFlightPlan();" title="Toggle dark mode" aria-label="Toggle dark mode">
+            <span id="dark-mode-icon">🌙</span>
+        </button>
+
 	    <label_h1>Settings</label_h1>
         <button class="tablinks" data-tab="Checklist" style="cursor: pointer;">📋 Checklist</button>
         <button class="tablinks" data-tab="Aircrafts" style="cursor: pointer;">🛠️ Aircraft Managment</button>
@@ -167,7 +174,6 @@
        	<button class="tablinks" data-tab="Config" style="cursor: pointer;">⚙️ Config</button>
         <button class="tablinks" data-tab="Subscriptions" style="cursor: pointer;">💳 Subscriptions/ Pricing</button>
         <button id="updateBtn" onclick="updateApp()">🌀 Check for updates</button>
-
 
 	</div>
 
@@ -4627,6 +4633,8 @@ if ('serviceWorker' in navigator) {
 
 
   </script>
+
+
 
 </body>
 </html>

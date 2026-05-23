@@ -1,0 +1,254 @@
+/* =============================================================================
+   SkyWalk — Dark Mode
+   Applied by toggling "dark-mode" on <html>.
+   JS in index.html swaps window.DEFAULTCOLOR / EMPTYCOLOR globals and
+   re-triggers highlight functions, so inline-styled elements repaint correctly.
+   ============================================================================= */
+
+html.dark-mode {
+  --dm-bg:         #0e1621;
+  --dm-bg-alt:     #141e2e;
+  --dm-surface:    #1a2638;
+  --dm-surface-2:  #1f2e42;
+  --dm-border:     #2a3e56;
+  --dm-text:       #d8e4f0;
+  --dm-muted:      #7a9ab8;
+  --dm-accent:     #00b4d8;
+  --dm-input-bg:   #162030;
+  --dm-btn-bg:     #1e2e40;
+  --dm-btn-hover:  #26394f;
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────────── */
+html.dark-mode,
+html.dark-mode body        { background-color: var(--dm-bg) !important; color: var(--dm-text) !important; }
+html.dark-mode #app        { background-color: var(--dm-bg) !important; }
+html.dark-mode .app-container { background: transparent !important; }
+html.dark-mode .tabcontent { background-color: var(--dm-bg) !important; color: var(--dm-text) !important; }
+
+/* ── Tab bar ─────────────────────────────────────────────────────────────────── */
+html.dark-mode .tab                 { background: linear-gradient(0deg, #1a2638 0%, #0d1625 100%) !important; color: var(--dm-text) !important; }
+html.dark-mode .tab button          { color: var(--dm-text) !important; }
+html.dark-mode .tab button:hover    { background-color: var(--dm-btn-hover) !important; }
+html.dark-mode .tab button.active   { box-shadow: inset 0 -4px 0 var(--dm-accent) !important; }
+
+/* ── Typography ──────────────────────────────────────────────────────────────── */
+html.dark-mode label_h1, html.dark-mode label_h2 { color: var(--dm-accent) !important; }
+html.dark-mode label                { color: var(--dm-text) !important; }
+html.dark-mode h1, html.dark-mode h2, html.dark-mode h3 { color: var(--dm-text) !important; }
+html.dark-mode p                    { color: var(--dm-text) !important; }
+
+/* ── Buttons (all — highlight colours are now handled by JS repainting) ──────── */
+html.dark-mode button {
+  background-color: var(--dm-btn-bg) !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border) !important;
+}
+html.dark-mode button:hover         { background-color: var(--dm-btn-hover) !important; }
+html.dark-mode input[type="range"]  { background-color: var(--dm-btn-bg) !important; }
+
+/* ── Inputs ──────────────────────────────────────────────────────────────────── */
+html.dark-mode input[type="text"] {
+  background-color: var(--dm-btn-bg) !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border) !important;
+}
+html.dark-mode input[type="number"] {
+  background-color: var(--dm-input-bg) !important;
+  color: var(--dm-text) !important;
+  border-color: var(--dm-border) !important;
+}
+html.dark-mode input[type="number"]:focus {
+  border-color: var(--dm-accent) !important;
+  box-shadow: 0 0 0 3px rgba(0,180,216,0.15) !important;
+}
+html.dark-mode input:disabled       { background-color: var(--dm-surface) !important; color: var(--dm-muted) !important; }
+html.dark-mode textarea             { background-color: var(--dm-input-bg) !important; color: var(--dm-text) !important; border-color: var(--dm-border) !important; }
+
+/* ── Select dropdowns ────────────────────────────────────────────────────────── */
+html.dark-mode select               { background-color: var(--dm-input-bg) !important; color: var(--dm-text) !important; border-color: var(--dm-border) !important; }
+html.dark-mode select option        { background-color: var(--dm-input-bg); color: var(--dm-text); }
+html.dark-mode select:focus         { border-color: var(--dm-accent) !important; box-shadow: 0 0 0 3px rgba(0,180,216,0.15) !important; }
+
+/* ── Collapsible sections ────────────────────────────────────────────────────── */
+html.dark-mode .collapsible         { background: var(--dm-surface) !important; border-color: var(--dm-border) !important; }
+html.dark-mode .collapsible-header  { background: var(--dm-surface-2) !important; color: var(--dm-text) !important; }
+html.dark-mode .collapsible-content { background: var(--dm-surface) !important; color: var(--dm-text) !important; }
+
+/* ── Tiles ───────────────────────────────────────────────────────────────────── */
+html.dark-mode .tile                { background: linear-gradient(to bottom, var(--dm-surface) 0%, var(--dm-surface-2) 100%) !important; border-color: var(--dm-border) !important; }
+html.dark-mode .tile:hover          { background: var(--dm-surface-2) !important; border-color: var(--dm-accent) !important; }
+html.dark-mode .tile-value          { background: transparent !important; color: var(--dm-text) !important; }
+html.dark-mode .tile-label          { background: transparent !important; color: var(--dm-muted) !important; }
+html.dark-mode .tile-value-dropdown { background: var(--dm-input-bg) !important; color: var(--dm-text) !important; border-color: var(--dm-border) !important; }
+html.dark-mode .tile-value-dropdown:hover { border-color: var(--dm-accent) !important; }
+
+/* ── Cards & containers ──────────────────────────────────────────────────────── */
+html.dark-mode .flight-card         { background: linear-gradient(to bottom, var(--dm-surface) 0%, var(--dm-surface-2) 100%) !important; border-color: var(--dm-border) !important; }
+html.dark-mode .weight-card         { background: var(--dm-surface) !important; border-color: var(--dm-border) !important; }
+html.dark-mode .check-tile          { background: var(--dm-surface) !important; border-color: var(--dm-border) !important; }
+html.dark-mode .border-round-eged  { background-color: var(--dm-surface) !important; border-color: var(--dm-border) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.4) !important; }
+html.dark-mode .border-round-eged-logo { background: transparent !important; border-color: transparent !important; }
+html.dark-mode .divider             { background: var(--dm-border) !important; }
+
+/* ── button-row & button-style ───────────────────────────────────────────────── */
+html.dark-mode .button-row input[type="text"] { background-color: var(--dm-btn-bg) !important; color: var(--dm-text) !important; }
+html.dark-mode .button-style        { background-color: var(--dm-surface-2) !important; border-color: var(--dm-border) !important; color: var(--dm-text) !important; }
+
+/* ── Info / status text ──────────────────────────────────────────────────────── */
+html.dark-mode .info-blue  { color: var(--dm-accent) !important; }
+html.dark-mode .info-gray  { color: var(--dm-muted) !important; }
+html.dark-mode .info       { color: var(--dm-muted) !important; }
+html.dark-mode .warning    { color: #ffb74d !important; }
+html.dark-mode .disclaimer { color: #ff6b6b !important; }
+html.dark-mode .version    { color: var(--dm-muted) !important; }
+
+/* ── W&B ─────────────────────────────────────────────────────────────────────── */
+html.dark-mode .input-wb   { background: transparent !important; color: var(--dm-text) !important; border-bottom-color: var(--dm-border) !important; }
+html.dark-mode .tile-wb    { background: transparent !important; }
+html.dark-mode .label-wb   { color: var(--dm-muted) !important; }
+
+/* ── Navlog overlay ──────────────────────────────────────────────────────────── */
+html.dark-mode #flight-pages-modal  { background-color: #111820 !important; border-color: var(--dm-border) !important; }
+
+/* ── Wizard ──────────────────────────────────────────────────────────────────── */
+html.dark-mode #wiz-modal           { background: var(--dm-surface) !important; color: var(--dm-text) !important; }
+html.dark-mode .wiz-slide-title     { color: #c8dff0 !important; }
+html.dark-mode .wiz-slide-sub       { color: var(--dm-muted) !important; }
+html.dark-mode .wiz-label           { color: var(--dm-text) !important; }
+html.dark-mode .wiz-note            { color: var(--dm-muted) !important; }
+html.dark-mode .wiz-input, html.dark-mode .wiz-select { background: var(--dm-input-bg) !important; color: var(--dm-text) !important; border-color: var(--dm-border) !important; }
+html.dark-mode .wiz-input:focus, html.dark-mode .wiz-select:focus { border-color: var(--dm-accent) !important; background: #0e1e2e !important; }
+html.dark-mode #wiz-footer          { background: var(--dm-surface-2) !important; border-top-color: var(--dm-border) !important; }
+html.dark-mode #wiz-progress-bar    { background: var(--dm-border) !important; }
+html.dark-mode .wiz-dot             { background: var(--dm-border) !important; }
+html.dark-mode .wiz-dot.active      { background: var(--dm-accent) !important; }
+html.dark-mode .wiz-dot.done        { background: #3a7a90 !important; }
+html.dark-mode .wiz-review-grid     { background: var(--dm-input-bg) !important; border-color: var(--dm-border) !important; }
+html.dark-mode .wiz-review-row      { border-bottom-color: var(--dm-border) !important; }
+html.dark-mode .wiz-review-label    { color: var(--dm-muted) !important; }
+html.dark-mode .wiz-review-val      { color: var(--dm-text) !important; }
+html.dark-mode .wiz-btn-ghost       { background: transparent !important; color: var(--dm-muted) !important; border-color: var(--dm-border) !important; }
+html.dark-mode .wiz-btn-ghost:hover { background: var(--dm-btn-hover) !important; color: var(--dm-text) !important; }
+html.dark-mode #wiz-finish-spinner  { background: rgba(14,22,33,0.9) !important; }
+
+/* ── Tutorial ────────────────────────────────────────────────────────────────── */
+html.dark-mode #tut-modal           { background: var(--dm-surface) !important; color: var(--dm-text) !important; }
+html.dark-mode .tut-slide-title     { color: #c8dff0 !important; }
+html.dark-mode .tut-slide-body, html.dark-mode .tut-sub { color: var(--dm-text) !important; }
+html.dark-mode #tut-footer          { background: var(--dm-surface-2) !important; border-top-color: var(--dm-border) !important; }
+html.dark-mode #tut-progress-bar    { background: var(--dm-border) !important; }
+html.dark-mode .tut-dot             { background: var(--dm-border) !important; }
+html.dark-mode .tut-dot.active      { background: #4a9ef0 !important; }
+html.dark-mode .tut-dot.done        { background: #2a6aaa !important; }
+html.dark-mode .tut-feature-item    { background: var(--dm-input-bg) !important; border-left-color: #4a9ef0 !important; color: #b8d4f0 !important; }
+html.dark-mode .tut-checkbox-label  { color: var(--dm-muted) !important; }
+html.dark-mode .tut-nav-btn         { background: var(--dm-btn-bg) !important; color: #4a9ef0 !important; border-color: #4a9ef0 !important; }
+html.dark-mode .tut-nav-btn.primary { background: linear-gradient(135deg,#1a5caa,#0090b8) !important; color: #fff !important; border-color: transparent !important; }
+
+/* ── Scrollbars ──────────────────────────────────────────────────────────────── */
+html.dark-mode ::-webkit-scrollbar       { width: 6px; height: 6px; }
+html.dark-mode ::-webkit-scrollbar-track { background: var(--dm-bg-alt); }
+html.dark-mode ::-webkit-scrollbar-thumb { background: var(--dm-border); border-radius: 3px; }
+html.dark-mode ::-webkit-scrollbar-thumb:hover { background: #3a5570; }
+
+/* =============================================================================
+   General (New/Load) tab — specific overrides
+   ============================================================================= */
+
+/* Airport ICAO inputs have hardcoded color:#2c2c2c inline — override for dark */
+html.dark-mode #DEPARTURE_ICAO,
+html.dark-mode #ARRIVAL_ICAO {
+  color: var(--dm-text) !important;
+  background: transparent !important;
+}
+
+/* City / airport name labels */
+html.dark-mode .airport-name,
+html.dark-mode .airport-code,
+html.dark-mode .schedule-label,
+html.dark-mode .aircraft-value  { color: var(--dm-text) !important; }
+
+/* Distance info span */
+html.dark-mode #ARRIVAL_FLIGHT_DISTANCE_INFO { color: var(--dm-muted) !important; }
+
+/* "Load Aerodromes" sub-label under plane icon */
+html.dark-mode .plane-icon div  { color: var(--dm-muted) !important; }
+
+/* plan_spinner has inline background:lightgray */
+html.dark-mode #plan_spinner    { background-color: var(--dm-input-bg) !important; color: var(--dm-text) !important; }
+
+/* Dividers inside flight-card that use inline background:#f0f0f0 / #f5f5f5 */
+html.dark-mode .divider-general-section { background: var(--dm-border) !important; }
+
+/* CALLSIGN / AIRCRAFT_TYPE / POB inputs — tile-value class but inline color:#333 */
+html.dark-mode .tile-value      { color: var(--dm-text) !important; }
+
+/* CALLSIGN_LABEL and similar tile-label spans with inline text-align */
+html.dark-mode .tile-label      { color: var(--dm-muted) !important; }
+
+/* flight-card inner text (airport-code font-weight:bold color:#2c2c2c inline) */
+/* flight-card text — only target elements without an inline color style */
+html.dark-mode .flight-card span:not([style]),
+html.dark-mode .flight-card div:not([style]) { color: var(--dm-text) !important; }
+
+/* Flashcard inner divs: the undertext row has no inline color so inherits
+   wrongly — force black to match the other text on the coloured background */
+html.dark-mode .summary-grid > div > div > div:not([style]) {
+  color: #111111 !important;
+}
+
+/* But keep coloured status backgrounds readable — flashcard cells get
+   their background from JS (GOODCOLOR etc.), text from GOODCOLORTEXT etc.
+   The JS swap handles the actual values; here we just ensure any
+   summary-grid child div inherits the JS-set color rather than being
+   overridden by the rule above. */
+html.dark-mode .summary-grid > div[style] {
+  /* Let inline style win for background; only ensure text is readable
+     if no inline color is set */
+  color: inherit !important;
+}
+
+/* =============================================================================
+   Flashcard tiles — readable in dark mode
+   ============================================================================= */
+
+/* The flashcard cells rendered by flashcard.js use inline styles for bg+color.
+   We do NOT override those here — the JS swap handles them.
+   We only target the wrapper containers that have no inline style. */
+html.dark-mode .summary-grid > div:not([style]) {
+  background: var(--dm-surface) !important;
+  color: var(--dm-muted) !important;
+  border-radius: 8px;
+}
+
+/* TODO / missing_label */
+html.dark-mode #missing_label   { color: #ffb74d !important; }
+html.dark-mode #bottom-container { color: var(--dm-text) !important; }
+
+/* Section headers inside flight-cards on General tab */
+html.dark-mode .flight-card > span.tile-label { color: var(--dm-text) !important; }
+
+/* ── TODO warning box & missing_label ────────────────────────────────────────── */
+/* CSS fallback for the inner div built by addTextMissingFields() —
+   catches it on first load before JS retrigger has a chance to run   */
+html.dark-mode #missing_label > div {
+  background-color: #7a5c00 !important;
+  color: #111111 !important;
+  border-radius: 6px;
+}
+/* "All complete" variant */
+html.dark-mode #missing_label > div[style*="d4edda"],
+html.dark-mode #missing_label > div[style*="155724"] {
+  background-color: #4a7a5a !important;
+  color: #111111 !important;
+}
+/* Outer missing_label element gets inline color:darkorange / green via JS */
+html.dark-mode #missing_label { color: #ffe082 !important; }
+
+/* ── Empty flashcard cells (no inline style yet — before data loads) ─────────── */
+html.dark-mode .summary-grid > div:not([style]) {
+  background-color: var(--dm-surface) !important;
+  color: var(--dm-muted) !important;
+}
+/* Cells with inline style: let JS-set colors win completely — no override */
