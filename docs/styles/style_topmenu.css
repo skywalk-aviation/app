@@ -66,7 +66,7 @@ body.nav-top .app-container {
     padding-bottom: 0;
 }
 
-/* When nav is at top, also push #app down by the safe area */
+/* When nav is at top, push #app content below the safe area */
 body.nav-top #app {
     padding-top: env(safe-area-inset-top, 0px);
 }

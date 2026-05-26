@@ -26,19 +26,15 @@ body {
 #app {
     width: 100%;
     max-width: 100%;
-    height: 100dvh;           /* Fixed full-screen height on all devices including mobile */
+    height: 100dvh;
     min-height: 100dvh;
     background-color: white;
-    padding-top: 0;            /* nav is at bottom by default; safe-area-top handled via nav-top class */
-    padding-bottom: 0;
-    margin-bottom: 0;
-
-    padding-left: 0;   /* safe-area-inset-left handled by .tab directly */
-    padding-right: 0;  /* safe-area-inset-right handled by .tab directly */
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    overflow-y: auto;         /* Allow internal scrolling on mobile like tablet */
+    overflow-y: auto;
     -webkit-tap-highlight-color: transparent;
     box-sizing: border-box;
 }
@@ -82,7 +78,7 @@ input, textarea, select {
         max-height: none;
         border-radius: 0;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 10px;
+        padding: 0;
     }
 }
 
