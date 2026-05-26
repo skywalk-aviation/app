@@ -65,13 +65,7 @@ input, textarea, select {
 
 /* =================== MEDIA QUERIES =================== */
 
-/* Tab bar: always relative so fullscreen map (z-index 9000) covers it on all devices */
-.tab {
-    position: relative;
-    border-radius: 8px 8px 0 0;
-    top: 0;
-    z-index: 100;
-}
+/* Tab bar: defined in style_topmenu.css */
 
 @media (min-width: 768px) {
     html,

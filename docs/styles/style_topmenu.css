@@ -26,8 +26,9 @@
     background: transparent;
     background: linear-gradient(0deg, white 0%, gray 100%);
     z-index: 900;
-    left: 50%;
-    transform: translateX(-50%);       /* center horizontally */
+    left: 0;                            /* center horizontally using margin auto */
+    right: 0;
+    margin: 0 auto;
     width: calc(100% - 24px);          /* screen minus margins left-right spacing */
     max-width: 650px;                   /* app container width on wide screens */
     min-width: 350px;                   /* minimum width on small screens */
