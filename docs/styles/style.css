@@ -36,8 +36,8 @@ body {
     /*margin-bottom: 0;*/
     /*padding-bottom: env(safe-area-inset-bottom);*/
 
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
+    padding-left: 0;   /* safe-area-inset-left handled by .tab directly */
+    padding-right: 0;  /* safe-area-inset-right handled by .tab directly */
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
