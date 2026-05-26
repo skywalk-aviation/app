@@ -30,11 +30,8 @@ body {
     min-height: 100dvh;
     background-color: white;
     padding-top: 0;            /* nav is at bottom by default; safe-area-top handled via nav-top class */
-
     padding-bottom: 0;
-    margin-bottom: env(safe-area-inset-bottom);
-    /*margin-bottom: 0;*/
-    /*padding-bottom: env(safe-area-inset-bottom);*/
+    margin-bottom: 0;
 
     padding-left: 0;   /* safe-area-inset-left handled by .tab directly */
     padding-right: 0;  /* safe-area-inset-right handled by .tab directly */
@@ -51,7 +48,6 @@ body {
     max-width: 100%;
     min-width: 350px;
     box-sizing: border-box;
-    padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* =================== INPUT FIXES =================== */
