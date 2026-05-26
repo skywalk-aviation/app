@@ -128,6 +128,7 @@
     <script src="./scripts/aerodromes.js"></script>
     <script src="./scripts/clickevents.js" defer></script>
     <script src="./scripts/darkmode.js" defer></script>
+    <script src="./scripts/navposition.js" defer></script>
 
     <!--login.js must be after config.js-->
     <script src="./scripts/login.js" defer></script>
@@ -154,6 +155,19 @@
     </div>
 
 	<div id="Settings" class="tabcontent">
+
+       	<!-- ── Nav bar position toggle — paste inside #Settings tabcontent ── -->
+        <div class="nav-position-toggle">
+            <span class="toggle-label">📍 Navigation bar</span>
+            <button class="nav-pos-switch" onclick="toggleNavPosition()" aria-label="Toggle nav position">
+                <div class="switch-options">
+                    <span class="switch-opt" id="nav-opt-bottom">Bottom</span>
+                    <span class="switch-opt" id="nav-opt-top">Top</span>
+                </div>
+                <div class="switch-thumb"></div>
+            </button>
+        </div>
+        <!-- ── End nav bar position toggle ── -->
 
         <!-- Dark mode toggle -->
         <button id="dark-mode-toggle" class="dark-toggle-btn" onclick="toggleDarkMode();  newFlightPlan();" title="Toggle dark mode" aria-label="Toggle dark mode">

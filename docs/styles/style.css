@@ -29,7 +29,7 @@ body {
     height: 100dvh;           /* Fixed full-screen height on all devices including mobile */
     min-height: 100dvh;
     background-color: white;
-    padding-top: env(safe-area-inset-top);
+    padding-top: 0;            /* nav is at bottom by default; safe-area-top handled via nav-top class */
 
     padding-bottom: 0;
     margin-bottom: env(safe-area-inset-bottom);
