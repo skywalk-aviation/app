@@ -1,45 +1,48 @@
 /* ============================================================
    NAV BAR — clean flat modern
-   Supports top & bottom placement via .nav-top on <body>
+   Supports top & bottom placement via body.nav-top
    Default: bottom
    ============================================================ */
 
-/* ── Shared bar geometry ─────────────────────────────────── */
+/* ── The bar itself ──────────────────────────────────────── */
 .tab {
-    position: relative;             /* flows inside #app flex column, not fixed */
+    position: fixed;
     left: 0;
     right: 0;
     z-index: 9500;
     width: 100%;
+    max-width: 650px;
+    min-width: 320px;
+    margin: 0 auto;
     height: 60px;
     padding: 0;
     display: flex;
     justify-content: stretch;
     align-items: stretch;
-    flex-shrink: 0;                 /* never shrink — always 60 px tall */
+    flex-shrink: 0;
     box-sizing: border-box;
     overflow: visible;
-
-    /* Clean flat look */
     background: #ffffff;
     border: none;
     border-radius: 0;
 }
 
-/* ── Bottom placement (default) — bar is last in flex column ─ */
+/* ── Bottom placement (default) ─────────────────────────── */
 body .tab {
-    order: 1;                       /* below #tab-pane (order: 0) */
+    bottom: 0;
+    top: auto;
     padding-bottom: env(safe-area-inset-bottom, 0px);
     height: calc(60px + env(safe-area-inset-bottom, 0px));
     box-shadow: 0 -1px 0 rgba(0,0,0,0.08);
 }
 
-/* ── Top placement — bar is first in flex column ────────────── */
+/* ── Top placement ───────────────────────────────────────── */
 body.nav-top .tab {
-    order: 0;                       /* above #tab-pane (order: 1) */
+    top: env(safe-area-inset-top, 0px);
+    bottom: auto;
     padding-bottom: 0;
-    padding-top: env(safe-area-inset-top, 0px);
-    height: calc(60px + env(safe-area-inset-top, 0px));
+    padding-top: 0;
+    height: 60px;
     box-shadow: 0 1px 0 rgba(0,0,0,0.08);
 }
 
@@ -68,18 +71,17 @@ body.nav-top .tab {
     -webkit-tap-highlight-color: transparent;
 }
 
-.tab button br { display: none; }   /* flex column handles spacing */
+.tab button br { display: none; }
 
 .tab button:active { background: rgba(0,0,0,0.04); }
 
-/* Active state */
 .tab button.active {
     color: #007AFF;
     background: transparent;
     position: relative;
 }
 
-/* Indicator line — bottom of button for bottom nav */
+/* Active indicator — bottom nav */
 body .tab button.active::before {
     content: '';
     position: absolute;
@@ -91,7 +93,7 @@ body .tab button.active::before {
     border-radius: 2px 2px 0 0;
 }
 
-/* Indicator line — top of button for top nav */
+/* Active indicator — top nav */
 body.nav-top .tab button.active::before {
     bottom: auto;
     top: 0;
@@ -109,7 +111,7 @@ body.nav-top .dark-mode .tab,
     box-shadow: 0 1px 0 rgba(255,255,255,0.08);
 }
 
-.dark-mode .tab button       { color: #888; }
+.dark-mode .tab button        { color: #888; }
 .dark-mode .tab button.active { color: #0A84FF; }
 .dark-mode .tab button.active::before { background: #0A84FF; }
 
@@ -147,19 +149,13 @@ body.nav-top .dark-mode .tab,
 }
 
 /* ── Tab content ─────────────────────────────────────────── */
-/*
-  .tabcontent is a child of #tab-pane (the scrollable zone).
-  display:none / display:block toggling stays in JS as before.
-  No height constraints here — content determines its own height
-  and the parent #tab-pane provides the scroll.
-*/
 .tabcontent {
     display: none;
     padding: 10px;
-    /* NO overflow, NO fixed height — let the scroll container handle it */
+    box-sizing: border-box;
 }
 
-/* ── Nav position toggle (rendered in Settings tab) ──────── */
+/* ── Nav position toggle (in Settings tab) ───────────────── */
 .nav-position-toggle {
     display: flex;
     align-items: center;
@@ -223,7 +219,7 @@ body.nav-top .dark-mode .tab,
     user-select: none;
 }
 
-.nav-pos-switch .switch-opt.selected      { color: #007AFF; }
+.nav-pos-switch .switch-opt.selected           { color: #007AFF; }
 .dark-mode .nav-pos-switch .switch-opt.selected { color: #0A84FF; }
 
 .nav-pos-switch .switch-thumb {
@@ -244,7 +240,6 @@ body.nav-top .dark-mode .tab,
     box-shadow: none;
 }
 
-/* Thumb slides right when top-nav is active */
-body.nav-top .nav-pos-switch .switch-thumb { transform: translateX(calc(100% + 3px)); }
+body.nav-top .nav-pos-switch .switch-thumb       { transform: translateX(calc(100% + 3px)); }
 body.nav-top .nav-pos-switch .switch-opt:first-child { color: #888; }
 body.nav-top .nav-pos-switch .switch-opt:last-child  { color: #007AFF; }
