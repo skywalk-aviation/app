@@ -1,24 +1,22 @@
 /* ============================================================
    NAV BAR — clean flat modern
-   Supports top & bottom placement via .nav-bottom on <body>
+   Supports top & bottom placement via .nav-top on <body>
    Default: bottom
    ============================================================ */
 
 /* ── Shared bar geometry ─────────────────────────────────── */
 .tab {
-    position: fixed;
+    position: relative;             /* flows inside #app flex column, not fixed */
     left: 0;
     right: 0;
-    z-index: 9500;  /* above map (9000) and all page content; below full-screen modals (9999) */
+    z-index: 9500;
     width: 100%;
-    max-width: 650px;
-    min-width: 320px;
-    margin: 0 auto;
     height: 60px;
     padding: 0;
     display: flex;
     justify-content: stretch;
     align-items: stretch;
+    flex-shrink: 0;                 /* never shrink — always 60 px tall */
     box-sizing: border-box;
     overflow: visible;
 
@@ -26,49 +24,23 @@
     background: #ffffff;
     border: none;
     border-radius: 0;
-    box-shadow: 0 -1px 0 rgba(0,0,0,0.08);
 }
 
-/* ── Bottom placement (default) ─────────────────────────── */
+/* ── Bottom placement (default) — bar is last in flex column ─ */
 body .tab {
-    top: auto;
-    bottom: 0;                                          /* flush with screen bottom edge */
-    padding-bottom: env(safe-area-inset-bottom, 0px);  /* push buttons above home indicator */
+    order: 1;                       /* below #tab-pane (order: 0) */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     height: calc(60px + env(safe-area-inset-bottom, 0px));
     box-shadow: 0 -1px 0 rgba(0,0,0,0.08);
-    border-radius: 0;
 }
 
-/* ── Top placement ───────────────────────────────────────── */
+/* ── Top placement — bar is first in flex column ────────────── */
 body.nav-top .tab {
-    top: env(safe-area-inset-top, 0px);
-    bottom: auto;
+    order: 0;                       /* above #tab-pane (order: 1) */
     padding-bottom: 0;
-    padding-top: 0;
-    height: 60px;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.08);
-}
-
-/* ── Page content offset ─────────────────────────────────── */
-/* Bottom nav (default): pad the bottom */
-.app-container {
-    padding-top: 0;
-    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
-    box-sizing: border-box;
-    background: transparent;
-    position: relative;
-    z-index: 1;
-}
-
-/* Top nav: pad the top instead */
-body.nav-top .app-container {
-    padding-top: calc(60px + env(safe-area-inset-top, 0px));
-    padding-bottom: 0;
-}
-
-/* When nav is at top, push #app content below the safe area */
-body.nav-top #app {
     padding-top: env(safe-area-inset-top, 0px);
+    height: calc(60px + env(safe-area-inset-top, 0px));
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08);
 }
 
 /* ── Tab buttons ─────────────────────────────────────────── */
@@ -79,7 +51,7 @@ body.nav-top #app {
     align-items: center;
     justify-content: center;
     gap: 3px;
-    padding: 6px 4px 6px;
+    padding: 6px 4px;
     background: transparent;
     border: none;
     outline: none;
@@ -96,23 +68,18 @@ body.nav-top #app {
     -webkit-tap-highlight-color: transparent;
 }
 
-/* emoji/icon sizing */
-.tab button br {
-    display: none; /* we use flex column, br not needed */
-}
+.tab button br { display: none; }   /* flex column handles spacing */
 
-.tab button:active {
-    background: rgba(0,0,0,0.04);
-}
+.tab button:active { background: rgba(0,0,0,0.04); }
 
-/* Active state: blue indicator */
+/* Active state */
 .tab button.active {
     color: #007AFF;
     background: transparent;
     position: relative;
 }
 
-/* Top indicator line for active button */
+/* Indicator line — bottom of button for bottom nav */
 body .tab button.active::before {
     content: '';
     position: absolute;
@@ -124,6 +91,7 @@ body .tab button.active::before {
     border-radius: 2px 2px 0 0;
 }
 
+/* Indicator line — top of button for top nav */
 body.nav-top .tab button.active::before {
     bottom: auto;
     top: 0;
@@ -141,17 +109,9 @@ body.nav-top .dark-mode .tab,
     box-shadow: 0 1px 0 rgba(255,255,255,0.08);
 }
 
-.dark-mode .tab button {
-    color: #888;
-}
-
-.dark-mode .tab button.active {
-    color: #0A84FF;
-}
-
-.dark-mode .tab button.active::before {
-    background: #0A84FF;
-}
+.dark-mode .tab button       { color: #888; }
+.dark-mode .tab button.active { color: #0A84FF; }
+.dark-mode .tab button.active::before { background: #0A84FF; }
 
 /* ── Dark mode toggle pill ───────────────────────────────── */
 .dark-toggle-btn {
@@ -178,14 +138,8 @@ body.nav-top .dark-mode .tab,
     flex-shrink: 0;
 }
 
-.dark-toggle-btn:hover {
-    background: rgba(0,0,0,0.12) !important;
-    transform: scale(1.08) !important;
-}
-
-.dark-toggle-btn:active {
-    transform: scale(0.93) !important;
-}
+.dark-toggle-btn:hover  { background: rgba(0,0,0,0.12) !important; transform: scale(1.08) !important; }
+.dark-toggle-btn:active { transform: scale(0.93) !important; }
 
 .dark-mode .dark-toggle-btn {
     background: rgba(255,255,255,0.10) !important;
@@ -193,13 +147,16 @@ body.nav-top .dark-mode .tab,
 }
 
 /* ── Tab content ─────────────────────────────────────────── */
+/*
+  .tabcontent is a child of #tab-pane (the scrollable zone).
+  display:none / display:block toggling stays in JS as before.
+  No height constraints here — content determines its own height
+  and the parent #tab-pane provides the scroll.
+*/
 .tabcontent {
     display: none;
     padding: 10px;
-    flex-grow: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    /* NO overflow, NO fixed height — let the scroll container handle it */
 }
 
 /* ── Nav position toggle (rendered in Settings tab) ──────── */
@@ -244,9 +201,7 @@ body.nav-top .dark-mode .tab,
     overflow: hidden;
 }
 
-.dark-mode .nav-pos-switch {
-    background: #3a3a3c;
-}
+.dark-mode .nav-pos-switch { background: #3a3a3c; }
 
 .nav-pos-switch .switch-options {
     display: flex;
@@ -268,13 +223,8 @@ body.nav-top .dark-mode .tab,
     user-select: none;
 }
 
-.nav-pos-switch .switch-opt.selected {
-    color: #007AFF;
-}
-
-.dark-mode .nav-pos-switch .switch-opt.selected {
-    color: #0A84FF;
-}
+.nav-pos-switch .switch-opt.selected      { color: #007AFF; }
+.dark-mode .nav-pos-switch .switch-opt.selected { color: #0A84FF; }
 
 .nav-pos-switch .switch-thumb {
     position: absolute;
@@ -294,15 +244,7 @@ body.nav-top .dark-mode .tab,
     box-shadow: none;
 }
 
-/* When nav-top is active, slide thumb to right */
-body.nav-top .nav-pos-switch .switch-thumb {
-    transform: translateX(calc(100% + 3px));
-}
-
-body.nav-top .nav-pos-switch .switch-opt:first-child {
-    color: #888;
-}
-
-body.nav-top .nav-pos-switch .switch-opt:last-child {
-    color: #007AFF;
-}
+/* Thumb slides right when top-nav is active */
+body.nav-top .nav-pos-switch .switch-thumb { transform: translateX(calc(100% + 3px)); }
+body.nav-top .nav-pos-switch .switch-opt:first-child { color: #888; }
+body.nav-top .nav-pos-switch .switch-opt:last-child  { color: #007AFF; }
