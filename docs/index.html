@@ -158,19 +158,6 @@
 
 	<div id="Settings" class="tabcontent">
 
-       	<!-- ── Nav bar position toggle — paste inside #Settings tabcontent ── -->
-        <div class="nav-position-toggle">
-            <span class="toggle-label">📍 Navigation bar</span>
-            <button class="nav-pos-switch" onclick="toggleNavPosition()" aria-label="Toggle nav position">
-                <div class="switch-options">
-                    <span class="switch-opt" id="nav-opt-bottom">Bottom</span>
-                    <span class="switch-opt" id="nav-opt-top">Top</span>
-                </div>
-                <div class="switch-thumb"></div>
-            </button>
-        </div>
-        <!-- ── End nav bar position toggle ── -->
-
         <!-- Dark mode toggle -->
         <button id="dark-mode-toggle" class="dark-toggle-btn" onclick="toggleDarkMode();  newFlightPlan();" title="Toggle dark mode" aria-label="Toggle dark mode">
             <span id="dark-mode-icon">🌙</span>
@@ -192,6 +179,19 @@
        	<button class="tablinks" data-tab="Config" style="cursor: pointer;">⚙️ Config</button>
         <button class="tablinks" data-tab="Subscriptions" style="cursor: pointer;">💳 Subscriptions/ Pricing</button>
         <button id="updateBtn" onclick="updateApp()">🌀 Check for updates</button>
+
+       	<!-- ── Nav bar position toggle — paste inside #Settings tabcontent ── -->
+        <div class="nav-position-toggle">
+            <span class="toggle-label">📍 Navigation bar</span>
+            <button class="nav-pos-switch" onclick="toggleNavPosition()" aria-label="Toggle nav position">
+                <div class="switch-options">
+                    <span class="switch-opt" id="nav-opt-bottom">Bottom</span>
+                    <span class="switch-opt" id="nav-opt-top">Top</span>
+                </div>
+                <div class="switch-thumb"></div>
+            </button>
+        </div>
+        <!-- ── End nav bar position toggle ── -->
 
 	</div>
 
