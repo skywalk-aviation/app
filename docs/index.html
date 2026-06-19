@@ -226,7 +226,6 @@
             </div>
         </div>
 
-
         <div class="button-row"> <button id="Wizard" type="button" onclick="window.SkyWalkWizard.show()" title="Setup Wizard"> 🧙 Wizard New Flightplan</button> </div>
 
         <div class="flight-card">
@@ -333,21 +332,25 @@
                 <div class="flight-card-content">
 
                     <div class="wind-grid">
+                        <!-- NEW: spinner to select an already-saved aircraft, mirrors DEPARTURE_RUNWAY_SPINNER -->
                         <div class="aircraft" style="text-align: left;">
-                            <span id="CALLSIGN_LABEL" class="tile-label" style="text-align: left;">REGISTRATION</span>
-                            <input id="CALLSIGN" type="text" class="tile-value UPPERCASE_input"
-                                   title="Registration of the aircraft"
-                                   style="font-size: 14px; text-align: left">
+                            <span id class="tile-label" style="text-align: left;">LOAD REGISTRATION</span>
+                            <select id="CALLSIGN_SPINNER" class="tile-value-dropdown" style="text-align: left; background: transparent; font-size: 12px">
+                                <option value="">Select and Load</option>
+                            </select>
                         </div>
 
                         <div class="aircraft" style="text-align: left;">
-                            <span class="tile-label" style="text-align: left;">AIRCRAFT TYPE</span>
-                            <input id="AIRCRAFT_TYPE" type="text"
-                                   class="tile-value UPPERCASE_input"
-                                   title="Aircraft Type (ROBIN, CESSNA)"
-                                   style="font-size: 14px; text-align: left; ">
+                            <span id="CALLSIGN_LABEL" class="tile-label" style="text-align: left;">REGISTRATION</span>
+                            <input id="CALLSIGN" type="text" class="tile-value UPPERCASE_input" title="Registration of the aircraft" style="font-size: 14px; text-align: left">
                         </div>
+
+                    <div class="aircraft" style="text-align: left;">
+                        <span class="tile-label" style="text-align: left;">AIRCRAFT TYPE</span>
+                        <input id="AIRCRAFT_TYPE" type="text" class="tile-value UPPERCASE_input" title="Aircraft Type (ROBIN, CESSNA)" style="font-size: 14px; text-align: left; ">
                     </div>
+                    </div>
+
 
                     <div class="divider-general-section" style="background: #f0f0f0"></div>
 
@@ -372,6 +375,7 @@
                 </div>
 
             </div>
+
         </div>
 
 
