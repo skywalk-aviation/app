@@ -3124,6 +3124,15 @@ if ('serviceWorker' in navigator) {
 
         console.log(`>Tab switch from: ${currentTab}, to ${targetTab}`)
 
+        // Preserve visible city labels BEFORE any GUI-mutating calls run (save_flightplan,
+        // highlightMissingFields, etc. can transiently reset these labels to the
+        // DEPARTURE/ARRIVAL placeholder). Capturing here, at the very top of the handler,
+        // ensures we grab the real city name instead of an already-reset placeholder.
+        const depCityEl = document.getElementById('DEPARTURE_CITY');
+        const arrCityEl = document.getElementById('ARRIVAL_CITY');
+        const depCityText = depCityEl ? depCityEl.textContent : null;
+        const arrCityText = arrCityEl ? arrCityEl.textContent : null;
+
         // SAVE ON TAB CHANGE SWITCHING TO ATC. THIS IS NEEDED BECAUSE THE DATA IS GATHERED FROM FLIGHTPLAN DICT.
         if (pyscriptReady) {
           save_flightplan(true, false);
@@ -3195,11 +3204,18 @@ if ('serviceWorker' in navigator) {
         //   animateSnow('SKYWALK_LOGO', process ='stop');
         // }
 
+        // Preserve visible city labels so tab switching doesn't accidentally reset them
+        // (captured earlier - see top of handler)
+
         // Switch tabs
         tabButtons.forEach(b => b.classList.remove("active"));
         tabContents.forEach(c => c.style.display = "none");
         btn.classList.add("active");
         document.getElementById(btn.getAttribute("data-tab")).style.display = "block";
+
+        // Restore preserved labels (only if they contain a non-empty, non-placeholder name)
+        if (depCityEl && depCityText && depCityText.trim() !== '' && depCityText.trim().toUpperCase() !== 'DEPARTURE') depCityEl.textContent = depCityText;
+        if (arrCityEl && arrCityText && arrCityText.trim() !== '' && arrCityText.trim().toUpperCase() !== 'ARRIVAL') arrCityEl.textContent = arrCityText;
 
       });
     });
